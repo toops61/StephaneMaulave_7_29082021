@@ -1,0 +1,74 @@
+@mixin position ($top: 0px, $right: 0px) {
+    top: $top;
+    right: $right;
+}
+
+@mixin btn-shadow ($offsetX: 2px, $offsetY: 2px, $blur: 14px)  {
+    box-shadow: $offsetX $offsetY $blur darken($fourth-color,30%);
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@mixin flexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin marginCenter ($marginTop: 1rem) {
+    margin: $marginTop, auto;
+}
+
+@mixin mobile-version {
+    @media screen and (max-width:$breakpoint-mobile) {
+        @content;
+    }
+}
+
+@mixin tablette-version {
+    @media screen and (max-width:$breakpoint-ipad) {
+        @content;
+    }
+}
+
+@mixin iconBrands ($content: "\f09a", $font-size: 1.4em) {
+    content: $content;
+    font-family: 'Font Awesome 5 brands';
+    font-weight: 400;
+    font-size: $font-size;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    margin: 1rem;
+}
+
+@mixin iconEmpty ($content: "\f005", $font-size: 1.4em) {
+    content: $content;
+    font-family: 'Font Awesome 5 empty';
+    font-weight: 400;
+    font-size: $font-size;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+@mixin icon ($content: "\f005", $font-size: 1.4em) {
+    content: $content;
+    font-family: 'Font Awesome 5';
+    font-weight: 900;
+    font-size: $font-size;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+@mixin instagramColor {
+    background: linear-gradient(49.2deg,#f9ed32 10%,#ee2a7b 55%,#002aff);
+}
