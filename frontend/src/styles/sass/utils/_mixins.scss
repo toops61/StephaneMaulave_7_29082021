@@ -72,3 +72,37 @@
 @mixin instagramColor {
     background: linear-gradient(49.2deg,#f9ed32 10%,#ee2a7b 55%,#002aff);
 }
+
+@mixin text-shadow {
+    text-shadow: 2px 2px 1px black;
+}
+
+@mixin btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+    border: solid $primary-color;
+    color: $primary-color;
+    background-color: white;
+    text-shadow: 1px 1px 1px $primary-color-dark;
+    border-radius: 30px;
+    box-shadow: 2px 2px 8px $primary-color-dark;
+    width: $btn-width;
+    height: $btn-height;
+}
+
+@mixin btn-large {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+    border: solid $primary-color;
+    color: $primary-color;
+    background-color: white;
+    text-shadow: 1px 1px 1px $primary-color-dark;
+    border-radius: 30px;
+    box-shadow: 2px 2px 8px $primary-color-dark;
+    width: $btn-large-width;
+    height: $btn-large-height;
+}

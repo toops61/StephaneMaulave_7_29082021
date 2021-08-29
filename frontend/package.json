@@ -9,13 +9,25 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "sass": "^1.38.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sass": "sass --watch ./src/styles/sass/main.scss:./src/styles/style.css --style expanded",
+    "prefix": "postcss ./src/styles/style.css --use autoprefixer -d ./src/styles/prefixed/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toops61/StephaneMaulave_7_29082021.git"
+  },
+  "author": "Toops61",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toops61/StephaneMaulave_7_29082021/issues"
   },
   "eslintConfig": {
     "extends": [
