@@ -8,6 +8,7 @@
 @import "./base/typography";
 
 @import "./components/buttons";
+@import "./components/popup";
 
 @import "./layout/container";
 @import "./layout/footer";
@@ -18,4 +19,6 @@
 
 
 @import "./pages/index";
-@import "./pages/about";
+@import "./pages/home";
+@import "./pages/forum";
+@import "./pages/profile";

@@ -1,0 +1,37 @@
+.message-user {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 120vh;
+    @include positionTopLeft;
+    z-index: 100;
+    background-color: rgba($color: $third-color, $alpha: .7);
+    div:nth-child(1) {
+        color: white;
+        @include textShadow;
+        background-color: $fourth-color;
+        margin: 10% auto;
+        width: 50%;
+        @include mobile-version {
+            width: 90%;
+        }
+        max-width: 32rem;
+        height: 15rem;
+        @include flex-column;
+        justify-content: space-around;
+        @include borderRadius;
+        border: solid black;
+    }
+    p {
+        font-size: 1.6rem;
+    }
+}
+
+.appear {
+    display: block;
+}
+
+#message-alert {
+    text-align: center;
+    margin: 1rem;
+}

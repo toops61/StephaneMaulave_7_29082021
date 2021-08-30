@@ -1,0 +1,44 @@
+.connect-form {
+    background-color: $third-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border: solid black;
+    width: 60%;
+    max-width: 32rem;
+    margin: 3rem auto;
+    padding-bottom: 2rem;
+    @include tablette-version {
+        width: 80%;
+    }
+    @include mobile-version {
+        width: 100%;
+    }
+    div {
+        width: 80%;
+        margin-top: 1rem;
+        margin-left: 2rem;
+        display: flex;
+        
+        label {
+            width: 8rem;
+        }
+        input {
+            display: block;
+            width: 80%;
+        }
+    }
+}
+
+.invalid {
+    border: solid red;
+}
+
+.valid {
+    border: solid green;
+}
+
+#submit-btn {
+    margin: 1rem auto 0;
+}
