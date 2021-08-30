@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend P7 Maulavé Stéphane",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toops61/StephaneMaulave_7_29082021.git"
+  },
+  "author": "Toops61",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toops61/StephaneMaulave_7_29082021/issues"
+  },
+  "homepage": "https://github.com/toops61/StephaneMaulave_7_29082021#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.3"
+  }
+}
