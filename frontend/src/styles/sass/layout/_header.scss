@@ -1,11 +1,48 @@
 .header {
-    width: 80%;
+    padding: 1rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin: 0 auto;
-    div {
+    &__logo {
+        width: 6rem;
+        height: 6rem;
         img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+    }
+    &__notification {
+        display: flex;
+        color: $sixth-color;
+        div {
+        @include flexCenter;       
+        width: 5rem;
+        height: 5rem;
+            &::after {
+            @include icon("\f0f3", 2rem);
+            }
+        }
+    }
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        ul {
+          li {
+            margin: 1rem;
+          }  
+        }
+    }
+}
+
+.user-icon {
+    @include flexCenter;
+    &::after {
+        @include icon;
+        font-size: 3rem;
+        color: $sixth-color;
     }
 }

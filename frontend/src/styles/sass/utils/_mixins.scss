@@ -71,7 +71,7 @@
     line-height: 1;
 }
 
-@mixin icon ($content: "\f005", $font-size: 1.4em) {
+@mixin icon ($content: '\f007', $font-size: 3rem) {
     content: $content;
     font-family: 'Font Awesome 5';
     font-weight: 900;

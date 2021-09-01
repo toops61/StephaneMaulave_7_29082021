@@ -1,15 +1,14 @@
 import logo from '../assets/Groupomania_Logos/icon.png';
 import Header from './Header';
 import Footer from './Footer';
-import ConnectForm from './ConnectForm';
-
+import SubscribeForm from './SubscribeForm';
 
 const App = () => {
     return (
       <div>
         <Header />
         <main>
-          <ConnectForm />
+          <SubscribeForm />
           <img src={logo} alt='Groupomania' />
         </main>
         <Footer />

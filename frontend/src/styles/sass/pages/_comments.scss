@@ -1,0 +1,60 @@
+.comments {
+    background: url(../assets/Groupomania_Logos/icon.png) fixed no-repeat;
+    border-radius: 30px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    span {
+
+        border: solid green;
+    }
+    &__card {
+        display: flex;
+        flex-direction: column;
+        margin: 1rem auto;
+        width: 80%;
+        
+        border-radius: 20px;
+
+        border: solid orange;
+        &__profil {
+            border: solid red;
+            div {
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: flex-end;
+                align-items: center;
+            }
+        }
+        &__field {
+            display: flex;
+            align-items: center;
+            border: solid green;
+            p {
+                border: solid;
+            }
+        }
+    }
+}
+
+.aimer {
+    width: 3rem;
+    height: 3 rem;
+    &::before {
+        @include icon('\f164', 2rem);
+        color: rgb(197, 197, 197);
+        text-shadow: 0px 0px 4px black;
+        
+    }
+    &:hover {
+        transform: scale(1.4);
+    }
+}
+
+.publication-photo {
+    display: none;
+}
+
+.comment-field {
+    border: solid maroon;
+}

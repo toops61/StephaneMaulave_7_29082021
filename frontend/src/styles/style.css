@@ -97,14 +97,78 @@ ul, li {
   margin: 1rem;
 }
 
+.mentions-legales {
+  padding: 0 1rem;
+  background-color: white;
+  margin: 3rem;
+  border: solid #FD2D01;
+  height: 5rem;
+  overflow: scroll;
+}
+
 .header {
-  width: 80%;
+  padding: 1rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 0 auto;
 }
-.header div img {
+.header__logo {
+  width: 6rem;
+  height: 6rem;
+}
+.header__logo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.header__notification {
+  display: flex;
+  color: #eb678f;
+}
+.header__notification div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 5rem;
+}
+.header__notification div::after {
+  content: "\f0f3";
+  font-family: "Font Awesome 5";
+  font-weight: 900;
+  font-size: 2rem;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+.header nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.header nav ul li {
+  margin: 1rem;
+}
+
+.user-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user-icon::after {
+  content: "\f007";
+  font-family: "Font Awesome 5";
+  font-weight: 900;
+  font-size: 3rem;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-size: 3rem;
+  color: #eb678f;
 }
 
 .connect-form {
@@ -151,8 +215,72 @@ ul, li {
   border: solid green;
 }
 
-#submit-btn {
+#submit-btn, #subscribe-btn {
   margin: 1rem auto 0;
+}
+
+.comments {
+  background: url(../assets/Groupomania_Logos/icon.png) fixed no-repeat;
+  border-radius: 30px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.comments span {
+  border: solid green;
+}
+.comments__card {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem auto;
+  width: 80%;
+  border-radius: 20px;
+  border: solid orange;
+}
+.comments__card__profil {
+  border: solid red;
+}
+.comments__card__profil div {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+}
+.comments__card__field {
+  display: flex;
+  align-items: center;
+  border: solid green;
+}
+.comments__card__field p {
+  border: solid;
+}
+
+.aimer {
+  width: 3rem;
+  height: 3 rem;
+}
+.aimer::before {
+  content: "\f164";
+  font-family: "Font Awesome 5";
+  font-weight: 900;
+  font-size: 2rem;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  color: #c5c5c5;
+  text-shadow: 0px 0px 4px black;
+}
+.aimer:hover {
+  transform: scale(1.4);
+}
+
+.publication-photo {
+  display: none;
+}
+
+.comment-field {
+  border: solid maroon;
 }
 
 /*# sourceMappingURL=style.css.map */
