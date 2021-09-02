@@ -26,6 +26,10 @@ ul, li {
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 @font-face {
   font-family: "Font Awesome 5";
   font-style: normal;
@@ -97,13 +101,121 @@ ul, li {
   margin: 1rem;
 }
 
-.mentions-legales {
-  padding: 0 1rem;
+.footer {
   background-color: white;
-  margin: 3rem;
-  border: solid #FD2D01;
-  height: 5rem;
+  margin: 0 auto 2rem;
+  width: 80%;
+  border: solid red;
+  border-radius: 30px;
+}
+.footer__social {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 768px) {
+  .footer__social {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .footer__social {
+    flex-direction: column;
+  }
+}
+.footer__social li {
+  color: white;
+  border-radius: 30px;
+  background-color: white;
+  padding: 0.5rem 1rem 0.5rem 0;
+  font-size: 1rem;
+}
+.footer__social li a {
+  color: white;
+}
+@media screen and (max-width: 768px) {
+  .footer__social li {
+    padding-top: 0.2rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .footer__social li {
+    margin-bottom: 1rem;
+  }
+}
+.footer__social li:nth-child(1) {
+  background-color: #3b5998;
+}
+.footer__social li:nth-child(1)::before {
+  content: "\f09a";
+  font-family: "Font Awesome 5 brands";
+  font-weight: 400;
+  font-size: 1.4em;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  margin: 1rem;
+}
+.footer__social li:nth-child(2) {
+  background-color: #00acee;
+}
+.footer__social li:nth-child(2)::before {
+  content: "\f081";
+  font-family: "Font Awesome 5 brands";
+  font-weight: 400;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  margin: 1rem;
+}
+.footer__social li:nth-child(3) {
+  background: linear-gradient(49.2deg, #f9ed32 10%, #ee2a7b 55%, #002aff);
+}
+.footer__social li:nth-child(3)::before {
+  content: "\e055";
+  font-family: "Font Awesome 5 brands";
+  font-weight: 400;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  margin: 1rem;
+}
+.footer__social li:nth-child(4) {
+  background-color: black;
+  display: flex;
+}
+.footer__social li:nth-child(n) {
+  margin: 0.5rem;
+}
+.footer__social li:nth-child(n):hover {
+  transform: scale(1.4);
+  transition: 500ms ease-in-out;
+}
+.footer__social__9gag {
+  width: 1.1rem;
+  margin: 0 1rem;
+}
+.footer__social__9gag img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.footer__mentions-legales {
+  margin: 1rem;
+  background-color: white;
+  height: 3rem;
   overflow: scroll;
+}
+.footer__mentions-legales h2 {
+  margin: 0.5rem 1rem;
+  font-size: 1.2rem;
 }
 
 .header {
@@ -222,48 +334,80 @@ ul, li {
 .comments {
   background: url(../assets/Groupomania_Logos/icon.png) fixed no-repeat;
   border-radius: 30px;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
 }
-.comments span {
-  border: solid green;
+.comments__btn, .user-comment__btn {
+  background-color: white;
+  width: 80%;
+  height: 3rem;
+  border-radius: 30px;
+  text-align: center;
+  margin: 0.5rem auto;
+  border: solid #eb678f;
 }
 .comments__card {
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin: 1rem auto;
-  width: 80%;
-  border-radius: 20px;
-  border: solid orange;
+  border-top: solid #FD2D01;
 }
 .comments__card__profil {
-  border: solid red;
+  background-color: white;
+  border-radius: 30px;
+  border: solid #eb678f;
+  margin: 0.5rem 1rem;
 }
 .comments__card__profil div {
+  margin: 0 1rem;
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
   align-items: center;
 }
+.comments__card__profil div p {
+  margin: 0 1rem;
+  font-size: 0.8rem;
+}
+.comments__card__profil div h3 {
+  margin: 0.5rem;
+}
+.comments__card__profil h4 {
+  margin: 0 1rem 0 1rem;
+  padding: 0.5rem 1rem;
+}
 .comments__card__field {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  border: solid green;
+  border: solid #eb678f;
+  margin: 0 1rem;
 }
 .comments__card__field p {
-  border: solid;
+  width: 80%;
+  border: solid #eb678f;
+  padding: 1rem;
+  background-color: white;
 }
 
-.aimer {
+.user-comment {
+  display: flex;
+  width: 98%;
+}
+.user-comment__aimer {
   width: 3rem;
   height: 3 rem;
+  margin: 0 0 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.aimer::before {
+.user-comment__aimer::before {
   content: "\f164";
   font-family: "Font Awesome 5";
   font-weight: 900;
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-style: normal;
   font-variant: normal;
   text-rendering: auto;
@@ -271,16 +415,16 @@ ul, li {
   color: #c5c5c5;
   text-shadow: 0px 0px 4px black;
 }
-.aimer:hover {
+.user-comment__aimer:hover {
   transform: scale(1.4);
+  transition: transform 400ms ease-in-out;
+}
+.user-comment__btn {
+  height: 2rem;
 }
 
 .publication-photo {
   display: none;
-}
-
-.comment-field {
-  border: solid maroon;
 }
 
 /*# sourceMappingURL=style.css.map */

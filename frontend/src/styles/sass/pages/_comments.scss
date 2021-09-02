@@ -1,60 +1,88 @@
 .comments {
     background: url(../assets/Groupomania_Logos/icon.png) fixed no-repeat;
     border-radius: 30px;
-    padding: 1rem;
     display: flex;
     flex-direction: column;
-    span {
-
-        border: solid green;
+    &__btn {
+        background-color: white;
+        width: 80%;
+        height: 3rem;
+        @include borderRadius;
+        text-align: center;
+        margin: .5rem auto;  
+        border: solid $sixth-color;
     }
     &__card {
+        width: 100%;
         display: flex;
         flex-direction: column;
         margin: 1rem auto;
-        width: 80%;
-        
-        border-radius: 20px;
-
-        border: solid orange;
+        border-top: solid $secondary-color;      
         &__profil {
-            border: solid red;
+            background-color: white;
+            @include borderRadius;
+            border: solid $sixth-color;
+            margin: .5rem 1rem;
             div {
+                margin: 0 1rem;
                 display: flex;
                 flex-direction: row-reverse;
                 justify-content: flex-end;
                 align-items: center;
+                p {
+                    margin: 0 1rem;
+                    font-size: .8rem;
+                }
+                h3 {
+                    margin: .5rem;
+                }
+            }
+            h4 {
+                margin: 0 1rem 0 1rem;
+                padding: .5rem 1rem;
             }
         }
         &__field {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            border: solid green;
+            border: solid $sixth-color;
+            margin: 0 1rem;
             p {
-                border: solid;
+                width: 80%;
+                border: solid $sixth-color;
+                padding: 1rem;
+                background-color: white;
             }
         }
     }
 }
 
-.aimer {
-    width: 3rem;
-    height: 3 rem;
-    &::before {
-        @include icon('\f164', 2rem);
-        color: rgb(197, 197, 197);
-        text-shadow: 0px 0px 4px black;
-        
+.user-comment {
+    display: flex;
+    width: 98%;
+    &__aimer {
+        width: 3rem;
+        height: 3 rem;
+        margin: 0 0 0 1rem;
+        @include flexCenter;
+        &::before {
+            @include icon('\f164', 1.7rem);
+            color: rgb(197, 197, 197);
+            text-shadow: 0px 0px 4px black;
+        }
+        &:hover {
+            transform: scale(1.4);
+            transition: transform 400ms ease-in-out;
+        }        
     }
-    &:hover {
-        transform: scale(1.4);
+    &__btn {
+        @extend .comments__btn;
+        height: 2rem;
+        
     }
 }
 
 .publication-photo {
     display: none;
-}
-
-.comment-field {
-    border: solid maroon;
 }

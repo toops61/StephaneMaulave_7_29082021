@@ -1,9 +1,86 @@
-.mentions-legales {
-    padding: 0 1rem;
+.footer {
     background-color: white;
-    margin: 3rem;
-    border: solid $secondary-color;
-    height: 5rem;
-    overflow: scroll;
+    margin: 0 auto 2rem;
+    width: 80%;
+    border: solid red;
+    @include borderRadius;
+    &__social {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        @include tablette-version {
+            width: 90%;
+        }
+        @include mobile-version {
+            flex-direction: column;
+        }
+        li {
+            color: white;
+            a {
+                color: white;
+            }
+            border-radius: 30px;
+            background-color: white;
+            padding: .5rem 1rem .5rem 0;
+            @include tablette-version {
+                padding-top: .2rem;
+            }
+            @include mobile-version {
+                margin-bottom: 1rem;
+            }
+            font-size: 1rem;
+            &:nth-child(1) {
+                background-color: $facebook-color;
+                &::before {
+                    @include iconBrands;
+                }
+            }
+            
+            &:nth-child(2) {
+                background-color: $twitter-color;
+                &::before {
+                    @include iconBrands("\f081", 1.5rem);
+                }
+            }                
+            &:nth-child(3) {
+                @include instagramColor;
+                &::before {
+                    @include iconBrands("\e055", 1.6rem);
+                }
+            }
+            &:nth-child(4) {
+                background-color: black;
+                display: flex;
 
+            }
+            &:nth-child(n) {
+                margin: .5rem;
+                &:hover {
+                    transform: scale(1.4);
+                    transition: 500ms ease-in-out;
+                }
+            }      
+        }
+        &__9gag {
+            width: 1.1rem;
+            margin: 0 1rem;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+    &__mentions-legales {
+        margin: 1rem;
+        background-color: white;
+        height: 3rem;
+        overflow: scroll;
+        h2 {
+            margin: .5rem 1rem;
+            font-size: 1.2rem;
+        }
+    }
 }

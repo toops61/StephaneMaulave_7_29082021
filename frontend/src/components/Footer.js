@@ -1,11 +1,28 @@
-/* import brandLogo from '../assets/Groupomania_Logos/icon-left-font.png'; */
+import brandLogo from '../assets/9gag_new_logo_small.png';
 
 const Footer = () => {
     return (
-        <footer>
-            <div className="mentions-legales">
+        <footer className='footer'>
+            <ul className='footer__social'>
+                <li>
+                    <a href='https://www.facebook.com/' title='facebook' target='_blank' rel='noreferrer' tabIndex='0'>facebook</a>
+                </li>
+                <li>
+                    <a href='https://twitter.com/' title='bandcamp' target='_blank' rel='noreferrer' tabIndex='0'>twitter</a>
+                </li>
+                <li>
+                    <a href='https://www.instagram.com' title='chaine youtube' target='_blank' rel='noreferrer' tabIndex='0'>instagram</a>
+                </li>
+                <li>
+                    <div className='footer__social__9gag'>
+                        <img src={brandLogo} alt='9gag' />
+                    </div>
+                    <a href='https://www.9gag.com' title='9gag' target='_blank' rel='noreferrer' tabIndex='0'>9gag</a>
+                </li>
+            </ul>
+            <div className='footer__mentions-legales'>
                 <h2>
-                    Mentions légales : 
+                    Mentions légales :
                 </h2>
                 <p>
                     Ce site est édité par la société  Groupomania.

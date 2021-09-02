@@ -13,10 +13,9 @@ const CommentCard = () => {
             <div className='comments__card__field'>
                 <div className='publication-photo'>photo publication</div>
                 <p>commentaire</p>
-                <div>
-                    <div className='aimer'></div>
-                    <textarea name='comment' rows='5' cols='33' className='comment-field'>
-                    </textarea>
+                <div className='user-comment'>
+                    <div className='user-comment__aimer'></div>
+                    <div className='user-comment__btn'>commentez ici</div>
                 </div>
             </div>
         </div>
@@ -27,7 +26,7 @@ const CommentPage = () => {
     return (
         <main>
             <div className='comments'>
-                <span>Partagez votre story</span>
+                <span className='comments__btn'>Pseudo, partagez votre story</span>
                 <CommentCard />
                 <CommentCard />
                 <CommentCard />
