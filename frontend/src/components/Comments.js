@@ -1,22 +1,42 @@
 import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 
-const CommentCard = () => {
+const userPseudo = 'Bidule';
+
+const CommentCard = props => {
+
     return (
         <div className='comments__card'>
             <div className='comments__card__profil'>
                 <div>
-                    <h3>pseudo</h3>
-                    <p>date</p>
+                    <h3>{props.name}</h3>
+                    <p>{props.date}</p>
                 </div>
-                <h4>titre commentaire</h4>
+                <h4>{props.titre}</h4>
             </div>
             <div className='comments__card__field'>
                 <div className='publication-photo'>photo publication</div>
-                <p>commentaire</p>
+                <p>{props.commentaire}</p>
                 <div className='user-comment'>
-                    <div className='user-comment__aimer'></div>
+                    <div className='user-comment__aimer'>
+                        {props.aime ? props.aime : '0'}
+                    </div>
                     <div className='user-comment__btn'>commentez ici</div>
                 </div>
+            </div>
+        </div>
+    )
+}
+
+const CommentPopup = () => {
+
+    const classePop = 'message-pop';
+    return (
+        <div className={classePop}>
+            <div className='message-pop__field'>
+                <h3>{userPseudo}, c'est à vous !</h3>
+                <div className='message-pop__field__text'></div>
+                <div className='message-pop__field__image'>Ajoutez une pièce jointe</div>
+                <button type='submit' className='submit-btn'>publiez</button>
             </div>
         </div>
     )
@@ -25,11 +45,34 @@ const CommentCard = () => {
 const CommentPage = () => {
     return (
         <main>
+            <CommentPopup />
             <div className='comments'>
-                <span className='comments__btn'>Pseudo, partagez votre story</span>
-                <CommentCard />
-                <CommentCard />
-                <CommentCard />
+                <span className='comments__btn'>{userPseudo}, partagez votre story</span>
+                <CommentCard 
+                    name='Machin'
+                    titre='Journée à la plage'
+                    commentaire='dfdsjkhfdshfkjdshfkjdhfk fdkjefg fdzhf fjkdl fjk lf, jfdlzjf , fjds ,fe khfkdjs.' 
+                    date='03/01/2021'
+                    aime='32'
+                />
+                <CommentCard 
+                    name='Bidule'
+                    titre='Enfin vacciné'
+                    commentaire='fds fdf fdsfdf hd odj  jfds , fjdsfj f,f fds jf,dzf jkf .' 
+                    date='28/08/2021'
+                />
+                <CommentCard 
+                    name='Truc much'
+                    titre='Fin des vacances, on retourne bosser !'
+                    commentaire='gfhdlkgh fdhfjk fkld f fdlskhf f fdhsfkjhkd ffjkdh. dfdkjfh fdkj fkds fkd fhdkjh fd hfkdjh fkjdfkdfkdsjkfdkf  hkfjdhsfhkds.
+                    fdshflkds
+                    fdslfhkdsjhfkdhfjkdhfkjd. hydysioue
+                    dfdfdsf fdfdf
+                    Trerrekl fdsfdsfdsf.
+                    mlkhfdslkhfdh fkdh fk fkjhdsk jdfk.' 
+                    date='07/09/2021'
+                    aime='200'
+                />
             </div>
             
             <div>

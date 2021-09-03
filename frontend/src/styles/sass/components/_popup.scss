@@ -1,29 +1,45 @@
-.message-user {
+.message-pop {
     display: none;
     position: fixed;
     width: 100%;
     height: 120vh;
     @include positionTopLeft;
     z-index: 100;
-    background-color: rgba($color: $third-color, $alpha: .7);
-    div:nth-child(1) {
-        color: white;
-        @include textShadow;
-        background-color: $fourth-color;
-        margin: 10% auto;
-        width: 50%;
+    background-color: rgba($color:$third-color, $alpha: .8);
+    &__field {
+        background-color: white;
+        margin: 6% auto;
+        width: 80%;
         @include mobile-version {
             width: 90%;
         }
-        max-width: 32rem;
-        height: 15rem;
+        max-width: 40rem;
         @include flex-column;
         justify-content: space-around;
         @include borderRadius;
         border: solid black;
-    }
-    p {
-        font-size: 1.6rem;
+        h3 {
+            text-align: center;
+        }
+        &__text {
+            width: 90%;
+            min-height: 3rem;
+            border: solid $sixth-color;
+            margin: 0 auto;
+        }
+        &__image {
+            display: flex;
+            align-items: center;
+            transition: 300ms ease-out;
+            &::before {
+                @include icon('\f302', 2rem);
+                color: $sixth-color;
+                margin: .5rem;
+            }
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
     }
 }
 

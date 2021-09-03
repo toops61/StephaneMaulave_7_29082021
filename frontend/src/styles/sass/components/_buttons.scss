@@ -1,0 +1,11 @@
+.submit-btn {
+    background-color: $third-color;
+    @include btn-shadow;
+    @include borderRadius;
+    padding: .3rem 1rem;
+    margin: 1rem;
+    &:hover {
+        transform: scale(1.3);
+        transition: 300ms ease-in;
+    }
+}

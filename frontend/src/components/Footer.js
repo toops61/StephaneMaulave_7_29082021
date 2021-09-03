@@ -5,6 +5,18 @@ const Footer = () => {
         <footer className='footer'>
             <ul className='footer__social'>
                 <li>
+                    <div className='footer__social__9gag'>
+                        <img src={brandLogo} alt='9gag' />
+                    </div>
+                    <a href='https://www.9gag.com' title='9gag' target='_blank' rel='noreferrer' tabIndex='0'>9gag</a>
+                </li>
+                <li>
+                    <a href='https://www.reddit.com/' title='reddit' target='_blank' rel='noreferrer' tabIndex='0'>reddit</a>
+                </li>
+                <li>
+                    <a href='https://www.twitch.com/' title='twitch' target='_blank' rel='noreferrer' tabIndex='0'>twitch</a>
+                </li>
+                <li>
                     <a href='https://www.facebook.com/' title='facebook' target='_blank' rel='noreferrer' tabIndex='0'>facebook</a>
                 </li>
                 <li>
@@ -12,12 +24,6 @@ const Footer = () => {
                 </li>
                 <li>
                     <a href='https://www.instagram.com' title='chaine youtube' target='_blank' rel='noreferrer' tabIndex='0'>instagram</a>
-                </li>
-                <li>
-                    <div className='footer__social__9gag'>
-                        <img src={brandLogo} alt='9gag' />
-                    </div>
-                    <a href='https://www.9gag.com' title='9gag' target='_blank' rel='noreferrer' tabIndex='0'>9gag</a>
                 </li>
             </ul>
             <div className='footer__mentions-legales'>
