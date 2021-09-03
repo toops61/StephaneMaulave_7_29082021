@@ -4,6 +4,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    max-width: 60rem;
     margin: 0 auto;
     &__logo {
         width: 6rem;

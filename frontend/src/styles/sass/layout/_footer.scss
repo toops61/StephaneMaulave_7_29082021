@@ -1,9 +1,7 @@
 .footer {
-    background-color: white;
     margin: 0 auto 2rem;
     width: 80%;
-    border: solid red;
-    @include borderRadius;
+    max-width: 60rem;
     &__social {
         width: 100%;
         display: flex;
@@ -92,7 +90,8 @@
         }
     }
     &__mentions-legales {
-        margin: 1rem;
+        margin: 1rem auto;
+        border: solid red;
         background-color: white;
         height: 3rem;
         overflow: scroll;
