@@ -1,3 +1,28 @@
+@keyframes fadeOut {
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 body {
   background-color: #FFD7D7;
   margin: 0;
@@ -353,6 +378,120 @@ a {
   line-height: 1;
   font-size: 3rem;
   color: #eb678f;
+}
+
+.loader {
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #eb678f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader__grandOurs {
+  width: 16rem;
+  height: 20rem;
+  animation: fadeIn 2s ease-in-out 3 forwards;
+}
+@media screen and (max-width: 768px) {
+  .loader__grandOurs {
+    width: 11rem;
+    height: 14rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .loader__grandOurs {
+    width: 7rem;
+    height: 10rem;
+  }
+}
+.loader__grandOurs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.loader__petitsOurs {
+  position: absolute;
+  width: 2rem;
+  height: 3rem;
+  animation: animation-petits 2s ease 3 forwards;
+}
+@media screen and (max-width: 400px) {
+  .loader__petitsOurs {
+    width: 1.3rem;
+    height: 2rem;
+  }
+}
+.loader__petitsOurs:nth-child(1) {
+  top: 2rem;
+  left: 4rem;
+}
+.loader__petitsOurs:nth-child(2) {
+  top: 2rem;
+  left: 50%;
+}
+.loader__petitsOurs:nth-child(3) {
+  top: 6rem;
+  left: 80%;
+}
+.loader__petitsOurs:nth-child(4) {
+  top: 70%;
+  left: 80%;
+}
+.loader__petitsOurs:nth-child(5) {
+  top: 80%;
+  left: 40%;
+}
+.loader__petitsOurs:nth-child(6) {
+  top: 70%;
+  left: 5rem;
+}
+.loader__petitsOurs:nth-child(7) {
+  top: 40%;
+  left: 20%;
+}
+.loader__petitsOurs:nth-child(8) {
+  top: 40%;
+  left: 70%;
+}
+.loader__petitsOurs:nth-child(9) {
+  top: 20%;
+  left: 30%;
+}
+.loader__petitsOurs:nth-child(10) {
+  top: 80%;
+  left: 60%;
+}
+.loader__petitsOurs:nth-child(11) {
+  top: 20%;
+  left: 90%;
+}
+.loader__petitsOurs:nth-child(12) {
+  top: 20%;
+  left: 10%;
+}
+.loader__petitsOurs:nth-child(13) {
+  top: 80%;
+  left: 90%;
+}
+.loader__petitsOurs:nth-child(14) {
+  top: 90%;
+  left: 30%;
+}
+.loader__petitsOurs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.loader.hidden {
+  animation: fadeOut 3s forwards;
 }
 
 .connect-form {

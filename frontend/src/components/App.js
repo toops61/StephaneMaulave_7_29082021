@@ -1,10 +1,12 @@
-import logo from '../assets/Groupomania_Logos/icon.png';
 import Header from './Header';
-import Footer from './Footer';
-import ConnectForm from './ConnectForm';
+/* import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom"; */
 
-
-const App = () => {
+/* const App = () => {
     return (
       <div>
         <Header />
@@ -17,4 +19,14 @@ const App = () => {
     )
 }
 
-export default App;
+export default App; */
+
+export default function App() {
+  return (
+    <div>
+      <div className='loader hidden'>
+      </div>
+      <Header />
+    </div>
+  );
+}

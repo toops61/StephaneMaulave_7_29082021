@@ -15,7 +15,7 @@ const CommentCard = props => {
             </div>
             <div className='comments__card__field'>
                 <div className='publication-photo'>photo publication</div>
-                <p>{props.commentaire}</p>
+                <p>{props.article}</p>
                 <div className='user-comment'>
                     <div className='user-comment__aimer'>
                         {props.aime ? props.aime : '0'}
@@ -29,42 +29,46 @@ const CommentCard = props => {
 
 const CommentPopup = () => {
 
-    const classePop = 'message-pop';
+    let classePop = 'message-pop';
+    
     return (
-        <div className={classePop}>
+        <div className={classePop} id='user-comment'>
             <div className='message-pop__field'>
                 <h3>{userPseudo}, c'est à vous !</h3>
                 <div className='message-pop__field__text'></div>
                 <div className='message-pop__field__image'>Ajoutez une pièce jointe</div>
-                <button type='submit' className='submit-btn'>publiez</button>
+                <button type='submit' className='submit-btn' onClick={AddClass}>publiez</button>
             </div>
         </div>
     )
 }
+function AddClass() {
+    document.getElementById('user-comment').classList.toggle('appear');
+}
 
-const CommentPage = () => {
+export default function CommentPage () {
     return (
         <main>
             <CommentPopup />
             <div className='comments'>
-                <span className='comments__btn'>{userPseudo}, partagez votre story</span>
+                <span className='comments__btn' onClick={AddClass}>{userPseudo}, partagez votre story</span>
                 <CommentCard 
                     name='Machin'
                     titre='Journée à la plage'
-                    commentaire='dfdsjkhfdshfkjdshfkjdhfk fdkjefg fdzhf fjkdl fjk lf, jfdlzjf , fjds ,fe khfkdjs.' 
+                    article='dfdsjkhfdshfkjdshfkjdhfk fdkjefg fdzhf fjkdl fjk lf, jfdlzjf , fjds ,fe khfkdjs.' 
                     date='03/01/2021'
                     aime='32'
                 />
                 <CommentCard 
                     name='Bidule'
                     titre='Enfin vacciné'
-                    commentaire='fds fdf fdsfdf hd odj  jfds , fjdsfj f,f fds jf,dzf jkf .' 
+                    article='fds fdf fdsfdf hd odj  jfds , fjdsfj f,f fds jf,dzf jkf .' 
                     date='28/08/2021'
                 />
                 <CommentCard 
                     name='Truc much'
                     titre='Fin des vacances, on retourne bosser !'
-                    commentaire='gfhdlkgh fdhfjk fkld f fdlskhf f fdhsfkjhkd ffjkdh. dfdkjfh fdkj fkds fkd fhdkjh fd hfkdjh fkjdfkdfkdsjkfdkf  hkfjdhsfhkds.
+                    article='gfhdlkgh fdhfjk fkld f fdlskhf f fdhsfkjhkd ffjkdh. dfdkjfh fdkj fkds fkd fhdkjh fd hfkdjh fkjdfkdfkdsjkfdkf  hkfjdhsfhkds.
                     fdshflkds
                     fdslfhkdsjhfkdhfjkdhfkjd. hydysioue
                     dfdfdsf fdfdf
@@ -73,12 +77,10 @@ const CommentPage = () => {
                     date='07/09/2021'
                     aime='200'
                 />
-            </div>
-            
+            </div>            
             <div>
                 <img src={logo} alt='Groupomania' />
             </div>
         </main>
     )
 }
-export default CommentPage;

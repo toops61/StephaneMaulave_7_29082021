@@ -1,0 +1,90 @@
+.loader {
+    z-index: 99;
+    position: fixed;
+    @include positionTopLeft;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $sixth-color;
+    @include flexCenter;
+    &__grandOurs {
+        width: 16rem;
+        height: 20rem;
+        @include tablette-version {
+            width: 11rem;
+            height: 14rem;
+        }
+        @include mobile-version {
+            width: 7rem;
+            height: 10rem;
+        }
+        animation: fadeIn 2s ease-in-out 3 forwards;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &__petitsOurs {
+        position: absolute;
+        width: 2rem;
+        height: 3rem;
+        @include mobile-version {
+            width: 1.3rem;
+            height: 2rem;
+        }
+        animation: animation-petits 2s ease 3 forwards;
+        &:nth-child(1) {
+            @include positionTopLeft (2rem, 4rem);
+        }
+        &:nth-child(2) {
+            @include positionTopLeft (2rem, 50%);
+        }
+        &:nth-child(3) {
+            @include positionTopLeft (6rem, 80%);
+        }
+        &:nth-child(4) {
+            @include positionTopLeft (70%, 80%);
+        }
+        &:nth-child(5) {
+            @include positionTopLeft (80%, 40%);
+        }
+        &:nth-child(6) {
+            @include positionTopLeft (70%, 5rem);
+        }
+        &:nth-child(7) {
+            @include positionTopLeft (40%, 20%);
+        }
+        &:nth-child(8) {
+            @include positionTopLeft (40%, 70%);
+        }
+        &:nth-child(9) {
+            @include positionTopLeft (20%, 30%);
+        }
+        &:nth-child(10) {
+            @include positionTopLeft (80%, 60%);
+        }
+        &:nth-child(11) {
+            @include positionTopLeft (20%, 90%);
+        }
+        &:nth-child(12) {
+            @include positionTopLeft (20%, 10%);
+        }
+        &:nth-child(13) {
+            @include positionTopLeft (80%, 90%);
+        }
+        &:nth-child(14) {
+            @include positionTopLeft (90%, 30%);
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+.loader.hidden {
+    animation: fadeOut 3s forwards;
+}

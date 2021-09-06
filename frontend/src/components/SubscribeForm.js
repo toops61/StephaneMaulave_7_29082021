@@ -34,18 +34,18 @@ const SubscribeForm = () => {
     )
 }
 
-//formulaire vérification des champs
+/* //formulaire vérification des champs
 const inputsArray = document.querySelectorAll('form input');
 const firstName = inputsArray[0];
 const lastName = inputsArray[1];
 const pseudonyme = inputsArray[2];
 const job = inputsArray[3];
 const birthday = inputsArray[4];
-const email = inputsArray[5];
+const email = inputsArray[5];*/
 /* const password = inputsArray[6]; */
-
+/*
 const regexText = /[0-9/=;`$&"()§!@≠…∞€ø«¡¶{}“º%µ¬®†°π‡∂ﬁƒ¬‹≈©◊ß£*#ë—<>≤≥]/;
 const regexAdress = /[/=;`$&()§!@≠…∞€ø«¡¶{}ºµ¬%®†π‡∂ﬁƒ¬‹≈©◊ß£*ë—<>≤≥]/;
 const regexMail = /^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]­{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$/;
-
+ */
 export default SubscribeForm;

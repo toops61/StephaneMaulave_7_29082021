@@ -1,24 +1,60 @@
 import brandLogo from '../assets/Groupomania_Logos/icon.png';
+import ConnectForm from './ConnectForm';
+import SubscribeForm from './SubscribeForm';
+import Comments from './Comments';
+import Profil from './Profil';
+import Footer from './Footer';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 const Header = () => {
     return (
-        <header className='header'>
+        <Router>
+            <header className='header'>
                 <div className='header__logo'>
-                    <img src={brandLogo} alt='Groupomania brand' />
+                    <Link to="/commentsPage">
+                        <img src={brandLogo} alt='Groupomania brand' />
+                    </Link>
                 </div>
                 <div className='header__notification'>
                     <div></div>
                     <p>Vous avez {} message(s)</p>
                 </div>
                 <nav>
-                    <div className='user-icon'>
-                    </div>
+                    <Link to="/profil">
+                        <div className='user-icon'>
+                        </div>
+                    </Link>
                     <ul>
-                        <li>Se connecter</li>
-                        <li>S'inscrire</li>
+                        <li>
+                            <Link to="/connect">Connection</Link>
+                        </li>
+                        <li>
+                            <Link to="/subscribe">Inscription</Link>
+                        </li>
                     </ul>
                 </nav>
-        </header>
+            </header>
+            <Switch>
+                <Route path="/subscribe">
+                    <SubscribeForm />
+                </Route>
+                <Route path="/commentsPage">
+                    <Comments />
+                    <Footer />
+                </Route>
+                <Route path="/connect">
+                    <ConnectForm />
+                </Route>
+                <Route path="/profil">
+                    <Profil />
+                </Route>
+            </Switch>
+        </Router>
     )
 }
 
