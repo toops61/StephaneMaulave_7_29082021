@@ -1,5 +1,5 @@
 body {
-  background-color: $third-color;
+  background-color: $primary-color;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -9,7 +9,7 @@ body {
 }
 
 main {
-  border: solid $secondary-color;
+  border: solid $sixth-color;
   background-color: white;
   border-radius: 30px;
   width: 80%;

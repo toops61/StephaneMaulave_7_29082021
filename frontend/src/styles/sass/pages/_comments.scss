@@ -10,19 +10,19 @@
         @include borderRadius;
         text-align: center;
         margin: .5rem auto;  
-        border: solid $sixth-color;
+        border: solid $primary-color;
     }
     &__card {
         width: 100%;
         display: flex;
         flex-direction: column;
         margin: 1rem auto;
-        border-top: solid $secondary-color;      
+        border-top: solid $sixth-color;      
         &__profil {
             width: 85%;
             background-color: white;
             @include borderRadius;
-            border: solid $sixth-color;
+            border: solid $primary-color;
             margin: .5rem auto;
             div {
                 margin: 0 1rem;
@@ -51,7 +51,7 @@
             margin: 0 1rem;
             p {
                 width: 90%;
-                border: solid $sixth-color;
+                border: solid $primary-color;
                 padding: 1rem;
                 margin-top: 0;
                 background-color: white;

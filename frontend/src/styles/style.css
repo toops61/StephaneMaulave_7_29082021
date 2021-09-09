@@ -32,7 +32,7 @@
   }
 }
 body {
-  background-color: #FFD7D7;
+  background-color: #3e8b7e;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -40,7 +40,7 @@ body {
 }
 
 main {
-  border: solid #FD2D01;
+  border: solid #eb678f;
   background-color: white;
   border-radius: 30px;
   width: 80%;
@@ -107,8 +107,8 @@ a {
 .arrow-up {
   display: none;
   position: fixed;
-  bottom: 4rem;
-  right: 4rem;
+  bottom: 2rem;
+  right: 2rem;
   width: 3rem;
   height: 3rem;
   background-color: rgba(0, 0, 0, 0.7);
@@ -165,7 +165,7 @@ a {
 .message-pop__field__text {
   width: 90%;
   min-height: 3rem;
-  border: solid #eb678f;
+  border: solid #3e8b7e;
   margin: 0 auto;
 }
 .message-pop__field__image {
@@ -490,7 +490,7 @@ a {
 }
 
 .anim4 > div {
-  background: #31b3ff;
+  background: #3e8b7e;
   height: 18px;
   width: 18px;
   border-radius: 50%;
@@ -552,6 +552,11 @@ a {
   margin: 1rem auto 0;
 }
 
+.profil {
+  display: flex;
+  justify-content: space-around;
+}
+
 .comments {
   background: url(../assets/Groupomania_Logos/icon.png) fixed no-repeat;
   border-radius: 30px;
@@ -565,20 +570,20 @@ a {
   border-radius: 30px;
   text-align: center;
   margin: 0.5rem auto;
-  border: solid #eb678f;
+  border: solid #3e8b7e;
 }
 .comments__card {
   width: 100%;
   display: flex;
   flex-direction: column;
   margin: 1rem auto;
-  border-top: solid #FD2D01;
+  border-top: solid #eb678f;
 }
 .comments__card__profil {
   width: 85%;
   background-color: white;
   border-radius: 30px;
-  border: solid #eb678f;
+  border: solid #3e8b7e;
   margin: 0.5rem auto;
 }
 .comments__card__profil div {
@@ -608,7 +613,7 @@ a {
 }
 .comments__card__field p {
   width: 90%;
-  border: solid #eb678f;
+  border: solid #3e8b7e;
   padding: 1rem;
   margin-top: 0;
   background-color: white;

@@ -29,16 +29,15 @@ export default class SubscribeForm extends React.Component {
             this.setState({
                 [name]: value
             });
-            value !== null && year < 2003 && year > 1900 ? e.target.className = 'valid' : e.target.className = 'invalid';
+            value !== null && year <= 2006 && year > 1900 ? e.target.className = 'valid' : e.target.className = 'invalid';
         }
 
         rejectText(e) {
             const regexText = new RegExp('[0-9/=;,`:$&"()§!@≠…∞€ø«¡¶{}“º%µ¬®†°π‡∂ﬁƒ¬‹≈©◊£*#ë—<>≤≥]');
             const name = e.target.name;
             const value = e.target.value;
-            /* !regexText.test(value) ? this.setState({[name]: value}) : alert('ces caractères ne sont pas autorisés') && e.target.className = 'invalid' */
             if (!regexText.test(value)) {
-                this.setState({[name]: value});
+                this.setState({[name]: value.replace(/ /g, "_")});
                 e.target.className = 'valid';
             } else {
                 alert('ces caractères ne sont pas autorisés');
@@ -46,11 +45,11 @@ export default class SubscribeForm extends React.Component {
         }
 
         rejectPseudo(e) {
-            const regexText = new RegExp('[=;,`$&"()§≠…∞ø«¡¶{}“º%¬®†°‡∂ﬁƒ¬‹≈©◊*#—<>≤≥]');
+            const regexText = new RegExp('[=;,`()§≠…∞ø«¡¶{}“º%¬®†°‡∂ﬁƒ¬‹≈©◊*#—<>≤≥]');
             const name = e.target.name;
             const value = e.target.value;
             if (!regexText.test(value)) {
-                this.setState({[name]: value});
+                this.setState({[name]: value.replace(/ /g, "_")});
                 e.target.className = 'valid';
             } else {
                 alert('ces caractères ne sont pas autorisés');
@@ -71,16 +70,32 @@ export default class SubscribeForm extends React.Component {
         }
 
         rejectPassword(e) {
-            const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|]).{8,32}$');
+            /* const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|]).{8,32}$'); */
+            const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[%@$&#?]).{8,32}$');
             const name = e.target.name;
             const value = e.target.value;
-            !regexPassword.test(value) ? this.setState({[name]: value}) : alert('le mot de passe doit faire entre 8 et 32 caractères et doit contenir au moins un chiffre, une majuscule et un caractère spécial');
+            if (regexPassword.test(value)) {
+                this.setState({[name]: value});
+                e.target.className = 'valid'
+             } else {
+                 e.target.className = 'invalid';
+             };
         }
 
         handleSubmit(e) {
             e.preventDefault();
             const data = JSON.stringify(this.state);
-            console.log(data);
+            const inputsArray = document.querySelectorAll('form div input');
+            const validArray = [];
+            for (let index = 0; index < inputsArray.length; index++) {
+                const element = inputsArray[index];
+                if (element.className === 'invalid') {
+                    alert('vos champs ne sont pas valides');
+                } else {
+                    validArray.push(element.name);
+                }
+            };
+            if (validArray.length === inputsArray.length) {console.log(data)};
         }
 
         render () {
@@ -104,7 +119,7 @@ export default class SubscribeForm extends React.Component {
                     </div>
                     <div>
                         <label htmlFor='birthday'>Date de Naissance</label>
-                        <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2003-01-01' required />
+                        <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
                     </div>
                     <div>
                         <label htmlFor='email'>Email</label>
@@ -112,7 +127,7 @@ export default class SubscribeForm extends React.Component {
                     </div>
                     <div>
                         <label htmlFor='password'>Mot de passe</label>
-                        <input type='password' name='password' id='password' className='' value={this.state.password} onChange={this.rejectPassword} minLength='3' maxLength='50' required />
+                        <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
                     </div>
                     <button type='submit' id='submit-btn'>S'inscrire</button>
                 </form>
