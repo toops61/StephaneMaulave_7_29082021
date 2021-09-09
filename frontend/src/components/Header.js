@@ -8,7 +8,8 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    Redirect
   } from "react-router-dom";
 
 const Header = () => {
@@ -40,6 +41,9 @@ const Header = () => {
                 </nav>
             </header>
             <Switch>
+            <Route exact path="/">
+                <Redirect to="/connect" />
+            </Route>
                 <Route path="/subscribe">
                     <SubscribeForm />
                 </Route>

@@ -1,3 +1,5 @@
+import React from 'react';
+//import ReactDOM from 'react-dom';
 import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 
 const userPseudo = 'Bidule';
@@ -46,9 +48,33 @@ function AddClass() {
     document.getElementById('user-comment').classList.toggle('appear');
 }
 
-export default function CommentPage () {
+window.onscroll = function() {
+    if (window.location.pathname === '/commentsPage') {
+        window.scrollY > 135 ?
+        document.getElementById('arrow-up').classList.add('appears') : document.getElementById('arrow-up').classList.remove('appears')
+    }
+}
+
+class ArrowUp extends React.Component {
+    arrowUp() {
+        window.scroll(0,0);
+    }
+
+    render() {
+        return (
+            <div id='arrow-up' tabIndex='0' className='arrow-up' onClick={this.arrowUp}>
+                <div></div>
+            </div>
+        )
+    }
+}
+
+export default class CommentPage extends React.Component {
+    
+    render() {
     return (
         <main>
+            <ArrowUp />
             <CommentPopup />
             <div className='comments'>
                 <span className='comments__btn' onClick={AddClass}>{userPseudo}, partagez votre story</span>
@@ -83,4 +109,5 @@ export default function CommentPage () {
             </div>
         </main>
     )
+    }
 }

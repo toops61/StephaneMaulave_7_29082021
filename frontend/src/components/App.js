@@ -1,4 +1,5 @@
 import Header from './Header';
+import Loader from './Loader';
 /* import {
   BrowserRouter as Router,
   Switch,
@@ -25,6 +26,7 @@ export default function App() {
   return (
     <div>
       <div className='loader hidden'>
+        <Loader />
       </div>
       <Header />
     </div>

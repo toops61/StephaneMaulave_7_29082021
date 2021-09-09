@@ -1,3 +1,11 @@
+@keyframes tourne {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 @keyframes fadeOut {
   50% {
     opacity: 1;
@@ -94,6 +102,34 @@ a {
 .submit-btn:hover {
   transform: scale(1.3);
   transition: 300ms ease-in;
+}
+
+.arrow-up {
+  display: none;
+  position: fixed;
+  bottom: 4rem;
+  right: 4rem;
+  width: 3rem;
+  height: 3rem;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.arrow-up.appears {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.arrow-up div {
+  color: white;
+}
+.arrow-up div::before {
+  content: "\f077";
+  font-family: "Font Awesome 5";
+  font-weight: 900;
+  font-size: 2.4rem;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
 }
 
 .message-pop {
@@ -394,97 +430,23 @@ a {
   justify-content: center;
   align-items: center;
 }
-.loader__grandOurs {
-  width: 16rem;
-  height: 20rem;
-  animation: fadeIn 2s ease-in-out 3 forwards;
+.loader__anim {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader__logo {
+  width: 30%;
+  margin: 2rem;
 }
 @media screen and (max-width: 768px) {
-  .loader__grandOurs {
-    width: 11rem;
-    height: 14rem;
+  .loader__logo {
+    width: 50%;
   }
 }
-@media screen and (max-width: 400px) {
-  .loader__grandOurs {
-    width: 7rem;
-    height: 10rem;
-  }
-}
-.loader__grandOurs img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.loader__petitsOurs {
-  position: absolute;
-  width: 2rem;
-  height: 3rem;
-  animation: animation-petits 2s ease 3 forwards;
-}
-@media screen and (max-width: 400px) {
-  .loader__petitsOurs {
-    width: 1.3rem;
-    height: 2rem;
-  }
-}
-.loader__petitsOurs:nth-child(1) {
-  top: 2rem;
-  left: 4rem;
-}
-.loader__petitsOurs:nth-child(2) {
-  top: 2rem;
-  left: 50%;
-}
-.loader__petitsOurs:nth-child(3) {
-  top: 6rem;
-  left: 80%;
-}
-.loader__petitsOurs:nth-child(4) {
-  top: 70%;
-  left: 80%;
-}
-.loader__petitsOurs:nth-child(5) {
-  top: 80%;
-  left: 40%;
-}
-.loader__petitsOurs:nth-child(6) {
-  top: 70%;
-  left: 5rem;
-}
-.loader__petitsOurs:nth-child(7) {
-  top: 40%;
-  left: 20%;
-}
-.loader__petitsOurs:nth-child(8) {
-  top: 40%;
-  left: 70%;
-}
-.loader__petitsOurs:nth-child(9) {
-  top: 20%;
-  left: 30%;
-}
-.loader__petitsOurs:nth-child(10) {
-  top: 80%;
-  left: 60%;
-}
-.loader__petitsOurs:nth-child(11) {
-  top: 20%;
-  left: 90%;
-}
-.loader__petitsOurs:nth-child(12) {
-  top: 20%;
-  left: 10%;
-}
-.loader__petitsOurs:nth-child(13) {
-  top: 80%;
-  left: 90%;
-}
-.loader__petitsOurs:nth-child(14) {
-  top: 90%;
-  left: 30%;
-}
-.loader__petitsOurs img {
+.loader__logo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -492,6 +454,54 @@ a {
 
 .loader.hidden {
   animation: fadeOut 3s forwards;
+}
+
+/* Animation 1 */
+.anim1 {
+  position: absolute;
+  width: 30%;
+  padding-top: 30%;
+  border: 2rem solid gray;
+  border-color: #FFD7D7 transparent #FFD7D7 transparent;
+  border-radius: 50%;
+  animation: tourne 1.2s linear infinite;
+}
+@media screen and (max-width: 768px) {
+  .anim1 {
+    width: 45%;
+    padding-top: 45%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .anim1 {
+    width: 50%;
+    padding-top: 50%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .anim1 {
+    border-width: 1rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .anim1 {
+    border-width: 0.5rem;
+  }
+}
+
+.anim4 > div {
+  background: #31b3ff;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: threePointsGrow 1.2s infinite ease-in-out alternate;
+}
+.anim4 .bounce1 {
+  animation-delay: -0.3s;
+}
+.anim4 .bounce2 {
+  animation-delay: -0.15s;
 }
 
 .connect-form {

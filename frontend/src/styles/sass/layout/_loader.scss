@@ -8,83 +8,66 @@
     height: 100%;
     background-color: $sixth-color;
     @include flexCenter;
-    &__grandOurs {
-        width: 16rem;
-        height: 20rem;
-        @include tablette-version {
-            width: 11rem;
-            height: 14rem;
-        }
-        @include mobile-version {
-            width: 7rem;
-            height: 10rem;
-        }
-        animation: fadeIn 2s ease-in-out 3 forwards;
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    &__anim {
+        width: 80%;
+        height: 80%;
+        @include flexCenter;
     }
-    &__petitsOurs {
-        position: absolute;
-        width: 2rem;
-        height: 3rem;
-        @include mobile-version {
-            width: 1.3rem;
-            height: 2rem;
+    &__logo {
+        width: 30%;
+        @include tablette-version {
+            width: 50%;
         }
-        animation: animation-petits 2s ease 3 forwards;
-        &:nth-child(1) {
-            @include positionTopLeft (2rem, 4rem);
-        }
-        &:nth-child(2) {
-            @include positionTopLeft (2rem, 50%);
-        }
-        &:nth-child(3) {
-            @include positionTopLeft (6rem, 80%);
-        }
-        &:nth-child(4) {
-            @include positionTopLeft (70%, 80%);
-        }
-        &:nth-child(5) {
-            @include positionTopLeft (80%, 40%);
-        }
-        &:nth-child(6) {
-            @include positionTopLeft (70%, 5rem);
-        }
-        &:nth-child(7) {
-            @include positionTopLeft (40%, 20%);
-        }
-        &:nth-child(8) {
-            @include positionTopLeft (40%, 70%);
-        }
-        &:nth-child(9) {
-            @include positionTopLeft (20%, 30%);
-        }
-        &:nth-child(10) {
-            @include positionTopLeft (80%, 60%);
-        }
-        &:nth-child(11) {
-            @include positionTopLeft (20%, 90%);
-        }
-        &:nth-child(12) {
-            @include positionTopLeft (20%, 10%);
-        }
-        &:nth-child(13) {
-            @include positionTopLeft (80%, 90%);
-        }
-        &:nth-child(14) {
-            @include positionTopLeft (90%, 30%);
-        }
+        margin: 2rem;
         img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            @include imageFit;
         }
     }
 }
 
 .loader.hidden {
     animation: fadeOut 3s forwards;
+}
+
+/* Animation 1 */
+
+.anim1 {
+    position: absolute;
+    width: 30%;
+    padding-top: 30%;
+    @include tablette-version {
+        width: 45%;
+        padding-top: 45%;
+    }
+    @include mobile-version {
+        width: 50%;
+        padding-top: 50%;
+    }
+    border: 2rem solid rgb(128,128,128);
+    @include tablette-version {
+        border-width: 1rem;
+    }
+    @include mobile-version {
+        border-width: .5rem;
+    }
+    border-color: $third-color transparent $third-color transparent;
+    border-radius: 50%;
+    animation: tourne 1.2s linear infinite;
+}
+
+.anim4 {
+    > div {
+        background: $primary-color;
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        display: inline-block;
+        animation: threePointsGrow 1.2s infinite ease-in-out alternate;
+    }
+    .bounce1 {
+        animation-delay: -.3s;
+    }
+    .bounce2 {
+        animation-delay: -.15s;
+    }
 }
