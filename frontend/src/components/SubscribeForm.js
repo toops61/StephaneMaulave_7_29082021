@@ -1,5 +1,6 @@
 import React from "react";
 /* import { render } from "react-dom"; */
+import validator from 'validator';
 
 export default class SubscribeForm extends React.Component {
     constructor(props) {
@@ -14,47 +15,66 @@ export default class SubscribeForm extends React.Component {
             email: '',
             password: ''
         }
-        this.handleChange = this.handleChange.bind(this)
-        this.rejectText = this.rejectText.bind(this)
-        this.rejectPseudo = this.rejectPseudo.bind(this)
-        this.rejectMail = this.rejectMail.bind(this)
-        this.rejectPassword = this.rejectPassword.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.rejectText = this.rejectText.bind(this);
+        this.rejectPseudo = this.rejectPseudo.bind(this);
+        this.rejectMail = this.rejectMail.bind(this);
+        this.rejectPassword = this.rejectPassword.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
         handleChange(e) {
             const name = e.target.name;
             const value = e.target.value;
+            const year = value.substring(0, 4);
             this.setState({
                 [name]: value
-            })
+            });
+            value !== null && year < 2003 && year > 1900 ? e.target.className = 'valid' : e.target.className = 'invalid';
         }
 
         rejectText(e) {
             const regexText = new RegExp('[0-9/=;,`:$&"()§!@≠…∞€ø«¡¶{}“º%µ¬®†°π‡∂ﬁƒ¬‹≈©◊£*#ë—<>≤≥]');
             const name = e.target.name;
             const value = e.target.value;
-            !regexText.test(value) ? this.setState({[name]: value}) : alert('ces caractères ne sont pas autorisés')
+            /* !regexText.test(value) ? this.setState({[name]: value}) : alert('ces caractères ne sont pas autorisés') && e.target.className = 'invalid' */
+            if (!regexText.test(value)) {
+                this.setState({[name]: value});
+                e.target.className = 'valid';
+            } else {
+                alert('ces caractères ne sont pas autorisés');
+            };
         }
 
         rejectPseudo(e) {
             const regexText = new RegExp('[=;,`$&"()§≠…∞ø«¡¶{}“º%¬®†°‡∂ﬁƒ¬‹≈©◊*#—<>≤≥]');
             const name = e.target.name;
             const value = e.target.value;
-            !regexText.test(value) ? this.setState({[name]: value}) : alert('ces caractères ne sont pas autorisés')
+            if (!regexText.test(value)) {
+                this.setState({[name]: value});
+                e.target.className = 'valid';
+            } else {
+                alert('ces caractères ne sont pas autorisés');
+            };
         }
 
         rejectMail(e) {
-            const regexMail = new RegExp('^[a-z0-9]+([_|.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|.|-]­{1}[a-z0-9]+)*[.]{1}[a-z]{2,6}$');
             const name = e.target.name;
             const value = e.target.value;
-            !regexMail.test(value) ? this.setState({[name]: value}) : alert('il faut entrer un email')
+            const regexMail = new RegExp('[/=;,`:éàèîôû$&"()§!≠…∞€ø«¡¶{}“º%µ¬®†°π‡∂ﬁƒ¬‹≈©◊£*#ë—<>≤≥]');
+            if (validator.isEmail(value) && !regexMail.test(value)) {
+                e.target.className = 'valid';
+                this.setState({[name]: value});
+            } else {
+                e.target.className = 'invalid';
+                this.setState({[name]: ''});
+            };
         }
 
         rejectPassword(e) {
-            const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$');
+            const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|]).{8,32}$');
             const name = e.target.name;
             const value = e.target.value;
-            !regexPassword.test(value) ? this.setState({[name]: value}) : alert('le mot de passe doit faire entre 8 et 32 caractères et doit contenir au moins un chiffre, une majuscule et un caractère spécial')
+            !regexPassword.test(value) ? this.setState({[name]: value}) : alert('le mot de passe doit faire entre 8 et 32 caractères et doit contenir au moins un chiffre, une majuscule et un caractère spécial');
         }
 
         handleSubmit(e) {
@@ -68,31 +88,31 @@ export default class SubscribeForm extends React.Component {
                 <form className='connect-form' onSubmit={this.handleSubmit}>
                     <div>
                         <label htmlFor='firstName'>Prénom</label>
-                        <input type='text' name='firstName' id='firstName' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
                     </div>
                     <div>
                         <label htmlFor='lastName'>Nom</label>
-                        <input type='text' name='lastName' id='lastName' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
                     </div>
                     <div>
                         <label htmlFor='pseudonyme'>Pseudo</label>
-                        <input type='text' name='pseudonyme' id='pseudonyme' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
+                        <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
                     </div>
                     <div>
                         <label htmlFor='job'>Emploi</label>
-                        <input type='text' name='job' id='job' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
+                        <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
                     </div>
                     <div>
                         <label htmlFor='birthday'>Date de Naissance</label>
-                        <input type='date' name='birthday' id='birthday' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2003-01-01' required />
+                        <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2003-01-01' required />
                     </div>
                     <div>
                         <label htmlFor='email'>Email</label>
-                        <input type='email' name='email' id='email' value={this.state.email} onChange={this.rejectPseudo} onSubmit={this.rejectMail} minLength='3' maxLength='50' required />
+                        <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
                     </div>
                     <div>
                         <label htmlFor='password'>Mot de passe</label>
-                        <input type='password' name='password' id='password' value={this.state.password} onChange={this.rejectPassword} minLength='3' maxLength='50' required />
+                        <input type='password' name='password' id='password' className='' value={this.state.password} onChange={this.rejectPassword} minLength='3' maxLength='50' required />
                     </div>
                     <button type='submit' id='submit-btn'>S'inscrire</button>
                 </form>
