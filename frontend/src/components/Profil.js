@@ -1,3 +1,4 @@
+import imgProfil from '../assets/photo_profil.jpg';
 import React from 'react';
 import Footer from './Footer';
 import validator from 'validator';
@@ -7,7 +8,7 @@ export default class Profil extends React.Component {
         super(props)
 
         this.state = {
-            pseudonyme: '',
+            pseudonyme: 'Toops61',
             job: '',
             email: '',
             password: ''
@@ -89,25 +90,30 @@ export default class Profil extends React.Component {
         <div>
             <main>
                 <div className='profil'>
-                    <div className='profil__photo'></div>
+                    <div>
+                        <div className='profil__photo'>
+                            <img src={imgProfil} alt='profil' />
+                        </div>
+                        <span><em>changer la photo</em></span>
+                    </div>
                     <h1 className='profil__titre'>
-                        {this.state.pseudonyme}, modifier vos infos
+                        {this.state.pseudonyme}, modifiez vos infos
                     </h1>
                 </div>
-                <form className='connect-form' onSubmit={this.handleSubmit}>
-                <div>
+                <form className='connect__form' onSubmit={this.handleSubmit}>
+                    <div className='connect__form__field'>
                         <label htmlFor='pseudonyme'>Pseudo</label>
                         <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
                     </div>
-                    <div>
+                    <div className='connect__form__field'>
                         <label htmlFor='job'>Emploi</label>
                         <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
                     </div>
-                    <div>
+                    <div className='connect__form__field'>
                         <label htmlFor='email'>Email</label>
                         <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
                     </div>
-                    <div>
+                    <div className='connect__form__field'>
                         <label htmlFor='password'>Mot de passe</label>
                         <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
                     </div>

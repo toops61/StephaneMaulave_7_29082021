@@ -1,32 +1,42 @@
-.connect-form {
-    background-color: $third-color;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    border: solid black;
-    width: 60%;
-    max-width: 32rem;
-    margin: 3rem auto;
-    padding-bottom: 2rem;
-    @include tablette-version {
-        width: 80%;
-    }
-    @include mobile-version {
-        width: 100%;
-    }
-    div {
-        width: 80%;
-        margin-top: 1rem;
-        margin-left: 2rem;
+.connect {
+    @include flex-column;
+    margin-bottom: 2rem;
+    &__form {
+        background-color: $third-color;
         display: flex;
-        
-        label {
-            width: 8rem;
-        }
-        input {
-            display: block;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        border: solid black;
+        width: 60%;
+        max-width: 32rem;
+        margin: 3rem auto;
+        padding-bottom: 2rem;
+        @include tablette-version {
             width: 80%;
+        }
+        @include mobile-version {
+            width: 100%;
+        }
+        &__field {
+            width: 80%;
+            margin-top: 1rem;
+            margin-left: 2rem;
+            display: flex;
+            
+            label {
+                width: 8rem;
+            }
+            input {
+                display: block;
+                width: 80%;
+            }
+        }
+    }
+    &__logo {
+        width: 60%;
+        img {
+            @include imageFit;
         }
     }
 }
@@ -45,5 +55,27 @@
 
 .profil {
     display: flex;
+    width: 80%;
     justify-content: space-around;
+    align-items: center;
+    margin: 1rem auto;
+    span {
+        text-align: center;
+    }
+    &__photo {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: .5rem;
+        border: solid $primary-color;
+        img {
+            @include imageFit;
+        }
+        &.mini {
+            width: 4vw;
+            height: 4vw;
+            border: none;
+        }
+    }
 }

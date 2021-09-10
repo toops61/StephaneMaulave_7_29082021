@@ -27,10 +27,10 @@ const Footer = () => {
                 </li>
             </ul>
             <div className='footer__mentions-legales'>
-                <h2>
+                <h2 tabIndex='0'>
                     Mentions légales :
                 </h2>
-                <p>
+                <p tabIndex='0'>
                     Ce site est édité par la société  Groupomania.
                     Siège social : 50 rue de St Cyr 69002 Lyon
                     Capital social : 50000 euros

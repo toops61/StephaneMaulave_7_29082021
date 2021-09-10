@@ -21,7 +21,7 @@ const Header = () => {
                         <img src={brandLogo} alt='Groupomania brand' />
                     </Link>
                 </div>
-                <div className='header__notification'>
+                <div className='header__notification' tabIndex='0'>
                     <div></div>
                     <p>Vous avez {} message(s)</p>
                 </div>

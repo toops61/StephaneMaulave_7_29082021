@@ -4,11 +4,12 @@
     display: flex;
     flex-direction: column;
     &__btn {
+        @include flexCenter;
         background-color: white;
         width: 80%;
-        height: 3rem;
+        //ATTENTION PROPORTIONS
+        min-height: 3rem;
         @include borderRadius;
-        text-align: center;
         margin: .5rem auto;  
         border: solid $primary-color;
     }

@@ -16,13 +16,14 @@
     }
     &__notification {
         display: flex;
-        color: $sixth-color;
+        color: $seventh-color;
         div {
         @include flexCenter;       
         width: 5rem;
         height: 5rem;
             &::after {
             @include icon("\f0f3", 2rem);
+            color: $sixth-color;
             }
         }
     }

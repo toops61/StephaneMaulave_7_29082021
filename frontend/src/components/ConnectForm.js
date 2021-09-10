@@ -6,6 +6,7 @@ import {
     Route,
     Link
   } from 'react-router-dom';
+  import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 
 export default class ConnectForm extends React.Component {
     constructor(props) {
@@ -62,20 +63,25 @@ export default class ConnectForm extends React.Component {
 
     render() {
         return (
-            <form className='connect-form' onSubmit={this.handleSubmit}>
-                <div>
-                    <label htmlFor='email'>Email</label>
-                    <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
+            <section className='connect'>
+                <form className='connect__form' onSubmit={this.handleSubmit}>
+                    <div className='connect__form__field'>
+                        <label htmlFor='email'>Email</label>
+                        <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
+                    </div>
+                    <div className='connect__form__field'>
+                        <label htmlFor='password'>Mot de passe</label>
+                        <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
+                    </div>
+                    <div className='connect__form__field'>
+                        <button type='submit' id='submit-btn'>Valider</button>
+                        <button id='subscribe-btn'><Link to='/subscribe'>S'inscrire</Link></button>
+                    </div>
+                </form>
+                <div className='connect__logo' tabIndex='0'>
+                    <img src={logoGroupomania} alt='logo' />
                 </div>
-                <div>
-                    <label htmlFor='password'>Mot de passe</label>
-                    <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
-                </div>
-                <div>
-                    <button type='submit' id='submit-btn'>Valider</button>
-                    <button id='subscribe-btn'><Link to='/subscribe'>S'inscrire</Link></button>
-                </div>
-            </form>
+            </section>
             )
         }
 }

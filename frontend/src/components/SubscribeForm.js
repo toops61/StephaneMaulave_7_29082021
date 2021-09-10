@@ -1,6 +1,7 @@
 import React from "react";
 /* import { render } from "react-dom"; */
 import validator from 'validator';
+import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 
 export default class SubscribeForm extends React.Component {
     constructor(props) {
@@ -100,37 +101,42 @@ export default class SubscribeForm extends React.Component {
 
         render () {
             return (
-                <form className='connect-form' onSubmit={this.handleSubmit}>
-                    <div>
-                        <label htmlFor='firstName'>Prénom</label>
-                        <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                <section className='connect'>
+                    <form className='connect__form' onSubmit={this.handleSubmit}>
+                        <div className='connect__form__field'>
+                            <label htmlFor='firstName'>Prénom</label>
+                            <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        </div>
+                        <div className='connect__form__field'>
+                            <label htmlFor='lastName'>Nom</label>
+                            <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        </div>
+                        <div className='connect__form__field'>
+                            <label htmlFor='pseudonyme'>Pseudo</label>
+                            <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
+                        </div>
+                        <div className='connect__form__field'>
+                            <label htmlFor='job'>Emploi</label>
+                            <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
+                        </div>
+                        <div className='connect__form__field'>
+                            <label htmlFor='birthday'>Date de Naissance</label>
+                            <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
+                        </div>
+                        <div className='connect__form__field'>
+                            <label htmlFor='email'>Email</label>
+                            <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
+                        </div>
+                        <div className='connect__form__field'>
+                            <label htmlFor='password'>Mot de passe</label>
+                            <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
+                        </div>
+                        <button type='submit' id='submit-btn'>S'inscrire</button>
+                    </form>
+                    <div className='connect__logo' tabIndex='0'>
+                        <img src={logoGroupomania} alt='logo' />
                     </div>
-                    <div>
-                        <label htmlFor='lastName'>Nom</label>
-                        <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
-                    </div>
-                    <div>
-                        <label htmlFor='pseudonyme'>Pseudo</label>
-                        <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
-                    </div>
-                    <div>
-                        <label htmlFor='job'>Emploi</label>
-                        <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
-                    </div>
-                    <div>
-                        <label htmlFor='birthday'>Date de Naissance</label>
-                        <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
-                    </div>
-                    <div>
-                        <label htmlFor='email'>Email</label>
-                        <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
-                    </div>
-                    <div>
-                        <label htmlFor='password'>Mot de passe</label>
-                        <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
-                    </div>
-                    <button type='submit' id='submit-btn'>S'inscrire</button>
-                </form>
+                </section>
             )       
         }
 }

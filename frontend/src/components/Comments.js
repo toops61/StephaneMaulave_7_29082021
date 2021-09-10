@@ -1,6 +1,7 @@
 import React from 'react';
 //import ReactDOM from 'react-dom';
 import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
+import imgProfil from '../assets/photo_profil.jpg';
 
 const userPseudo = 'Bidule';
 
@@ -10,19 +11,19 @@ const CommentCard = props => {
         <div className='comments__card'>
             <div className='comments__card__profil'>
                 <div>
-                    <h3>{props.name}</h3>
-                    <p>{props.date}</p>
+                    <h3 tabIndex='0'>{props.name}</h3>
+                    <p tabIndex='0'>{props.date}</p>
                 </div>
-                <h4>{props.titre}</h4>
+                <h4 tabIndex='0'>{props.titre}</h4>
             </div>
             <div className='comments__card__field'>
                 <div className='publication-photo'>photo publication</div>
-                <p>{props.article}</p>
+                <p tabIndex='0'>{props.article}</p>
                 <div className='user-comment'>
-                    <div className='user-comment__aimer'>
+                    <div className='user-comment__aimer' tabIndex='0'>
                         {props.aime ? props.aime : '0'}
                     </div>
-                    <div className='user-comment__btn'>commentez ici</div>
+                    <div className='user-comment__btn' tabIndex='0'>commentez ici</div>
                 </div>
             </div>
         </div>
@@ -36,9 +37,14 @@ const CommentPopup = () => {
     return (
         <div className={classePop} id='user-comment'>
             <div className='message-pop__field'>
-                <h3>{userPseudo}, c'est à vous !</h3>
-                <div className='message-pop__field__text'></div>
-                <div className='message-pop__field__image'>Ajoutez une pièce jointe</div>
+                <div>
+                    <div className='profil__photo'>
+                        <img src={imgProfil} alt='profil' tabIndex='0' />
+                    </div>
+                    <h3 tabIndex='0'>{userPseudo}, c'est à vous !</h3>
+                </div>
+                <div className='message-pop__field__text' tabIndex='0'></div>
+                <div className='message-pop__field__image' tabIndex='0'>Ajoutez une pièce jointe</div>
                 <button type='submit' className='submit-btn' onClick={AddClass}>publiez</button>
             </div>
         </div>
@@ -77,7 +83,12 @@ export default class CommentPage extends React.Component {
             <ArrowUp />
             <CommentPopup />
             <div className='comments'>
-                <span className='comments__btn' onClick={AddClass}>{userPseudo}, partagez votre story</span>
+                <div className='comments__btn'>
+                    <div className='profil__photo mini' tabIndex='0'>
+                        <img src={imgProfil} alt='profil' />
+                    </div>
+                    <span onClick={AddClass} tabIndex='0'>{userPseudo}, partagez votre story</span>
+                </div>
                 <CommentCard 
                     name='Machin'
                     titre='Journée à la plage'
@@ -105,7 +116,7 @@ export default class CommentPage extends React.Component {
                 />
             </div>            
             <div>
-                <img src={logo} alt='Groupomania' />
+                <img src={logo} alt='Groupomania' tabIndex='0' />
             </div>
         </main>
     )

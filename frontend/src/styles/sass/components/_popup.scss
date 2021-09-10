@@ -18,8 +18,8 @@
         justify-content: space-around;
         @include borderRadius;
         border: solid black;
-        h3 {
-            text-align: center;
+        div {
+            @include flexCenter;
         }
         &__text {
             width: 90%;
