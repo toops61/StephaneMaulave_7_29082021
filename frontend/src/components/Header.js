@@ -41,9 +41,9 @@ const Header = () => {
                 </nav>
             </header>
             <Switch>
-            <Route exact path="/">
-                <Redirect to="/connect" />
-            </Route>
+                <Route exact path="/">
+                    <Redirect to="/connect" />
+                </Route>
                 <Route path="/subscribe">
                     <SubscribeForm />
                 </Route>
