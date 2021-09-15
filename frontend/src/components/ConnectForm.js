@@ -74,8 +74,8 @@ export default class ConnectForm extends React.Component {
                         <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
                     </div>
                     <div className='connect__form__field'>
-                        <button type='submit' id='submit-btn'>Valider</button>
-                        <button id='subscribe-btn'><Link to='/subscribe'>S'inscrire</Link></button>
+                        <button type='submit' id='submit-btn' className='submit-btn'>Valider</button>
+                        <button id='subscribe-btn' className='submit-btn'><Link to='/subscribe'>S'inscrire</Link></button>
                     </div>
                 </form>
                 <div className='connect__logo' tabIndex='0'>

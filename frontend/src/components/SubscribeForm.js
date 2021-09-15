@@ -131,7 +131,7 @@ export default class SubscribeForm extends React.Component {
                             <label htmlFor='password'>Mot de passe</label>
                             <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
                         </div>
-                        <button type='submit' id='submit-btn'>S'inscrire</button>
+                        <button type='submit' id='submit-btn' className='submit-btn'>S'inscrire</button>
                     </form>
                     <div className='connect__logo' tabIndex='0'>
                         <img src={logoGroupomania} alt='logo' />

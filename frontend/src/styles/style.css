@@ -95,14 +95,14 @@ a {
 
 .submit-btn {
   background-color: #FFD7D7;
-  box-shadow: 2px 2px 14px black;
+  box-shadow: 2px 2px 14px #a71818;
   border-radius: 30px;
   padding: 0.3rem 1rem;
   margin: 1rem;
+  transition: 300ms ease-in;
 }
 .submit-btn:hover {
   transform: scale(1.3);
-  transition: 300ms ease-in;
 }
 
 .arrow-up {
@@ -322,7 +322,7 @@ a {
   margin: 0.5rem;
   display: flex;
   align-items: center;
-  box-shadow: 4px 4px 8px black;
+  box-shadow: 4px 4px 8px #a71818;
   transition: 500ms ease-in-out;
 }
 .footer__social li:nth-child(n):hover {

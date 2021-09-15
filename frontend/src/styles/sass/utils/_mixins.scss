@@ -19,7 +19,7 @@
 }
 
 @mixin btn-shadow ($offsetX: 2px, $offsetY: 2px, $blur: 14px)  {
-    box-shadow: $offsetX $offsetY $blur black;
+    box-shadow: $offsetX $offsetY $blur $fifth-color;
 }
 
 @mixin flex-column {

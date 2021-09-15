@@ -8,16 +8,30 @@ export default class Profil extends React.Component {
         super(props)
 
         this.state = {
+            firstName: 'Bidule',
+            lastName: 'Machin',
             pseudonyme: 'Toops61',
-            job: '',
-            email: '',
+            job: 'web dev',
+            birthday: '1986-02-16',
+            email: 'utilisateur1@mail.com',
             password: ''
         }
+        this.handleChange = this.handleChange.bind(this);
         this.rejectText = this.rejectText.bind(this);
         this.rejectPseudo = this.rejectPseudo.bind(this);
         this.rejectMail = this.rejectMail.bind(this);
         this.rejectPassword = this.rejectPassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        const year = value.substring(0, 4);
+        this.setState({
+            [name]: value
+        });
+        value !== null && year <= 2006 && year > 1900 ? e.target.className = 'valid' : e.target.className = 'invalid';
     }
 
     rejectText(e) {
@@ -110,14 +124,26 @@ export default class Profil extends React.Component {
                         <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
                     </div>
                     <div className='connect__form__field'>
+                        <label htmlFor='firstName'>Prénom</label>
+                        <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                    </div>
+                    <div className='connect__form__field'>
+                        <label htmlFor='lastName'>Nom</label>
+                        <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                    </div>
+                    <div className='connect__form__field'>
+                        <label htmlFor='birthday'>Date de Naissance</label>
+                        <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
+                    </div>
+                    <div className='connect__form__field'>
                         <label htmlFor='email'>Email</label>
-                        <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
+                        <input type='email' name='email' id='email' className='' value={this.state.email} onChange={this.rejectMail} minLength='3' maxLength='50' required />
                     </div>
                     <div className='connect__form__field'>
                         <label htmlFor='password'>Mot de passe</label>
                         <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
                     </div>
-                    <button type='submit' id='submit-btn'>Modifier les infos</button>
+                    <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
                 </form>
             </main>
             <Footer />
