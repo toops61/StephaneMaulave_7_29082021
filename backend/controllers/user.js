@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const CryptoJS = require("crypto-js");
+const userCtrl = require('../controllers/user');
+const models = require('../models');
 
 const key = process.env.ENCRYPT_KEY;
 const keyutf = CryptoJS.enc.Utf8.parse(key);
@@ -11,8 +13,26 @@ const User = require('../models/user');
 
 dotenv.config();
 
+module.exports = {
+  subscribe: function (req, res) {
+    const lastname = req.body.lastname;
+    const firstname = req.body.firstname;
+    const pseudo = req.body.pseudo;
+    const birthdate = req.body.birthdate;
+    const job = req.body.job;
+    const email = req.body.email;
+    const password = req.body.password;
+    const isAdmin = req.body.isAdmin;
+    if (email == null || lastname == null || firstname == null || pseudo == null || birthdate == null || job == null || password == null) {
+      return res.status(400).json({ 'error': 'missing parameters' });
+    }
+  },
+  connect: function (req, res) {
 
-exports.signup = (req, res) => {
+  }
+}
+
+/* exports.signup = (req, res) => {
   const enc = CryptoJS.AES.encrypt(req.body.email, keyutf, { iv: iv });
   const encMail = enc.toString();
   bcrypt.hash(req.body.password, 10)
@@ -36,7 +56,7 @@ exports.login = (req, res) => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
-        
+
         bcrypt.compare(req.body.password, user.password)
           .then(valid => {
             if (!valid) {
@@ -54,4 +74,4 @@ exports.login = (req, res) => {
           .catch(error => res.status(500).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
-};
+}; */

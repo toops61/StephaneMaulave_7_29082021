@@ -1,12 +1,7 @@
 import React from 'react';
 import validator from 'validator';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from 'react-router-dom';
-  import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
+import { Link } from 'react-router-dom';
+import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 
 export default class ConnectForm extends React.Component {
     constructor(props) {
@@ -26,10 +21,10 @@ export default class ConnectForm extends React.Component {
         const regexMail = new RegExp('[/=;,`:éàèîôû$&"()§!≠…∞€ø«¡¶{}“º%µ¬®†°π‡∂ﬁƒ¬‹≈©◊£*#ë—<>≤≥]');
         if (validator.isEmail(value) && !regexMail.test(value)) {
             e.target.className = 'valid';
-            this.setState({[name]: value});
+            this.setState({ [name]: value });
         } else {
             e.target.className = 'invalid';
-            this.setState({[name]: ''});
+            this.setState({ [name]: '' });
         };
     }
 
@@ -38,11 +33,11 @@ export default class ConnectForm extends React.Component {
         const name = e.target.name;
         const value = e.target.value;
         if (regexPassword.test(value)) {
-            this.setState({[name]: value});
+            this.setState({ [name]: value });
             e.target.className = 'valid'
-         } else {
-             e.target.className = 'invalid';
-         };
+        } else {
+            e.target.className = 'invalid';
+        };
     }
 
     handleSubmit(e) {
@@ -58,7 +53,7 @@ export default class ConnectForm extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) {console.log(data)};
+        if (validArray.length === inputsArray.length) { console.log(data) };
     }
 
     render() {
@@ -75,13 +70,13 @@ export default class ConnectForm extends React.Component {
                     </div>
                     <div className='connect__form__field'>
                         <button type='submit' id='submit-btn' className='submit-btn'>Valider</button>
-                        <button id='subscribe-btn' className='submit-btn'><Link to='/subscribe'>S'inscrire</Link></button>
+                        <button id='subscribe-btn' className='submit-btn' onClick={(e) => { e.preventDefault() }}><Link to='/subscribe'>S'inscrire</Link></button>
                     </div>
                 </form>
                 <div className='connect__logo' tabIndex='0'>
                     <img src={logoGroupomania} alt='logo' />
                 </div>
             </section>
-            )
-        }
+        )
+    }
 }
