@@ -1,20 +1,19 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const CryptoJS = require("crypto-js");
-const userCtrl = require('../controllers/user');
-const models = require('../models');
+//const CryptoJS = require('crypto-js');
+const models = require('../models/user');
 
 const key = process.env.ENCRYPT_KEY;
-const keyutf = CryptoJS.enc.Utf8.parse(key);
-const iv = CryptoJS.enc.Base64.parse(key);
+//const keyutf = CryptoJS.enc.Utf8.parse(key);
+//const iv = CryptoJS.enc.Base64.parse(key);
 
 const User = require('../models/user');
 
 dotenv.config();
 
 module.exports = {
-  subscribe: function (req, res) {
+  subscribe: (req, res) => {
     const lastname = req.body.lastname;
     const firstname = req.body.firstname;
     const pseudo = req.body.pseudo;
@@ -22,17 +21,54 @@ module.exports = {
     const job = req.body.job;
     const email = req.body.email;
     const password = req.body.password;
-    const isAdmin = req.body.isAdmin;
+    const isAdmin = false;
+
     if (email == null || lastname == null || firstname == null || pseudo == null || birthdate == null || job == null || password == null) {
       return res.status(400).json({ 'error': 'missing parameters' });
     }
+
+    models.User.findOne({
+      attributes: ['email'],
+      where: { email: email }
+    })
+      .then(userFound => {
+        if (!userFound) {
+          bcrypt.hash(password, 10, function (err, bcryptedPassword) {
+            const newUser = models.User.create({
+              lastname: lastname,
+              firstname: firstname,
+              pseudo: pseudo,
+              birthdate: birthdate,
+              job: job,
+              email: email,
+              password: bcryptedPassword,
+              isAdmin: 0
+            })
+              .then(function (newUser) {
+                return res.status(201).json({
+                  'userId': newUser.id
+                })
+              })
+              .catch(function (err) {
+                return res.status(500).json({ 'error': 'cannot add user' });
+              });
+          });
+        } else {
+          return res.status(409).json({ 'error': 'user already exists' })
+        }
+      })
+      .catch(function (err) {
+        return res.status(500).json({ 'error': 'user already exists' })
+      });
+
   },
   connect: function (req, res) {
 
   }
 }
 
-/* exports.signup = (req, res) => {
+
+/* exports.subscribe = (req, res) => {
   const enc = CryptoJS.AES.encrypt(req.body.email, keyutf, { iv: iv });
   const encMail = enc.toString();
   bcrypt.hash(req.body.password, 10)
@@ -48,7 +84,7 @@ module.exports = {
     .catch(error => res.status(500).json({ error }));
 };
 
-exports.login = (req, res) => {
+exports.connect = (req, res) => {
     const enc = CryptoJS.AES.encrypt(req.body.email, keyutf, { iv: iv });
     const encMail = enc.toString();
     User.findOne({ email: encMail })

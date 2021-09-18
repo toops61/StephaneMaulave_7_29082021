@@ -1,47 +1,17 @@
-const http = require('http');
-const app = require('./app');
+const express = require('express');
+const apiRouter = require('./apiRouter').router;
+const server = express();
 
-const normalizePort = val => {
-  const port = parseInt(val, 10);
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json());
 
-  if (isNaN(port)) {
-    return val;
-  }
-  if (port >= 0) {
-    return port;
-  }
-  return false;
-};
-const port = normalizePort('3306');
-app.set('port', port);
-
-const errorHandler = error => {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-  const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges.');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use.');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-};
-
-const server = http.createServer(app);
-
-server.on('error', errorHandler);
-server.on('listening', () => {
-  const address = server.address();
-  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
-  console.log('Listening on ' + bind);
+server.get('/', (req, res) => {
+    res.setHeader('Content-Type', 'text/html');
+    res.status(200).send('<h1>Bonjour, bienvenue</h1>');
 });
 
-server.listen(port);
+server.use('/api/', apiRouter);
+
+server.listen(8080, () => {
+    console.log('Server en écoute');
+});
