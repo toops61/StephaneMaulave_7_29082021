@@ -8,7 +8,7 @@ const models = require('../models');
 //const keyutf = CryptoJS.enc.Utf8.parse(key);
 //const iv = CryptoJS.enc.Base64.parse(key);
 
-//const User = require('../models/user');
+const User = require('../models/user');
 
 //dotenv.config();
 
