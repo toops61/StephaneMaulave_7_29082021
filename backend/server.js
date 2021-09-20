@@ -7,7 +7,7 @@ server.use(express.json());
 
 server.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html');
-    res.status(200).send('<h1>Bonjour, bienvenue</h1>');
+    res.status(200).send('<h1>Bonjour, bienvenue dans le serveur</h1>');
 });
 
 server.use('/api/', apiRouter);

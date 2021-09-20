@@ -1,16 +1,16 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+//const dotenv = require('dotenv');
 //const CryptoJS = require('crypto-js');
-const models = require('../models/user');
+const models = require('../models');
 
-const key = process.env.ENCRYPT_KEY;
+//const key = process.env.ENCRYPT_KEY;
 //const keyutf = CryptoJS.enc.Utf8.parse(key);
 //const iv = CryptoJS.enc.Base64.parse(key);
 
-const User = require('../models/user');
+//const User = require('../models/user');
 
-dotenv.config();
+//dotenv.config();
 
 module.exports = {
   subscribe: (req, res) => {
@@ -27,14 +27,17 @@ module.exports = {
       return res.status(400).json({ 'error': 'missing parameters' });
     }
 
-    models.User.findOne({
+    const modelUser = models.User;
+    let newUser;
+
+    modelUser.findOne({
       attributes: ['email'],
       where: { email: email }
     })
       .then(userFound => {
         if (!userFound) {
           bcrypt.hash(password, 10, function (err, bcryptedPassword) {
-            const newUser = models.User.create({
+            newUser = modelUser.create({
               lastname: lastname,
               firstname: firstname,
               pseudo: pseudo,
