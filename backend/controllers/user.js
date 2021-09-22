@@ -28,7 +28,9 @@ module.exports = {
     }
 
     const modelUser = models.User;
-    let newUser;
+    //let newUser;
+
+    console.log(models);
 
     modelUser.findOne({
       attributes: ['email'],
