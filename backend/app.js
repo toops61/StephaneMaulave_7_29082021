@@ -9,16 +9,6 @@ dotenv.config();
 //const path = require('path');
 
 //const sauceRoutes = require('./routes/sauce');
-//const userRoutes = require('./routes/user');
-
-
-/* mongoose.connect(uri,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !')); */
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -30,6 +20,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 require('./routes/subscribe')(app)
+require('./routes/login')(app)
 
 //app.use('/images', express.static(path.join(__dirname, 'images')));
 

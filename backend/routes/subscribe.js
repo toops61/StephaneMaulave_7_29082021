@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 //const auth = require('../auth/auth')
 
+require('dotenv').config()
+
 module.exports = (app) => {
     app.post('/api/subscribe', (req, res) => {
         const utilisateur = req.body
@@ -12,7 +14,13 @@ module.exports = (app) => {
             User.create(utilisateur)
                 .then(user => {
                     const message = `Votre profil a bien été crée.`
-                    res.json({ message, data: user })
+                    res.json({
+                        message, data: user, token: jwt.sign(
+                            { userId: user.id },
+                            process.env.TOKEN_SECRET,
+                            { expiresIn: '4h' }
+                        )
+                    })
                 })
                 .catch(error => {
                     if (error instanceof ValidationError) {

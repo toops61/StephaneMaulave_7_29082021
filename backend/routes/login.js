@@ -1,12 +1,14 @@
 const { User } = require('../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const privateKey = require('../auth/private_key')
+//const privateKey = require('../auth/private_key')
+
+require('dotenv').config()
 
 module.exports = (app) => {
     app.post('/api/login', (req, res) => {
 
-        User.findOne({ where: { username: req.body.username } })
+        User.findOne({ where: { email: req.body.email } })
             .then(user => {
                 if (!user) {
                     const message = 'l\'utilisateur demandé n\'existe pas.'
@@ -21,7 +23,7 @@ module.exports = (app) => {
 
                     const token = jwt.sign(
                         { userId: user.id },
-                        privateKey,
+                        process.env.TOKEN_SECRET,
                         { expiresIn: '4h' }
                     )
 
