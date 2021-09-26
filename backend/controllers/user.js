@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const db = require('../models');
 //const dotenv = require('dotenv');
 //const CryptoJS = require('crypto-js');
 const models = require('../models');
@@ -8,7 +9,7 @@ const models = require('../models');
 //const keyutf = CryptoJS.enc.Utf8.parse(key);
 //const iv = CryptoJS.enc.Base64.parse(key);
 
-const User = require('../models/user');
+let User = require('../models/user');
 
 //dotenv.config();
 
@@ -27,10 +28,7 @@ module.exports = {
       return res.status(400).json({ 'error': 'missing parameters' });
     }
 
-    const modelUser = models.User;
-    //let newUser;
-
-    console.log(models);
+    let modelUser = models.User;
 
     modelUser.findOne({
       attributes: ['email'],

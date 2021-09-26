@@ -6,7 +6,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
 server.get('/', (req, res) => {
-    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Type', 'application/json');
     res.status(200).send('<h1>Bonjour, bienvenue dans le serveur</h1>');
 });
 

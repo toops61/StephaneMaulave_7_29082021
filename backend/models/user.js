@@ -1,5 +1,24 @@
+/* const { Sequelize, Model, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
+
+class User extends Model {}
+User.init({
+  username: DataTypes.STRING,
+  birthday: DataTypes.DATE
+}, { sequelize, modelName: 'user' });
+
+(async () => {
+  await sequelize.sync();
+  const jane = await User.create({
+    username: 'janedoe',
+    birthday: new Date(1980, 6, 20)
+  });
+  console.log(jane.toJSON());
+})(); */
+
 'use strict';
-const { Model } = require('sequelize');
+const { Sequelize, Datatypes, Model } = require('sequelize');
+const sequelize = new Sequelize('mysql::memory');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -10,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.User.hasMany(models.Message);
     }
-  };
+  }
   User.init({
     lastname: DataTypes.STRING,
     firstname: DataTypes.STRING,
@@ -24,5 +43,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+
   return User;
 };
