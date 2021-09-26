@@ -6,7 +6,10 @@ const UserModel = require('../models/user')
 
 require('dotenv').config()
 
-/* if (process.env.NODE_ENV === 'production') {
+/* 
+let sequelize
+
+if (process.env.NODE_ENV === 'production') {
     sequelize = new Sequelize(
         'default_schema',
         process.env.DB_USER,
@@ -33,6 +36,10 @@ const sequelize = new Sequelize(
 //const Pokemon = PokemonModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
 
+module.exports = {
+    User
+}
+
 /* const initDb = () => {
     //return sequelize.sync({ force: true }).then(_ => {
     return sequelize.sync().then(_ => {
@@ -57,6 +64,3 @@ const User = UserModel(sequelize, DataTypes)
     })
 } */
 
-module.exports = {
-    User
-}

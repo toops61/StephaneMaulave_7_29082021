@@ -22,7 +22,7 @@ module.exports = (app) => {
                     const token = jwt.sign(
                         { userId: user.id },
                         privateKey,
-                        { expiresIn: '24h' }
+                        { expiresIn: '4h' }
                     )
 
                     const message = `L'utilisateur a été connecté avec succès`;
