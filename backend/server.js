@@ -36,7 +36,6 @@ const errorHandler = error => {
         throw error;
     }
     const address = server.address();
-    console.log('voici l\'adresse :' + server.address)
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
     switch (error.code) {
         case 'EACCES':

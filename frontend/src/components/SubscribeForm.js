@@ -3,18 +3,48 @@ import React from "react";
 import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 
+//API fetch requete POST pour formulaire
+function subscribeSubmit(data) {
+    const url = 'http://localhost:4200/subscribe';
+    //let loginUser = {};
+
+    let request = {
+        method: 'POST',
+        /* body: JSON.stringify(requestObject), */
+        body: data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    fetch(url, request)
+        .then(function (rep) {
+            let userProfil = rep.json();
+            return userProfil;
+        })
+        .then(function (value) {
+            //console.log(value);
+            const pseudo = value.data.pseudo;
+            alert(`Bienvenue ${pseudo}`);
+        })
+        .catch(function (error) {
+            console.log('erreur !' + error);
+        })
+}
+
 export default class SubscribeForm extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            firstName: '',
-            lastName: '',
-            pseudonyme: '',
-            job: '',
+            lastname: '',
+            firstname: '',
+            pseudo: '',
             birthdate: '',
+            job: '',
             email: '',
-            password: ''
+            password: '',
+            isAdmin: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.rejectText = this.rejectText.bind(this);
@@ -96,7 +126,7 @@ export default class SubscribeForm extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) { console.log(data) };
+        if (validArray.length === inputsArray.length) { subscribeSubmit(data) };
     }
 
     render() {
@@ -104,24 +134,24 @@ export default class SubscribeForm extends React.Component {
             <section className='login'>
                 <form className='login__form' onSubmit={this.handleSubmit}>
                     <div className='login__form__field'>
-                        <label htmlFor='firstName'>Prénom</label>
-                        <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        <label htmlFor='lastname'>Nom</label>
+                        <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' required />
                     </div>
                     <div className='login__form__field'>
-                        <label htmlFor='lastName'>Nom</label>
-                        <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        <label htmlFor='firstname'>Prénom</label>
+                        <input type='text' name='firstname' id='firstname' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
                     </div>
                     <div className='login__form__field'>
-                        <label htmlFor='pseudonyme'>Pseudo</label>
-                        <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
-                    </div>
-                    <div className='login__form__field'>
-                        <label htmlFor='job'>Emploi</label>
-                        <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
+                        <label htmlFor='pseudo'>Pseudo</label>
+                        <input type='text' name='pseudo' id='pseudo' className='' value={this.state.pseudo} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='birthdate'>Date de Naissance</label>
                         <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
+                    </div>
+                    <div className='login__form__field'>
+                        <label htmlFor='job'>Emploi</label>
+                        <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='email'>Email</label>

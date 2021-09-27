@@ -17,7 +17,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "backend": "json-server --watch db.json --port 4200",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sass": "sass --watch ./src/styles/sass/main.scss:./src/styles/style.css --style expanded",

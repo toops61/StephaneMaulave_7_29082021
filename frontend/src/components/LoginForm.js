@@ -3,6 +3,35 @@ import validator from 'validator';
 import { Link } from 'react-router-dom';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 
+//API fetch requete POST pour formulaire
+function loginSubmit(data) {
+    const url = 'http://localhost:4200/login';
+    //let loginUser = {};
+
+    let request = {
+        method: 'POST',
+        /* body: JSON.stringify(requestObject), */
+        body: data,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    fetch(url, request)
+        .then(function (rep) {
+            let userProfil = rep.json();
+            return userProfil;
+        })
+        .then(function (value) {
+            //console.log(value);
+            const pseudo = value.data.pseudo;
+            alert(`Bonjour ${pseudo}`);
+        })
+        .catch(function (error) {
+            console.log('erreur !' + error);
+        })
+}
+
 export default class LoginForm extends React.Component {
     constructor(props) {
         super(props)
@@ -43,6 +72,7 @@ export default class LoginForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const data = JSON.stringify(this.state);
+        console.log(data);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {
@@ -53,7 +83,7 @@ export default class LoginForm extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) { console.log(data) };
+        if (validArray.length === inputsArray.length) { loginSubmit(data) };
     }
 
     render() {
