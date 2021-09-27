@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import './styles/style.css';
 import Loader from './components/Loader';
 import Header from './components/Header';
-import ConnectForm from './components/ConnectForm';
+import LoginForm from './components/LoginForm';
 import SubscribeForm from './components/SubscribeForm';
 import Comments from './components/Comments';
 import Profil from './components/Profil';
@@ -21,7 +21,7 @@ ReactDOM.render(
       <Header />
       <Switch>
         <Route exact path="/">
-          <ConnectForm />
+          <LoginForm />
         </Route>
         <Route path="/subscribe">
           <SubscribeForm />
@@ -29,8 +29,8 @@ ReactDOM.render(
         <Route path="/commentsPage">
           <Comments />
         </Route>
-        <Route path="/connect">
-          <ConnectForm />
+        <Route path="/login">
+          <LoginForm />
         </Route>
         <Route path="/profil">
           <Profil />

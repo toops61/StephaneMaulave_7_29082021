@@ -2,9 +2,10 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define('User', {
     id: {
       allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      //autoIncrement: true,
+      primaryKey: true
     },
     lastname: {
       allowNull: false,

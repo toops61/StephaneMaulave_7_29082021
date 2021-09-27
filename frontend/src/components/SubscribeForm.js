@@ -101,39 +101,39 @@ export default class SubscribeForm extends React.Component {
 
     render() {
         return (
-            <section className='connect'>
-                <form className='connect__form' onSubmit={this.handleSubmit}>
-                    <div className='connect__form__field'>
+            <section className='login'>
+                <form className='login__form' onSubmit={this.handleSubmit}>
+                    <div className='login__form__field'>
                         <label htmlFor='firstName'>Prénom</label>
                         <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
                     </div>
-                    <div className='connect__form__field'>
+                    <div className='login__form__field'>
                         <label htmlFor='lastName'>Nom</label>
                         <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
                     </div>
-                    <div className='connect__form__field'>
+                    <div className='login__form__field'>
                         <label htmlFor='pseudonyme'>Pseudo</label>
                         <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
                     </div>
-                    <div className='connect__form__field'>
+                    <div className='login__form__field'>
                         <label htmlFor='job'>Emploi</label>
                         <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
                     </div>
-                    <div className='connect__form__field'>
+                    <div className='login__form__field'>
                         <label htmlFor='birthdate'>Date de Naissance</label>
                         <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
                     </div>
-                    <div className='connect__form__field'>
+                    <div className='login__form__field'>
                         <label htmlFor='email'>Email</label>
                         <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
                     </div>
-                    <div className='connect__form__field'>
+                    <div className='login__form__field'>
                         <label htmlFor='password'>Mot de passe</label>
                         <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
                     </div>
                     <button type='submit' id='submit-btn' className='submit-btn'>S'inscrire</button>
                 </form>
-                <div className='connect__logo' tabIndex='0'>
+                <div className='login__logo' tabIndex='0'>
                     <img src={logoGroupomania} alt='logo' />
                 </div>
             </section>

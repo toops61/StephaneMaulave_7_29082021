@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
     )
 } else { */
 const sequelize = new Sequelize(
-    'database_development_retro',
+    'Projet7',
     process.env.DB_USER,
     process.env.DB_PASS,
     {

@@ -508,13 +508,13 @@ a {
   animation-delay: -0.15s;
 }
 
-.connect {
+.login {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
 }
-.connect__form {
+.login__form {
   background-color: #FFD7D7;
   display: flex;
   flex-direction: column;
@@ -527,32 +527,32 @@ a {
   padding-bottom: 2rem;
 }
 @media screen and (max-width: 768px) {
-  .connect__form {
+  .login__form {
     width: 80%;
   }
 }
 @media screen and (max-width: 400px) {
-  .connect__form {
+  .login__form {
     width: 100%;
   }
 }
-.connect__form__field {
+.login__form__field {
   width: 80%;
   margin-top: 1rem;
   margin-left: 2rem;
   display: flex;
 }
-.connect__form__field label {
+.login__form__field label {
   width: 8rem;
 }
-.connect__form__field input {
+.login__form__field input {
   display: block;
   width: 80%;
 }
-.connect__logo {
+.login__logo {
   width: 60%;
 }
-.connect__logo img {
+.login__logo img {
   width: 100%;
   height: 100%;
   object-fit: cover;

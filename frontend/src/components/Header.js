@@ -20,7 +20,7 @@ const Header = () => {
                 </Link>
                 <ul>
                     <li>
-                        <Link to="/connect">Connection</Link>
+                        <Link to="/login">Connection</Link>
                     </li>
                     <li>
                         <Link to="/subscribe">Inscription</Link>

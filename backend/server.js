@@ -28,7 +28,7 @@ const normalizePort = val => {
     }
     return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '4200');
 app.set('port', port);
 
 const errorHandler = error => {
@@ -36,6 +36,7 @@ const errorHandler = error => {
         throw error;
     }
     const address = server.address();
+    console.log('voici l\'adresse :' + server.address)
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
     switch (error.code) {
         case 'EACCES':

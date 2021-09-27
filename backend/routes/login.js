@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 module.exports = (app) => {
-    app.post('/api/login', (req, res) => {
+    app.post('/login', (req, res) => {
 
         User.findOne({ where: { email: req.body.email } })
             .then(user => {
@@ -18,7 +18,7 @@ module.exports = (app) => {
                 bcrypt.compare(req.body.password, user.password).then(isPasswordValid => {
                     if (!isPasswordValid) {
                         const message = `Le mot de passe est incorrect`
-                        return res.status(401).json({ message, data: user })
+                        return res.status(401).json({ message })
                     }
 
                     const token = jwt.sign(

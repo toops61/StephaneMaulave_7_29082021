@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 module.exports = (app) => {
-    app.post('/api/subscribe', (req, res) => {
+    app.post('/subscribe', (req, res) => {
         const utilisateur = req.body
         bcrypt.hash(req.body.password, 10, (err, hash) => {
             utilisateur.password = hash

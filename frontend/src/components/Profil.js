@@ -39,7 +39,7 @@ export default class Profil extends React.Component {
         const name = e.target.name;
         const value = e.target.value;
         if (!regexText.test(value)) {
-            this.setState({[name]: value.replace(/ /g, "_")});
+            this.setState({ [name]: value.replace(/ /g, "_") });
             e.target.className = 'valid';
         } else {
             alert('ces caractères ne sont pas autorisés');
@@ -51,7 +51,7 @@ export default class Profil extends React.Component {
         const name = e.target.name;
         const value = e.target.value;
         if (!regexText.test(value)) {
-            this.setState({[name]: value.replace(/ /g, "_")});
+            this.setState({ [name]: value.replace(/ /g, "_") });
             e.target.className = 'valid';
         } else {
             alert('ces caractères ne sont pas autorisés');
@@ -64,10 +64,10 @@ export default class Profil extends React.Component {
         const regexMail = new RegExp('[/=;,`:éàèîôû$&"()§!≠…∞€ø«¡¶{}“º%µ¬®†°π‡∂ﬁƒ¬‹≈©◊£*#ë—<>≤≥]');
         if (validator.isEmail(value) && !regexMail.test(value)) {
             e.target.className = 'valid';
-            this.setState({[name]: value});
+            this.setState({ [name]: value });
         } else {
             e.target.className = 'invalid';
-            this.setState({[name]: ''});
+            this.setState({ [name]: '' });
         };
     }
 
@@ -76,11 +76,11 @@ export default class Profil extends React.Component {
         const name = e.target.name;
         const value = e.target.value;
         if (regexPassword.test(value)) {
-            this.setState({[name]: value});
+            this.setState({ [name]: value });
             e.target.className = 'valid'
-         } else {
-             e.target.className = 'invalid';
-         };
+        } else {
+            e.target.className = 'invalid';
+        };
     }
 
     handleSubmit(e) {
@@ -96,58 +96,58 @@ export default class Profil extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) {console.log(data)};
+        if (validArray.length === inputsArray.length) { console.log(data) };
     }
 
     render() {
-    return (
-        <div>
-            <main>
-                <div className='profil'>
-                    <div>
-                        <div className='profil__photo'>
-                            <img src={imgProfil} alt='profil' />
+        return (
+            <div>
+                <main>
+                    <div className='profil'>
+                        <div>
+                            <div className='profil__photo'>
+                                <img src={imgProfil} alt='profil' />
+                            </div>
+                            <span><em>changer la photo</em></span>
                         </div>
-                        <span><em>changer la photo</em></span>
+                        <h1 className='profil__titre'>
+                            {this.state.pseudonyme}, modifiez vos infos
+                        </h1>
                     </div>
-                    <h1 className='profil__titre'>
-                        {this.state.pseudonyme}, modifiez vos infos
-                    </h1>
-                </div>
-                <form className='connect__form' onSubmit={this.handleSubmit}>
-                    <div className='connect__form__field'>
-                        <label htmlFor='pseudonyme'>Pseudo</label>
-                        <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
-                    </div>
-                    <div className='connect__form__field'>
-                        <label htmlFor='job'>Emploi</label>
-                        <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
-                    </div>
-                    <div className='connect__form__field'>
-                        <label htmlFor='firstName'>Prénom</label>
-                        <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
-                    </div>
-                    <div className='connect__form__field'>
-                        <label htmlFor='lastName'>Nom</label>
-                        <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
-                    </div>
-                    <div className='connect__form__field'>
-                        <label htmlFor='birthday'>Date de Naissance</label>
-                        <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
-                    </div>
-                    <div className='connect__form__field'>
-                        <label htmlFor='email'>Email</label>
-                        <input type='email' name='email' id='email' className='' value={this.state.email} onChange={this.rejectMail} minLength='3' maxLength='50' required />
-                    </div>
-                    <div className='connect__form__field'>
-                        <label htmlFor='password'>Mot de passe</label>
-                        <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
-                    </div>
-                    <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
-                </form>
-            </main>
-            <Footer />
-        </div>
+                    <form className='login__form' onSubmit={this.handleSubmit}>
+                        <div className='login__form__field'>
+                            <label htmlFor='pseudonyme'>Pseudo</label>
+                            <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
+                        </div>
+                        <div className='login__form__field'>
+                            <label htmlFor='job'>Emploi</label>
+                            <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
+                        </div>
+                        <div className='login__form__field'>
+                            <label htmlFor='firstName'>Prénom</label>
+                            <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        </div>
+                        <div className='login__form__field'>
+                            <label htmlFor='lastName'>Nom</label>
+                            <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        </div>
+                        <div className='login__form__field'>
+                            <label htmlFor='birthday'>Date de Naissance</label>
+                            <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
+                        </div>
+                        <div className='login__form__field'>
+                            <label htmlFor='email'>Email</label>
+                            <input type='email' name='email' id='email' className='' value={this.state.email} onChange={this.rejectMail} minLength='3' maxLength='50' required />
+                        </div>
+                        <div className='login__form__field'>
+                            <label htmlFor='password'>Mot de passe</label>
+                            <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
+                        </div>
+                        <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
+                    </form>
+                </main>
+                <Footer />
+            </div>
         )
     }
 }

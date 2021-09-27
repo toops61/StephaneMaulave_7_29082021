@@ -5,7 +5,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-//const uri = process.env.URI;
 //const path = require('path');
 
 //const sauceRoutes = require('./routes/sauce');
@@ -21,6 +20,9 @@ app.use(express.json());
 
 require('./routes/subscribe')(app)
 require('./routes/login')(app)
+require('./routes/deleteUser')(app)
+require('./routes/userProfile')(app)
+require('./routes/updateProfile')(app)
 
 //app.use('/images', express.static(path.join(__dirname, 'images')));
 
