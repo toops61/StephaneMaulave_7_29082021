@@ -3,6 +3,11 @@ import validator from 'validator';
 import { Link } from 'react-router-dom';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 
+//fonction update du local storage et du tableau des produits
+function storeToLocal(where, what) {
+    localStorage.setItem(where, JSON.stringify(what));
+}
+
 //API fetch requete POST pour formulaire
 function loginSubmit(data) {
     const url = 'http://localhost:4200/login';
@@ -10,7 +15,6 @@ function loginSubmit(data) {
 
     let request = {
         method: 'POST',
-        /* body: JSON.stringify(requestObject), */
         body: data,
         headers: {
             'Content-Type': 'application/json'
@@ -23,9 +27,15 @@ function loginSubmit(data) {
             return userProfil;
         })
         .then(function (value) {
-            //console.log(value);
             const pseudo = value.data.pseudo;
             alert(`Bonjour ${pseudo}`);
+            localStorage.clear();
+            const userLogged = {
+                id: value.data.id,
+                pseudo: pseudo,
+                token: value.token
+            }
+            storeToLocal('user', userLogged);
         })
         .catch(function (error) {
             console.log('erreur !' + error);

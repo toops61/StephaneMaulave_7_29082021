@@ -3,6 +3,11 @@ import React from "react";
 import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 
+//fonction update du local storage et du tableau des produits
+function storeToLocal(where, what) {
+    localStorage.setItem(where, JSON.stringify(what));
+}
+
 //API fetch requete POST pour formulaire
 function subscribeSubmit(data) {
     const url = 'http://localhost:4200/subscribe';
@@ -10,7 +15,6 @@ function subscribeSubmit(data) {
 
     let request = {
         method: 'POST',
-        /* body: JSON.stringify(requestObject), */
         body: data,
         headers: {
             'Content-Type': 'application/json'
@@ -26,6 +30,13 @@ function subscribeSubmit(data) {
             //console.log(value);
             const pseudo = value.data.pseudo;
             alert(`Bienvenue ${pseudo}`);
+            localStorage.clear();
+            const userLogged = {
+                id: value.data.id,
+                pseudo: pseudo,
+                token: value.token
+            }
+            storeToLocal('user', userLogged);
         })
         .catch(function (error) {
             console.log('erreur !' + error);
@@ -115,7 +126,7 @@ export default class SubscribeForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const data = JSON.stringify(this.state);
+        const data = this.state;
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {
@@ -126,13 +137,14 @@ export default class SubscribeForm extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) { subscribeSubmit(data) };
+        //data.photoProfil = inputsArray[7].files[0];
+        if (validArray.length === inputsArray.length) { subscribeSubmit(JSON.stringify(data)) };
     }
 
     render() {
         return (
             <section className='login'>
-                <form className='login__form' onSubmit={this.handleSubmit}>
+                <form className='login__form' onSubmit={this.handleSubmit} method="post" encType="multipart/form-data">
                     <div className='login__form__field'>
                         <label htmlFor='lastname'>Nom</label>
                         <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' required />
@@ -160,6 +172,10 @@ export default class SubscribeForm extends React.Component {
                     <div className='login__form__field'>
                         <label htmlFor='password'>Mot de passe</label>
                         <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
+                    </div>
+                    <div className='login__form__field'>
+                        <label htmlFor='photoProfil'>Photo profil</label>
+                        <input type='file' name='photoProfil' id='photoProfil' onChange={this.onChangeHandler} className='' accept='image/png, image/jpg, image/jpeg image/webp' />
                     </div>
                     <button type='submit' id='submit-btn' className='submit-btn'>S'inscrire</button>
                 </form>

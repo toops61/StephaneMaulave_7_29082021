@@ -1,6 +1,7 @@
 const { User } = require('../db/sequelize')
 const { ValidationError, UniqueConstraintError } = require('sequelize')
 const auth = require('../auth/auth')
+const multer = require('../middleware/multer-config')
 
 module.exports = (app) => {
     app.put('/user/:id', auth, (req, res) => {

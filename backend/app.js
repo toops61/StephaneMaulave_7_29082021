@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+const path = require('path');
 //const sequelize = require('./db/sequelize')
 
 dotenv.config();
@@ -18,13 +19,13 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 require('./routes/subscribe')(app)
 require('./routes/login')(app)
 require('./routes/deleteUser')(app)
 require('./routes/userProfile')(app)
 require('./routes/updateProfile')(app)
-
-//app.use('/images', express.static(path.join(__dirname, 'images')));
 
 //app.use('/api/sauces', sauceRoutes);
 //app.use('/api/auth', userRoutes);

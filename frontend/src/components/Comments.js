@@ -4,7 +4,9 @@ import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 import imgProfil from '../assets/photo_profil.jpg';
 import Footer from './Footer';
 
-const userPseudo = 'Bidule';
+const user = JSON.parse(localStorage.getItem('user'));
+
+const userPseudo = user.pseudo;
 
 const CommentCard = props => {
 
@@ -77,7 +79,6 @@ class ArrowUp extends React.Component {
 }
 
 export default class CommentPage extends React.Component {
-
     render() {
         return (
             <main>

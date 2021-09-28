@@ -3,6 +3,73 @@ import React from 'react';
 import Footer from './Footer';
 import validator from 'validator';
 
+function storeToLocal(where, what) {
+    localStorage.setItem(where, JSON.stringify(what));
+}
+
+const user = JSON.parse(localStorage.getItem('user'));
+
+//API fetch requete POST pour formulaire
+function updateProfile(data) {
+    const url = 'http://localhost:4200/user/' + user.id;
+    //let loginUser = {};
+
+    let request = {
+        method: 'PUT',
+        body: data,
+        headers: {
+            'Content-Type': 'application/json',
+            'token': user.token
+        }
+    };
+
+    fetch(url, request)
+        .then(function (rep) {
+            let userProfil = rep.json();
+            return userProfil;
+        })
+        .then(function (value) {
+            const pseudo = value.data.pseudo;
+            localStorage.clear();
+            const userLogged = {
+                id: value.data.id,
+                pseudo: pseudo,
+                token: value.token
+            }
+            storeToLocal('user', userLogged);
+        })
+        .catch(function (error) {
+            console.log('erreur !' + error);
+        })
+}
+
+function profile(data) {
+    const url = 'http://localhost:4200/user/' + user.id;
+    //let loginUser = {};
+
+    let request = {
+        method: 'GET',
+        body: data,
+        headers: {
+            'Content-Type': 'application/json',
+            'token': user.token
+        }
+    };
+
+    fetch(url, request)
+        .then(function (rep) {
+            let userProfil = rep.json();
+            return userProfil;
+        })
+        .then(function (value) {
+            const pseudo = value.data.pseudo;
+            alert('changez vos infos' + pseudo);
+        })
+        .catch(function (error) {
+            console.log('erreur !' + error);
+        })
+}
+
 export default class Profil extends React.Component {
     constructor(props) {
         super(props)
