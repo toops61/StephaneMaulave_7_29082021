@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize')
 const UserModel = require('../models/user')
-const MessageModel = require('../models/message')
+const MessageModel = require('../models/comment')
 //const bcrypt = require('bcrypt')
 
 require('dotenv').config()
