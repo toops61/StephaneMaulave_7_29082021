@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.BOOLEAN
     },
+    user_comment: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     likes: {
       allowNull: false,
       type: DataTypes.INTEGER

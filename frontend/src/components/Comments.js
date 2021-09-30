@@ -61,11 +61,11 @@ const CommentPopup = () => {
         </div>
     )
 }
-function AddClass() {
+const AddClass = () => {
     document.getElementById('user-comment').classList.toggle('appear');
 }
 
-window.onscroll = function () {
+window.onscroll = () => {
     if (window.location.pathname === '/commentsPage') {
         window.scrollY > 135 ?
             document.getElementById('arrow-up').classList.add('appears') : document.getElementById('arrow-up').classList.remove('appears')

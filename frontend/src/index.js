@@ -11,6 +11,7 @@ import Profil from './components/Profil';
 //import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import AlertPopup from './components/AlertPopup';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.render(
       <Loader />
     </div>
     <Router>
+      <AlertPopup />
       <Header />
       <Switch>
         <Route exact path="/">
