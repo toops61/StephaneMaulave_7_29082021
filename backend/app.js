@@ -26,8 +26,8 @@ require('./routes/login')(app)
 require('./routes/deleteUser')(app)
 require('./routes/userProfile')(app)
 require('./routes/updateProfile')(app)
+require('./routes/commentsPage')(app)
 
-//app.use('/api/sauces', sauceRoutes);
 //app.use('/api/auth', userRoutes);
 
 //sequelize.initDb()

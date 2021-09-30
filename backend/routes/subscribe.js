@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 //const auth = require('../auth/auth')
 const multer = require('../middleware/multer-config')
+//const upload = multer({ dest: 'images/' })
 //const fs = require('fs')
 
 require('dotenv').config()
@@ -11,9 +12,9 @@ require('dotenv').config()
 module.exports = (app) => {
     app.post('/subscribe', multer, (req, res) => {
         const utilisateur = req.body
+        //utilisateur.photoProfil = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         bcrypt.hash(req.body.password, 10, (err, hash) => {
             utilisateur.password = hash
-            //utilisateur.photoprofil = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
             User.create(utilisateur)
                 .then(user => {
                     const message = `Votre profil a bien été crée.`

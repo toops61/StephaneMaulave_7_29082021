@@ -64,7 +64,7 @@
 .user-comment {
     display: flex;
     width: 100%;
-    &__aimer {
+    &__like {
         width: 3rem;
         height: 3 rem;
         margin: 0 0 .5rem 1rem;
@@ -72,7 +72,7 @@
         transition: transform 400ms ease-in-out;
         &::before {
             @include icon('\f164', 1.7rem);
-            color: $sixth-color;
+            color: rgb(184, 184, 184);
             margin: .5rem .5rem .5rem 0;
             text-shadow: 0px 0px 4px black; 
         }
@@ -84,6 +84,19 @@
         @extend .comments__btn;
         height: 2rem;
         width: 60%;
+    }
+}
+
+.users__likes {
+    width: 3rem;
+    height: 3 rem;
+    margin: 0 0 .5rem 1rem;
+    @include flexCenter;
+    &::before {
+        @include icon('\f164', 1.7rem);
+        color: $sixth-color;
+        margin: .5rem .5rem .5rem 0;
+        text-shadow: 0px 0px 4px black; 
     }
 }
 

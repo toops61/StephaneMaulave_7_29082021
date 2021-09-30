@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize')
-//const PokemonModel = require('../models/pokemon')
 const UserModel = require('../models/user')
+const MessageModel = require('../models/message')
 //const bcrypt = require('bcrypt')
 
 require('dotenv').config()
@@ -30,10 +30,9 @@ const sequelize = new Sequelize(
     }
 )
 
-
-//const Pokemon = PokemonModel(sequelize, DataTypes)
+const Message = MessageModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
 
 module.exports = {
-    User
+    User, Message
 }

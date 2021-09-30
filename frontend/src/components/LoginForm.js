@@ -28,11 +28,13 @@ function loginSubmit(data) {
         })
         .then(function (value) {
             const pseudo = value.data.pseudo;
-            alert(`Bonjour ${pseudo}`);
+            const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png'
+            alert(`Bienvenue ${pseudo}`);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
                 pseudo: pseudo,
+                photoProfil: photoProfil,
                 token: value.token
             }
             storeToLocal('user', userLogged);

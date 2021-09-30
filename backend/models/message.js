@@ -20,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     attachment: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE
     },
     user_like: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.BOOLEAN
     },
     likes: {

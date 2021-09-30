@@ -2,20 +2,32 @@ import React from "react";
 /* import { render } from "react-dom"; */
 import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
+//import axios from 'axios';
 
 //fonction update du local storage et du tableau des produits
 function storeToLocal(where, what) {
     localStorage.setItem(where, JSON.stringify(what));
 }
 
+function previewFile() {
+    const file = document.querySelector('#photoProfil').files[0];
+    const reader = new FileReader();
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+    console.log(reader.result)
+}
+
 //API fetch requete POST pour formulaire
 function subscribeSubmit(data) {
     const url = 'http://localhost:4200/subscribe';
+    const file = document.querySelector('#photoProfil').files[0];
     //let loginUser = {};
 
     let request = {
         method: 'POST',
         body: data,
+        file: file,
         headers: {
             'Content-Type': 'application/json'
         }
@@ -29,11 +41,13 @@ function subscribeSubmit(data) {
         .then(function (value) {
             //console.log(value);
             const pseudo = value.data.pseudo;
+            const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png'
             alert(`Bienvenue ${pseudo}`);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
                 pseudo: pseudo,
+                photoProfil: photoProfil,
                 token: value.token
             }
             storeToLocal('user', userLogged);
@@ -55,6 +69,7 @@ export default class SubscribeForm extends React.Component {
             job: '',
             email: '',
             password: '',
+            photoProfil: 'http://localhost:4200/images/default-avatar.png',
             isAdmin: false
         }
         this.handleChange = this.handleChange.bind(this);
@@ -63,6 +78,8 @@ export default class SubscribeForm extends React.Component {
         this.rejectMail = this.rejectMail.bind(this);
         this.rejectPassword = this.rejectPassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChangeHandler = this.onChangeHandler.bind(this);
+        //this.onClickHandler = this.onClickHandler.bind(this);
     }
     handleChange(e) {
         const name = e.target.name;
@@ -124,9 +141,27 @@ export default class SubscribeForm extends React.Component {
         };
     }
 
+    onChangeHandler(e) {
+        this.setState({ file: e.target.files[0] })
+    }
+
+    /* onClickHandler = () => {
+        const imageData = new FormData()
+        imageData.append('file', this.state.photoProfil)
+        axios.post("http://localhost:4200/subscribe", imageData)
+            .then(res => { // then print response status
+                console.log(res.statusText)
+            })
+            .catch(error => {
+                console.log('il y a eu une erreur: ' + error)
+            })
+    } */
+
     handleSubmit(e) {
         e.preventDefault();
         const data = this.state;
+        previewFile();
+        //data.append(this.state);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {
@@ -137,7 +172,6 @@ export default class SubscribeForm extends React.Component {
                 validArray.push(element.name);
             }
         };
-        //data.photoProfil = inputsArray[7].files[0];
         if (validArray.length === inputsArray.length) { subscribeSubmit(JSON.stringify(data)) };
     }
 

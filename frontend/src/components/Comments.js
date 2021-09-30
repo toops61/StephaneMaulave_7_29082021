@@ -1,12 +1,19 @@
 import React from 'react';
+//import { User } from '../../../backend/db/sequelize';
 //import ReactDOM from 'react-dom';
 import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
-import imgProfil from '../assets/photo_profil.jpg';
+//import imgProfil from '../assets/photo_profil.jpg';
 import Footer from './Footer';
 
-const user = JSON.parse(localStorage.getItem('user'));
+let user = {};
+let messages = {};
+let userPseudo;
 
-const userPseudo = user.pseudo;
+if (localStorage.user) {
+    user = JSON.parse(localStorage.getItem('user'));
+    messages = localStorage.messages ? JSON.parse(localStorage.getItem('messages')) : null;
+    userPseudo = user.pseudo;
+}
 
 const CommentCard = props => {
 
@@ -14,18 +21,19 @@ const CommentCard = props => {
         <div className='comments__card'>
             <div className='comments__card__profil'>
                 <div>
-                    <h3 tabIndex='0'>{props.name}</h3>
-                    <p tabIndex='0'>{props.date}</p>
+                    <h3 tabIndex='0'>{props.pseudo}</h3>
+                    <p tabIndex='0'>{props.createdAt}</p>
                 </div>
-                <h4 tabIndex='0'>{props.titre}</h4>
+                <h4 tabIndex='0'>{props.title}</h4>
             </div>
             <div className='comments__card__field'>
                 <div className='publication-photo'>photo publication</div>
                 <p tabIndex='0'>{props.article}</p>
+                <div>
+                    <div className='users__likes' tabIndex='0'>{props.likes}</div>
+                </div>
                 <div className='user-comment'>
-                    <div className='user-comment__aimer' tabIndex='0'>
-                        {props.aime ? props.aime : '0'}
-                    </div>
+                    <div className='user-comment__like' tabIndex='0'>Vous aimez</div>
                     <div className='user-comment__btn' tabIndex='0'>commentez ici</div>
                 </div>
             </div>
@@ -42,7 +50,7 @@ const CommentPopup = () => {
             <div className='message-pop__field'>
                 <div>
                     <div className='profil__photo'>
-                        <img src={imgProfil} alt='profil' tabIndex='0' />
+                        <img url={user.photoProfil} alt='profil' tabIndex='0' />
                     </div>
                     <h3 tabIndex='0'>{userPseudo}, c'est à vous !</h3>
                 </div>
@@ -87,19 +95,20 @@ export default class CommentPage extends React.Component {
                 <div className='comments'>
                     <div className='comments__btn'>
                         <div className='profil__photo mini' tabIndex='0'>
-                            <img src={imgProfil} alt='profil' />
+                            <img src={user.photoProfil} alt='profil' />
                         </div>
                         <span onClick={AddClass} tabIndex='0'>{userPseudo}, partagez votre story</span>
                     </div>
                     <CommentCard
-                        name='Machin'
-                        titre='Journée à la plage'
+                        pseudo='Machin'
+                        title='Journée à la plage'
                         article='dfdsjkhfdshfkjdshfkjdhfk fdkjefg fdzhf fjkdl fjk lf, jfdlzjf , fjds ,fe khfkdjs.'
-                        date='03/01/2021'
-                        aime='32'
+                        createdAt='03/01/2021'
+                        user_like='0'
+                        likes='32'
                     />
-                    <CommentCard
-                        name='Bidule'
+                    {/*  <CommentCard
+                        pseudo='Bidule'
                         titre='Enfin vacciné'
                         article='fds fdf fdsfdf hd odj  jfds , fjdsfj f,f fds jf,dzf jkf .'
                         date='28/08/2021'
@@ -115,7 +124,7 @@ export default class CommentPage extends React.Component {
                     mlkhfdslkhfdh fkdh fk fkjhdsk jdfk.'
                         date='07/09/2021'
                         aime='200'
-                    />
+                    /> */}
                 </div>
                 <div>
                     <img src={logo} alt='Groupomania' tabIndex='0' />
