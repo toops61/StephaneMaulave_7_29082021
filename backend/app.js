@@ -28,6 +28,7 @@ require('./routes/userProfile')(app)
 require('./routes/updateProfile')(app)
 require('./routes/commentsPage')(app)
 require('./routes/comment')(app)
+require('./routes/updateComment')(app)
 
 //app.use('/api/auth', userRoutes);
 
