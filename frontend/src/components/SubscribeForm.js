@@ -3,46 +3,46 @@ import React from "react";
 import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 //import axios from 'axios';
+//import { Link } from "react-router-dom";
 
 //fonction update du local storage et du tableau des produits
 function storeToLocal(where, what) {
     localStorage.setItem(where, JSON.stringify(what));
 }
 
-function previewFile() {
+/* function previewFile() {
     const file = document.querySelector('#photoProfil').files[0];
     const reader = new FileReader();
     if (file) {
         reader.readAsDataURL(file);
     }
     console.log(reader.result)
-}
+} */
 
 //API fetch requete POST pour formulaire
 function subscribeSubmit(data) {
     const url = 'http://localhost:4200/subscribe';
-    const file = document.querySelector('#photoProfil').files[0];
+    //const file = document.querySelector('#photoProfil').files[0];
     //let loginUser = {};
 
     let request = {
         method: 'POST',
         body: data,
-        file: file,
         headers: {
             'Content-Type': 'application/json'
         }
     };
 
     fetch(url, request)
-        .then(function (rep) {
+        .then(rep => {
             let userProfil = rep.json();
             return userProfil;
         })
-        .then(function (value) {
+        .then(value => {
             //console.log(value);
             const pseudo = value.data.pseudo;
-            const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png'
-            alert(`Bienvenue ${pseudo}`);
+            const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
+            pseudo === undefined ? alert(`il y a eu une erreur, le mail ou le pseudo existe déjà : ${value.message}`) : alert(`Bienvenue ${pseudo}`);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
@@ -52,8 +52,8 @@ function subscribeSubmit(data) {
             }
             storeToLocal('user', userLogged);
         })
-        .catch(function (error) {
-            console.log('erreur !' + error);
+        .catch(error => {
+            console.log('erreur ' + error);
         })
 }
 
@@ -160,7 +160,7 @@ export default class SubscribeForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const data = this.state;
-        previewFile();
+
         //data.append(this.state);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
@@ -172,7 +172,10 @@ export default class SubscribeForm extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) { subscribeSubmit(JSON.stringify(data)) };
+        if (validArray.length === inputsArray.length) {
+            subscribeSubmit(JSON.stringify(data));
+            //<Link to="/commentsPage"></Link>
+        };
     }
 
     render() {

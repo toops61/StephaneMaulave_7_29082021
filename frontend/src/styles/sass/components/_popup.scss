@@ -43,15 +43,6 @@
     }
 }
 
-.appear {
-    display: block;
-}
-
-#message-alert {
-    text-align: center;
-    margin: 1rem;
-}
-
 .alert-popup {
     display: none;
     position: fixed;
@@ -75,3 +66,13 @@
         }
     }
 }
+
+.appear {
+    display: block;
+}
+
+#message-alert {
+    text-align: center;
+    margin: 1rem;
+}
+

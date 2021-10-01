@@ -15,7 +15,7 @@ module.exports = (app) => {
                         const message = 'L\'utilisateur demandé n\'existe pas, essayez un autre...'
                         return res.status(404).json({ message })
                     }
-                    const message = `L'utilisateur' ` + user.name + ` a bien été modifié.`
+                    const message = `L'utilisateur' ` + user.pseudo + ` a bien été modifié.`
                     res.json({ message, data: user })
                 })
             })

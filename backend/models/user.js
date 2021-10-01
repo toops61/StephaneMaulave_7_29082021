@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
       unique: {
+        args: true,
         msg: 'ce mail existe déjà'
       }
     },

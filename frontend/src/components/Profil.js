@@ -1,4 +1,4 @@
-import imgProfil from '../assets/photo_profil.jpg';
+//import imgProfil from '../assets/photo_profil.jpg';
 import React from 'react';
 import Footer from './Footer';
 import validator from 'validator';
@@ -7,10 +7,10 @@ function storeToLocal(where, what) {
     localStorage.setItem(where, JSON.stringify(what));
 }
 
-const user = JSON.parse(localStorage.getItem('user'));
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {
+    const user = JSON.parse(localStorage.getItem('user'));
     const url = 'http://localhost:4200/user/' + user.id;
     //let loginUser = {};
 
@@ -44,6 +44,7 @@ function updateProfile(data) {
 }
 
 function profile(data) {
+    const user = JSON.parse(localStorage.getItem('user'));
     const url = 'http://localhost:4200/user/' + user.id;
     //let loginUser = {};
 
@@ -57,15 +58,15 @@ function profile(data) {
     };
 
     fetch(url, request)
-        .then(function (rep) {
+        .then(rep => {
             let userProfil = rep.json();
             return userProfil;
         })
-        .then(function (value) {
+        .then(value => {
             const pseudo = value.data.pseudo;
             alert('changez vos infos' + pseudo);
         })
-        .catch(function (error) {
+        .catch(error => {
             console.log('erreur !' + error);
         })
 }
@@ -74,14 +75,15 @@ export default class Profil extends React.Component {
     constructor(props) {
         super(props)
 
+        const user = JSON.parse(localStorage.getItem('user'));
         this.state = {
-            firstName: 'Bidule',
-            lastName: 'Machin',
-            pseudonyme: 'Toops61',
-            job: 'web dev',
-            birthday: '1986-02-16',
-            email: 'utilisateur1@mail.com',
-            password: ''
+            lastname: '',
+            firstname: '',
+            pseudo: user.pseudo,
+            birthdate: '',
+            job: '',
+            email: '',
+            photoProfil: user.photoProfil
         }
         this.handleChange = this.handleChange.bind(this);
         this.rejectText = this.rejectText.bind(this);
@@ -163,7 +165,7 @@ export default class Profil extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) { console.log(data) };
+        if (validArray.length === inputsArray.length) { updateProfile(data) };
     }
 
     render() {
@@ -173,42 +175,34 @@ export default class Profil extends React.Component {
                     <div className='profil'>
                         <div>
                             <div className='profil__photo'>
-                                <img src={imgProfil} alt='profil' />
+                                <img src={this.state.photoProfil} alt='profil' />
                             </div>
                             <span><em>changer la photo</em></span>
                         </div>
                         <h1 className='profil__titre'>
-                            {this.state.pseudonyme}, modifiez vos infos
+                            {this.state.pseudo}, modifiez vos infos
                         </h1>
                     </div>
                     <form className='login__form' onSubmit={this.handleSubmit}>
                         <div className='login__form__field'>
-                            <label htmlFor='pseudonyme'>Pseudo</label>
-                            <input type='text' name='pseudonyme' id='pseudonyme' className='' value={this.state.pseudonyme} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
+                            <label htmlFor='pseudo'>Pseudo</label>
+                            <input type='text' name='pseudo' id='pseudo' className='' value={this.state.pseudo} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='job'>Emploi</label>
                             <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
                         </div>
                         <div className='login__form__field'>
-                            <label htmlFor='firstName'>Prénom</label>
-                            <input type='text' name='firstName' id='firstName' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                            <label htmlFor='firstname'>Prénom</label>
+                            <input type='text' name='firstname' id='firstname' className='' value={this.state.firstname} onChange={this.rejectText} minLength='2' maxLength='31' required />
                         </div>
                         <div className='login__form__field'>
-                            <label htmlFor='lastName'>Nom</label>
-                            <input type='text' name='lastName' id='lastName' className='' value={this.state.lastName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                            <label htmlFor='lastname'>Nom</label>
+                            <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' required />
                         </div>
                         <div className='login__form__field'>
-                            <label htmlFor='birthday'>Date de Naissance</label>
-                            <input type='date' name='birthday' id='birthday' className='' value={this.state.birthday} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
-                        </div>
-                        <div className='login__form__field'>
-                            <label htmlFor='email'>Email</label>
-                            <input type='email' name='email' id='email' className='' value={this.state.email} onChange={this.rejectMail} minLength='3' maxLength='50' required />
-                        </div>
-                        <div className='login__form__field'>
-                            <label htmlFor='password'>Mot de passe</label>
-                            <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
+                            <label htmlFor='birthdate'>Date de Naissance</label>
+                            <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
                         </div>
                         <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
                     </form>
