@@ -51,6 +51,7 @@ function subscribeSubmit(data) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
+            window.location.reload();
         })
         .catch(error => {
             console.log('erreur ' + error);

@@ -23,19 +23,22 @@ ReactDOM.render(
       <Header />
       <Switch>
         <Route exact path="/">
-          <LoginForm />
+          {localStorage.getItem('user') === null ? <LoginForm /> : <Comments />}
         </Route>
         <Route path="/subscribe">
           <SubscribeForm />
         </Route>
         <Route path="/commentsPage">
-          <Comments />
+          {localStorage.getItem('user') === null ? <LoginForm /> : <Comments />}
         </Route>
         <Route path="/login">
           <LoginForm />
         </Route>
+        <Route path="/logout">
+          <LoginForm />
+        </Route>
         <Route path="/profil">
-          <Profil />
+          {localStorage.getItem('user') === null ? <LoginForm /> : <Profil />}
         </Route>
       </Switch>
     </Router>

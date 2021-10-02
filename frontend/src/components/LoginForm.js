@@ -38,6 +38,7 @@ function loginSubmit(data) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
+            window.location.reload();
         })
         .catch(function (error) {
             console.log('erreur !' + error);
@@ -95,7 +96,9 @@ export default class LoginForm extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) { loginSubmit(data) };
+        if (validArray.length === inputsArray.length) {
+            loginSubmit(data);
+        };
     }
 
     render() {
