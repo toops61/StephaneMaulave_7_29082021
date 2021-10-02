@@ -1,6 +1,7 @@
 const { User } = require('../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const { Message } = require('../db/sequelize')
 //const privateKey = require('../auth/private_key')
 
 require('dotenv').config()
@@ -36,5 +37,6 @@ module.exports = (app) => {
                 const message = `L'utilisateur n'a pas pu être connecté.`;
                 return res.status(500).json({ message, data: error })
             })
+
     })
 }

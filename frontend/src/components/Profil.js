@@ -7,6 +7,33 @@ function storeToLocal(where, what) {
     localStorage.setItem(where, JSON.stringify(what));
 }
 
+function profile() {
+    const id = (JSON.parse(localStorage.getItem('user'))).id;
+    const token = (JSON.parse(localStorage.getItem('user'))).token;
+    const url = 'http://localhost:4200/user/' + id;
+    //let loginUser = {};
+
+    let request = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'token': token
+        }
+    };
+
+    fetch(url, request)
+        .then(rep => {
+            let userProfil = rep.json();
+            return userProfil;
+        })
+        /* .then(value => {
+            const pseudo = value.data.pseudo;
+            alert('changez vos infos' + pseudo);
+        }) */
+        .catch(error => {
+            console.log('erreur !' + error);
+        })
+}
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {
@@ -39,34 +66,6 @@ function updateProfile(data) {
             storeToLocal('user', userLogged);
         })
         .catch(function (error) {
-            console.log('erreur !' + error);
-        })
-}
-
-function profile(data) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const url = 'http://localhost:4200/user/' + user.id;
-    //let loginUser = {};
-
-    let request = {
-        method: 'GET',
-        body: data,
-        headers: {
-            'Content-Type': 'application/json',
-            'token': user.token
-        }
-    };
-
-    fetch(url, request)
-        .then(rep => {
-            let userProfil = rep.json();
-            return userProfil;
-        })
-        .then(value => {
-            const pseudo = value.data.pseudo;
-            alert('changez vos infos' + pseudo);
-        })
-        .catch(error => {
             console.log('erreur !' + error);
         })
 }

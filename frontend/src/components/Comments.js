@@ -56,7 +56,8 @@ const CommentPopup = () => {
                 </div>
                 <div className='message-pop__field__text' tabIndex='0'></div>
                 <div className='message-pop__field__image' tabIndex='0'>Ajoutez une pièce jointe</div>
-                <button type='submit' className='submit-btn' onClick={AddClass}>publiez</button>
+                <button type='submit' className='submit-btn' onClick={AddClass}>publier</button>
+                <button type='submit' className='submit-btn' onClick={AddClass}>annuler</button>
             </div>
         </div>
     )
