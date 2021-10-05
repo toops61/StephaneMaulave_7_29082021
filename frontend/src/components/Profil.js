@@ -17,7 +17,7 @@ function profile() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'token': user.token
+            'Authorization': 'Bearer ' + user.token
         }
     };
 
@@ -52,7 +52,7 @@ function updateProfile(data) {
         body: data,
         headers: {
             'Content-Type': 'application/json',
-            'token': user.token
+            'Authorization': 'Bearer ' + user.token
         }
     };
 
@@ -87,7 +87,6 @@ export default class Profil extends React.Component {
             pseudo: user.pseudo,
             birthdate: '',
             job: '',
-            email: '',
             photoProfil: user.photoProfil
         }
         this.handleChange = this.handleChange.bind(this);
