@@ -27,12 +27,13 @@ function profile() {
             return userProfil;
         })
         .then(value => {
-            const userLogged = [];
-            const userInfos = value.data;
-            userInfos.forEach(element => {
-                userLogged.push(element);
-                console.log(userLogged);
-            });
+            const user = value;
+            const inputField = document.querySelectorAll('form input');
+            console.log(user);
+            inputField[1].value = user.data.job;
+            inputField[2].value = user.data.firstname;
+            inputField[3].value = user.data.lastname;
+            inputField[4].value = user.data.birthdate;
         })
         .catch(error => {
             console.log('erreur !' + error);
