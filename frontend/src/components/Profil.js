@@ -1,5 +1,5 @@
 //import imgProfil from '../assets/photo_profil.jpg';
-import React from 'react';
+import React, { useState } from 'react';
 import Footer from './Footer';
 import validator from 'validator';
 
@@ -8,8 +8,8 @@ function storeToLocal(where, what) {
 }
 
 function profile() {
-    const id = (JSON.parse(localStorage.getItem('user'))).id;
-    const token = (JSON.parse(localStorage.getItem('user'))).token;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const id = user.id;
     const url = 'http://localhost:4200/user/' + id;
     //let loginUser = {};
 
@@ -17,7 +17,7 @@ function profile() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'token': token
+            'token': user.token
         }
     };
 
@@ -26,14 +26,20 @@ function profile() {
             let userProfil = rep.json();
             return userProfil;
         })
-        /* .then(value => {
-            const pseudo = value.data.pseudo;
-            alert('changez vos infos' + pseudo);
-        }) */
+        .then(value => {
+            const userLogged = [];
+            const userInfos = value.data;
+            userInfos.forEach(element => {
+                userLogged.push(element);
+                console.log(userLogged);
+            });
+        })
         .catch(error => {
             console.log('erreur !' + error);
         })
 }
+
+if (localStorage.user) { profile() };
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {

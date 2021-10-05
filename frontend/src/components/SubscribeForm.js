@@ -4,6 +4,7 @@ import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 //import axios from 'axios';
 //import { Link } from "react-router-dom";
+//import alertPopup from './AlertPopup';
 
 //fonction update du local storage et du tableau des produits
 function storeToLocal(where, what) {
@@ -168,7 +169,8 @@ export default class SubscribeForm extends React.Component {
         for (let index = 0; index < inputsArray.length; index++) {
             const element = inputsArray[index];
             if (element.className === 'invalid') {
-                alert('vos champs ne sont pas valides');
+                //alertPopup();
+                alert('le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial');
             } else {
                 validArray.push(element.name);
             }
@@ -176,7 +178,7 @@ export default class SubscribeForm extends React.Component {
         if (validArray.length === inputsArray.length) {
             subscribeSubmit(JSON.stringify(data));
             //<Link to="/commentsPage"></Link>
-        };
+        }
     }
 
     render() {

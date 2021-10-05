@@ -19,7 +19,6 @@ ReactDOM.render(
       <Loader />
     </div>
     <Router>
-      <AlertPopup />
       <Header />
       <Switch>
         <Route exact path="/">
