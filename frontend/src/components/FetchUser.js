@@ -44,14 +44,3 @@ export default function FetchUser() {
         </>
     );
 }
-
-/* export default class FetchUser extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    componentDidMount() {
-
-    }
-} */
