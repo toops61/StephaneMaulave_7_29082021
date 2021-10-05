@@ -29,7 +29,6 @@ function profile() {
         .then(value => {
             const user = value;
             const inputField = document.querySelectorAll('form input');
-            console.log(user);
             inputField[1].value = user.data.job;
             inputField[2].value = user.data.firstname;
             inputField[3].value = user.data.lastname;
@@ -40,7 +39,7 @@ function profile() {
         })
 }
 
-if (localStorage.user) { profile() };
+if (localStorage.user && window.location.pathname === '/profil') { profile() };
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {
@@ -71,6 +70,29 @@ function updateProfile(data) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
+        })
+        .catch(function (error) {
+            console.log('erreur !' + error);
+        })
+}
+
+function deleteProfile() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const url = 'http://localhost:4200/user/' + user.id;
+    //let loginUser = {};
+
+    let request = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + user.token
+        }
+    };
+
+    fetch(url, request)
+        .then(() => {
+            alert('Votre profil a été supprimé !');
+            localStorage.clear();
         })
         .catch(function (error) {
             console.log('erreur !' + error);
@@ -210,6 +232,7 @@ export default class Profil extends React.Component {
                             <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
                         </div>
                         <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
+                        <button type='button' id='delete-btn' className='submit-btn' onClick={deleteProfile}>Effacer le profil</button>
                     </form>
                 </main>
                 <Footer />
