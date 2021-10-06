@@ -104,6 +104,7 @@ export default class Profil extends React.Component {
         super(props)
 
         const user = JSON.parse(localStorage.getItem('user'));
+
         this.state = {
             lastname: '',
             firstname: '',
