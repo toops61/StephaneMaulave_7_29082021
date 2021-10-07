@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Message', {
+  const Message = sequelize.define('Message', {
     id: {
       allowNull: false,
       type: DataTypes.UUID,
@@ -44,6 +44,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE
     }
   })
+  Message.sync();
+  return Message;
 }
 
 /* 'use strict';

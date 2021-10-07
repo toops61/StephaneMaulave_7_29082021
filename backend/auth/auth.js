@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-//const privateKey = require('../auth/private_key')
 
 module.exports = (req, res, next) => {
     const authorizationHeader = req.headers.authorization
