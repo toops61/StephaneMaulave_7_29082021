@@ -175,7 +175,7 @@ export default class SubscribeForm extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) {
+        if (validArray.length === inputsArray.length && inputsArray[6].value === inputsArray[7].value) {
             subscribeSubmit(JSON.stringify(data));
             //<Link to="/commentsPage"></Link>
         }
@@ -187,31 +187,35 @@ export default class SubscribeForm extends React.Component {
                 <form className='login__form' onSubmit={this.handleSubmit} method="post" encType="multipart/form-data">
                     <div className='login__form__field'>
                         <label htmlFor='lastname'>Nom</label>
-                        <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='family-name' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='firstname'>Prénom</label>
-                        <input type='text' name='firstname' id='firstname' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                        <input type='text' name='firstname' id='firstname' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='given-name' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='pseudo'>Pseudo</label>
-                        <input type='text' name='pseudo' id='pseudo' className='' value={this.state.pseudo} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
+                        <input type='text' name='pseudo' id='pseudo' className='' value={this.state.pseudo} onChange={this.rejectPseudo} minLength='2' maxLength='31' autoComplete='username' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='birthdate'>Date de Naissance</label>
-                        <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
+                        <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' autoComplete='bday' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='job'>Emploi</label>
-                        <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
+                        <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' autoComplete='organization-title' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='email'>Email</label>
-                        <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
+                        <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' autoComplete='email' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='password'>Mot de passe</label>
-                        <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
+                        <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' required />
+                    </div>
+                    <div className='login__form__field'>
+                        <label htmlFor='password'>Confirmez</label>
+                        <input type='password' name='passwordconf' id='passwordconf' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='photoProfil'>Photo profil</label>

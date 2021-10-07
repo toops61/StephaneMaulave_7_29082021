@@ -86,7 +86,6 @@ export default class LoginForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const data = JSON.stringify(this.state);
-        console.log(data);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {
@@ -108,11 +107,11 @@ export default class LoginForm extends React.Component {
                 <form className='login__form' onSubmit={this.handleSubmit}>
                     <div className='login__form__field'>
                         <label htmlFor='email'>Email</label>
-                        <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' required />
+                        <input type='email' name='email' id='email' className='' onChange={this.rejectMail} minLength='3' maxLength='50' autoComplete='email' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='password'>Mot de passe</label>
-                        <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='32' required />
+                        <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='current-password' required />
                     </div>
                     <div className='login__form__field'>
                         <button type='submit' id='submit-btn' className='submit-btn'>Valider</button>

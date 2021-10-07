@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import validator from 'validator';
-import alertPopup from './AlertPopup';
+import AlertPopup from './AlertPopup';
 
 let userInfos;
 
@@ -44,11 +44,12 @@ function profile() {
         })
 }
 
-//if (localStorage.user && window.location.pathname === '/profil') { profile() };
+function AlertAppears() {
 
-function updatePassword() {
-
+    //document.getElementById('alert-popup').classList.add('appear');
 }
+
+//if (localStorage.user && window.location.pathname === '/profil') { profile() };
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {
@@ -75,7 +76,6 @@ function updateProfile(data) {
                 userStored.pseudo = pseudo;
                 storeToLocal('user', userStored);
             }
-            alertPopup('votre profil a bien été modifié');
         })
         .catch(function (error) {
             console.log('erreur !' + error);
@@ -94,18 +94,21 @@ function deleteProfile() {
             'Authorization': 'Bearer ' + user.token
         }
     };
-
-    fetch(url, request)
-        .then(() => {
-            alert('Votre profil a été supprimé !');
-            localStorage.clear();
-        })
-        .catch(function (error) {
-            console.log('erreur !' + error);
-        })
+    if (window.confirm('Voulez-vous supprimer votre profil ?')) {
+        fetch(url, request)
+            .then(() => {
+                alert('Votre profil a été supprimé !');
+                localStorage.clear();
+                window.location.reload();
+            })
+            .catch(function (error) {
+                console.log('erreur !' + error);
+            })
+    }
 }
 
 export default class Profil extends React.Component {
+
     constructor(props) {
         super(props)
 
@@ -178,7 +181,7 @@ export default class Profil extends React.Component {
     }
 
     rejectPassword(e) {
-        const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[%@$&#?]).{8,32}$');
+        const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-zÞ-öø-ÿ])(?=.*[A-ZÀ-ÖØ-Ý])(?=.*[^0-9a-zÞ-öø-ÿA-ZÀ-ÖØ-Ý ]).{8,128}$');
         const name = e.target.name;
         const value = e.target.value;
         if (regexPassword.test(value)) {
@@ -202,12 +205,16 @@ export default class Profil extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) { updateProfile(data) };
+        if (validArray.length === inputsArray.length) {
+            updateProfile(data);
+            //alert('votre profil a été mis à jour');
+        };
     }
 
     render() {
         return (
             <div>
+                <AlertPopup isVisible='false' />
                 <main>
                     <div className='profil'>
                         <div>
@@ -223,26 +230,25 @@ export default class Profil extends React.Component {
                     <form className='login__form' onSubmit={this.handleSubmit}>
                         <div className='login__form__field'>
                             <label htmlFor='pseudo'>Pseudo</label>
-                            <input type='text' name='pseudo' id='pseudo' className='' value={this.state.pseudo} onChange={this.rejectPseudo} minLength='2' maxLength='31' required />
+                            <input type='text' name='pseudo' id='pseudo' className='' value={this.state.pseudo} onChange={this.rejectPseudo} minLength='2' maxLength='31' autoComplete='username' required />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='job'>Emploi</label>
-                            <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' />
+                            <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' autoComplete='organization-title' required />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='firstname'>Prénom</label>
-                            <input type='text' name='firstname' id='firstname' className='' value={this.state.firstname} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                            <input type='text' name='firstname' id='firstname' className='' value={this.state.firstname} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='given-name' required />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='lastname'>Nom</label>
-                            <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' required />
+                            <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='family-name' required />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='birthdate'>Date de Naissance</label>
-                            <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
+                            <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' autoComplete='bday' required />
                         </div>
-                        <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
-                        <button type='button' id='password-btn' className='submit-btn' onClick={updatePassword}>Modifier le mot de passe</button>
+                        <button type='submit' id='submit-btn' className='submit-btn' onClick={AlertAppears}>Modifier les infos</button>
                         <button type='button' id='delete-btn' className='submit-btn' onClick={deleteProfile}>Effacer le profil</button>
                     </form>
                 </main>

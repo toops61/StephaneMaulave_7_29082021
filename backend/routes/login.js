@@ -1,24 +1,22 @@
-const { User } = require('../db/sequelize')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const { Message } = require('../db/sequelize')
-//const privateKey = require('../auth/private_key')
+const { User } = require('../db/sequelize');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { Message } = require('../db/sequelize');
 
-require('dotenv').config()
+require('dotenv').config();
 
 module.exports = (app) => {
     app.post('/login', (req, res) => {
 
         User.findOne({ where: { email: req.body.email } })
             .then(user => {
+                let message = 'Il y a eu une erreur lors du remplissage du formulaire';
                 if (!user) {
-                    const message = 'l\'utilisateur demandé n\'existe pas.'
-                    return res.status(404).json({ message })
+                    return res.status(401).json({ message })
                 }
 
                 bcrypt.compare(req.body.password, user.password).then(isPasswordValid => {
                     if (!isPasswordValid) {
-                        const message = `Le mot de passe est incorrect`
                         return res.status(401).json({ message })
                     }
 
@@ -28,7 +26,7 @@ module.exports = (app) => {
                         { expiresIn: '4h' }
                     )
 
-                    const message = `L'utilisateur a été connecté avec succès`;
+                    message = `L'utilisateur a été connecté avec succès`;
                     return res.json({ message, data: user, token })
 
                 })

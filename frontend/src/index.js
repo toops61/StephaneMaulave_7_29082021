@@ -17,6 +17,7 @@ ReactDOM.render(
   <React.StrictMode>
     <div className='loader hidden'>
       <Loader />
+      <AlertPopup isVisible='false' />
     </div>
     <Router>
       <Header />
