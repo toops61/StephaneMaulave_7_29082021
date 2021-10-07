@@ -1,7 +1,10 @@
 //import imgProfil from '../assets/photo_profil.jpg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import validator from 'validator';
+import alertPopup from './AlertPopup';
+
+let userInfos;
 
 function storeToLocal(where, what) {
     localStorage.setItem(where, JSON.stringify(what));
@@ -23,36 +26,41 @@ function profile() {
 
     fetch(url, request)
         .then(rep => {
-            let userProfil = rep.json();
+            const userProfil = rep.json();
             return userProfil;
         })
         .then(value => {
-            const user = value;
-            const inputField = document.querySelectorAll('form input');
-            inputField[1].value = user.data.job;
-            inputField[2].value = user.data.firstname;
-            inputField[3].value = user.data.lastname;
-            inputField[4].value = user.data.birthdate;
+            userInfos = value.data;
+            //console.log(userInfos);
+            return userInfos;
+            /* const inputField = document.querySelectorAll('form input');
+            inputField[1].value = userInfos.data.job;
+            inputField[2].value = userInfos.data.firstname;
+            inputField[3].value = userInfos.data.lastname;
+            inputField[4].value = userInfos.data.birthdate; */
         })
         .catch(error => {
             console.log('erreur !' + error);
         })
 }
 
-if (localStorage.user && window.location.pathname === '/profil') { profile() };
+//if (localStorage.user && window.location.pathname === '/profil') { profile() };
+
+function updatePassword() {
+
+}
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    const url = 'http://localhost:4200/user/' + user.id;
-    //let loginUser = {};
+    const userStored = JSON.parse(localStorage.getItem('user'));
+    const url = 'http://localhost:4200/user/' + userStored.id;
 
     let request = {
         method: 'PUT',
         body: data,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + user.token
+            'Authorization': 'Bearer ' + userStored.token
         }
     };
 
@@ -63,13 +71,11 @@ function updateProfile(data) {
         })
         .then(function (value) {
             const pseudo = value.data.pseudo;
-            localStorage.clear();
-            const userLogged = {
-                id: value.data.id,
-                pseudo: pseudo,
-                token: value.token
+            if (pseudo !== userStored.pseudo) {
+                userStored.pseudo = pseudo;
+                storeToLocal('user', userStored);
             }
-            storeToLocal('user', userLogged);
+            alertPopup('votre profil a bien été modifié');
         })
         .catch(function (error) {
             console.log('erreur !' + error);
@@ -104,7 +110,6 @@ export default class Profil extends React.Component {
         super(props)
 
         const user = JSON.parse(localStorage.getItem('user'));
-
         this.state = {
             lastname: '',
             firstname: '',
@@ -119,6 +124,10 @@ export default class Profil extends React.Component {
         this.rejectMail = this.rejectMail.bind(this);
         this.rejectPassword = this.rejectPassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        //profile();
+        //console.log(userInfos);
+        //this.setState({ lastname: userInfos.lastname });
     }
 
     handleChange(e) {
@@ -233,6 +242,7 @@ export default class Profil extends React.Component {
                             <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' required />
                         </div>
                         <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
+                        <button type='button' id='password-btn' className='submit-btn' onClick={updatePassword}>Modifier le mot de passe</button>
                         <button type='button' id='delete-btn' className='submit-btn' onClick={deleteProfile}>Effacer le profil</button>
                     </form>
                 </main>

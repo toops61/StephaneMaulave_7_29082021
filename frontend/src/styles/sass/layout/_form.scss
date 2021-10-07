@@ -18,6 +18,9 @@
         @include mobile-version {
             width: 100%;
         }
+        .submit-btn {
+            margin: 1rem auto 0;
+        }
         &__field {
             width: 80%;
             margin-top: 1rem;
@@ -47,10 +50,6 @@
 
 .valid {
     border: solid green;
-}
-
-#submit-btn, #subscribe-btn {
-    margin: 1rem auto 0;
 }
 
 .profil {
