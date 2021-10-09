@@ -12,13 +12,19 @@ import Profil from './components/Profil';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AlertPopup from './components/AlertPopup';
+import { ConfirmPopup } from './components/AlertPopup';
 
 function Index() {
   const [isVisible, setIsVisible] = React.useState(false);
+  const [confirmVisible, setConfirmVisible] = React.useState(false);
   const [messagealert, setMessagealert] = React.useState('');
 
   function alertToggle(message) {
     setIsVisible(!isVisible);
+    setMessagealert(message);
+  }
+  function confirmToggle(message) {
+    setConfirmVisible(!confirmVisible);
     setMessagealert(message);
   }
 
@@ -30,24 +36,25 @@ function Index() {
       <Router>
         <Header />
         <AlertPopup isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+        <ConfirmPopup confirmVisible={confirmVisible} confirmToggle={confirmToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
         <Switch>
           <Route exact path="/">
-            {localStorage.getItem('user') === null ? <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+            {localStorage.getItem('user') === null ? <LoginForm confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
           </Route>
           <Route path="/subscribe">
-            <SubscribeForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+            <SubscribeForm confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
           </Route>
           <Route path="/commentsPage">
-            {localStorage.getItem('user') === null ? <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+            {localStorage.getItem('user') === null ? <LoginForm confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
           </Route>
           <Route path="/login">
-            <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+            <LoginForm confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
           </Route>
           <Route path="/logout">
-            <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+            <LoginForm confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
           </Route>
           <Route path="/profil">
-            {localStorage.getItem('user') === null ? <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Profil isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+            {localStorage.getItem('user') === null ? <LoginForm confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Profil confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
           </Route>
         </Switch>
       </Router>

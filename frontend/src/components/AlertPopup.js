@@ -10,3 +10,14 @@ export default function AlertPopup(props) {
         </div>
     )
 }
+export function ConfirmPopup(props) {
+
+    return (
+        <div className='confirm-popup' id='confirm-popup' style={!props.confirmVisible ? { display: 'none' } : { display: 'block' }}>
+            <div className='confirm-popup__window'>
+                <h2>{props.messagealert}</h2>
+                <button className='confirm-popup__window__btn' onClick={() => props.confirmToggle('')}>fermer</button>
+            </div>
+        </div>
+    )
+}

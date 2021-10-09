@@ -30,7 +30,7 @@ function loginSubmit(data, props) {
         .then(function (value) {
             const pseudo = value.data.pseudo;
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
-            props.alertToggle(`Bienvenue ${pseudo}`)
+            props.confirmToggle(`Bienvenue ${pseudo}`)
             //alert(`Bienvenue ${pseudo}`);
             localStorage.clear();
             const userLogged = {

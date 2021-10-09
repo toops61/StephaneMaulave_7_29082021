@@ -192,7 +192,7 @@ a {
   transform: scale(1.2);
 }
 
-.alert-popup {
+.alert-popup, .confirm-popup {
   position: fixed;
   width: 100%;
   height: 120vh;
@@ -201,7 +201,7 @@ a {
   z-index: 100;
   background-color: rgba(255, 215, 215, 0.9);
 }
-.alert-popup__window {
+.alert-popup__window, .confirm-popup__window {
   background-color: #a71818;
   color: white;
   width: 40vw;
@@ -213,11 +213,36 @@ a {
   align-items: center;
 }
 @media screen and (max-width: 768px) {
-  .alert-popup__window {
+  .alert-popup__window, .confirm-popup__window {
     width: 60vw;
   }
 }
 .alert-popup__window__btn {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  border: solid #3e8b7e;
+  color: #3e8b7e;
+  background-color: white;
+  text-shadow: 1px 1px 1px #3e8b7e;
+  border-radius: 30px;
+  box-shadow: 2px 2px 8px #3e8b7e;
+  width: 10vw;
+  height: 3vw;
+}
+
+.confirm-popup {
+  background-color: #3e8b7e;
+}
+.confirm-popup__window {
+  color: black;
+  background-color: #FFD7D7;
+  border-radius: 30px;
+  border: solid;
+}
+.confirm-popup__window__btn {
   font-size: 1.2rem;
   display: flex;
   justify-content: center;

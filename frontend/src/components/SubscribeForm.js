@@ -43,7 +43,7 @@ function subscribeSubmit(data, props) {
             //console.log(value);
             const pseudo = value.data.pseudo;
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
-            pseudo === undefined ? props.alertToggle(`il y a eu une erreur, le mail ou le pseudo existe déjà : ${value.message}`) : props.alertToggle(`Bienvenue ${pseudo}`);
+            pseudo === undefined ? props.alertToggle(`il y a eu une erreur, le mail ou le pseudo existe déjà : ${value.message}`) : props.confirmToggle(`Bienvenue ${pseudo}`);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,

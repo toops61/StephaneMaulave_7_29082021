@@ -67,6 +67,21 @@
     }
 }
 
+.confirm-popup {
+    @extend .alert-popup;
+    background-color: $primary-color;
+    &__window {
+        @extend .alert-popup__window;
+        color: black;
+        background-color: $third-color;
+        border-radius: 30px;
+        border: solid;
+        &__btn {
+            @include btn;
+        }
+    }
+}
+
 .password-window {
     display: none;
     z-index: 99;

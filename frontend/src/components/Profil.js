@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import validator from 'validator';
-import AlertPopup from './AlertPopup';
 
 let userInfos;
 
@@ -146,7 +145,7 @@ export default class Profil extends React.Component {
             this.setState({ [name]: value.replace(/ /g, "_") });
             e.target.className = 'valid';
         } else {
-            alert('ces caractères ne sont pas autorisés');
+            this.props.alertToggle('ces caractères ne sont pas autorisés');
         };
     }
 
@@ -158,7 +157,7 @@ export default class Profil extends React.Component {
             this.setState({ [name]: value.replace(/ /g, "_") });
             e.target.className = 'valid';
         } else {
-            alert('ces caractères ne sont pas autorisés');
+            this.props.alertToggle('ces caractères ne sont pas autorisés');
         };
     }
 
@@ -202,7 +201,7 @@ export default class Profil extends React.Component {
         };
         if (validArray.length === inputsArray.length) {
             updateProfile(data, this.props);
-            this.props.alertToggle('votre profil a été mis à jour');
+            this.props.confirmToggle('votre profil a été mis à jour');
         };
     }
 
