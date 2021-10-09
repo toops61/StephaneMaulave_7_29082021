@@ -21,7 +21,7 @@ function storeToLocal(where, what) {
 } */
 
 //API fetch requete POST pour formulaire
-function subscribeSubmit(data) {
+function subscribeSubmit(data, props) {
     const url = 'http://localhost:4200/subscribe';
     //const file = document.querySelector('#photoProfil').files[0];
     //let loginUser = {};
@@ -43,7 +43,7 @@ function subscribeSubmit(data) {
             //console.log(value);
             const pseudo = value.data.pseudo;
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
-            pseudo === undefined ? alert(`il y a eu une erreur, le mail ou le pseudo existe déjà : ${value.message}`) : alert(`Bienvenue ${pseudo}`);
+            pseudo === undefined ? props.alertToggle(`il y a eu une erreur, le mail ou le pseudo existe déjà : ${value.message}`) : props.alertToggle(`Bienvenue ${pseudo}`);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
@@ -52,7 +52,7 @@ function subscribeSubmit(data) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
-            window.location.reload();
+            //window.location.reload();
         })
         .catch(error => {
             console.log('erreur ' + error);
@@ -101,7 +101,7 @@ export default class SubscribeForm extends React.Component {
             this.setState({ [name]: value.replace(/ /g, "_") });
             e.target.className = 'valid';
         } else {
-            alert('ces caractères ne sont pas autorisés');
+            this.props.alertToggle('ces caractères ne sont pas autorisés');
         };
     }
 
@@ -113,7 +113,7 @@ export default class SubscribeForm extends React.Component {
             this.setState({ [name]: value.replace(/ /g, "_") });
             e.target.className = 'valid';
         } else {
-            alert('ces caractères ne sont pas autorisés');
+            this.props.alertToggle('ces caractères ne sont pas autorisés');
         };
     }
 
@@ -131,7 +131,6 @@ export default class SubscribeForm extends React.Component {
     }
 
     rejectPassword(e) {
-        /* const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|]).{8,32}$'); */
         const regexPassword = new RegExp('^(?=.*[0-9])(?=.*[a-zÞ-öø-ÿ])(?=.*[A-ZÀ-ÖØ-Ý])(?=.*[^0-9a-zÞ-öø-ÿA-ZÀ-ÖØ-Ý ]).{8,128}$');
         const name = e.target.name;
         const value = e.target.value;
@@ -169,14 +168,13 @@ export default class SubscribeForm extends React.Component {
         for (let index = 0; index < inputsArray.length; index++) {
             const element = inputsArray[index];
             if (element.className === 'invalid') {
-                //alertPopup();
-                alert('le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial');
+                this.props.alertToggle('le mot de passe doit contenir au moins huit caractères, une minuscule, une majuscule, un chiffre et un caractère spécial')
             } else {
                 validArray.push(element.name);
             }
         };
         if (validArray.length === inputsArray.length && inputsArray[6].value === inputsArray[7].value) {
-            subscribeSubmit(JSON.stringify(data));
+            subscribeSubmit(JSON.stringify(data), this.props);
             //<Link to="/commentsPage"></Link>
         }
     }

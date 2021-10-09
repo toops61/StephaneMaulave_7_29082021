@@ -77,7 +77,7 @@ function updateProfile(data) {
         })
 }
 
-function deleteProfile() {
+function deleteProfile(props) {
     const user = JSON.parse(localStorage.getItem('user'));
     const url = 'http://localhost:4200/user/' + user.id;
     //let loginUser = {};
@@ -92,9 +92,9 @@ function deleteProfile() {
     if (window.confirm('Voulez-vous supprimer votre profil ?')) {
         fetch(url, request)
             .then(() => {
-                alert('Votre profil a été supprimé !');
+                props.alertToggle('Votre profil a été supprimé !');
                 localStorage.clear();
-                window.location.reload();
+                //window.location.reload();
             })
             .catch(function (error) {
                 console.log('erreur !' + error);
@@ -195,13 +195,13 @@ export default class Profil extends React.Component {
         for (let index = 0; index < inputsArray.length; index++) {
             const element = inputsArray[index];
             if (element.className === 'invalid') {
-                alert('vos champs ne sont pas valides');
+                this.props.alertToggle('vos champs ne sont pas valides');
             } else {
                 validArray.push(element.name);
             }
         };
         if (validArray.length === inputsArray.length) {
-            updateProfile(data);
+            updateProfile(data, this.props);
             this.props.alertToggle('votre profil a été mis à jour');
         };
     }
@@ -243,7 +243,7 @@ export default class Profil extends React.Component {
                             <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' autoComplete='bday' required />
                         </div>
                         <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
-                        <button type='button' id='delete-btn' className='submit-btn' onClick={deleteProfile}>Effacer le profil</button>
+                        <button type='button' id='delete-btn' className='submit-btn' onClick={() => deleteProfile(this.props)}>Effacer le profil</button>
                     </form>
                 </main>
                 <Footer />
