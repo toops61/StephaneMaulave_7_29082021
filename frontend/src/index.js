@@ -13,38 +13,49 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AlertPopup from './components/AlertPopup';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <div className='loader hidden'>
-      <Loader />
-      <AlertPopup isVisible='false' />
-    </div>
-    <Router>
-      <Header />
-      <Switch>
-        <Route exact path="/">
-          {localStorage.getItem('user') === null ? <LoginForm /> : <Comments />}
-        </Route>
-        <Route path="/subscribe">
-          <SubscribeForm />
-        </Route>
-        <Route path="/commentsPage">
-          {localStorage.getItem('user') === null ? <LoginForm /> : <Comments />}
-        </Route>
-        <Route path="/login">
-          <LoginForm />
-        </Route>
-        <Route path="/logout">
-          <LoginForm />
-        </Route>
-        <Route path="/profil">
-          {localStorage.getItem('user') === null ? <LoginForm /> : <Profil />}
-        </Route>
-      </Switch>
-    </Router>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+function Index() {
+  const [isVisible, setIsVisible] = React.useState(false);
+  const [messagealert, setMessagealert] = React.useState('');
+
+  function alertToggle(message) {
+    setIsVisible(!isVisible);
+    setMessagealert(message);
+  }
+
+  return (
+    <React.StrictMode>
+      <div className='loader hidden'>
+        <Loader />
+      </div>
+      <Router>
+        <Header />
+        <AlertPopup isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+        <Switch>
+          <Route exact path="/">
+            {localStorage.getItem('user') === null ? <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+          </Route>
+          <Route path="/subscribe">
+            <SubscribeForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+          </Route>
+          <Route path="/commentsPage">
+            {localStorage.getItem('user') === null ? <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+          </Route>
+          <Route path="/login">
+            <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+          </Route>
+          <Route path="/logout">
+            <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+          </Route>
+          <Route path="/profil">
+            {localStorage.getItem('user') === null ? <LoginForm isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Profil isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+          </Route>
+        </Switch>
+      </Router>
+    </React.StrictMode>
+  )
+}
+
+ReactDOM.render(<Index />, document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

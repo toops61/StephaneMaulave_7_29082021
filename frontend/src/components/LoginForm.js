@@ -91,7 +91,7 @@ export default class LoginForm extends React.Component {
         for (let index = 0; index < inputsArray.length; index++) {
             const element = inputsArray[index];
             if (element.className === 'invalid') {
-                alert('vos champs ne sont pas valides');
+                this.props.alertToggle('Vous n\'avez pas correctement rempli les champs')
             } else {
                 validArray.push(element.name);
             }
