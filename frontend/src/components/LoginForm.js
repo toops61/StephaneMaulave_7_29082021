@@ -9,7 +9,7 @@ function storeToLocal(where, what) {
 }
 
 //API fetch requete POST pour formulaire
-function loginSubmit(data) {
+function loginSubmit(data, props) {
 
     const url = 'http://localhost:4200/login';
     //let loginUser = {};
@@ -29,8 +29,9 @@ function loginSubmit(data) {
         })
         .then(function (value) {
             const pseudo = value.data.pseudo;
-            const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png'
-            alert(`Bienvenue ${pseudo}`);
+            const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
+            props.alertToggle(`Bienvenue ${pseudo}`)
+            //alert(`Bienvenue ${pseudo}`);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
@@ -39,7 +40,7 @@ function loginSubmit(data) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
-            window.location.reload();
+            //window.location.reload();
         })
         .catch(function (error) {
             console.log('erreur !' + error);
@@ -97,7 +98,7 @@ export default class LoginForm extends React.Component {
             }
         };
         if (validArray.length === inputsArray.length) {
-            loginSubmit(data);
+            loginSubmit(data, this.props);
         };
     }
 

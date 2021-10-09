@@ -44,11 +44,6 @@ function profile() {
         })
 }
 
-function AlertAppears() {
-
-    //document.getElementById('alert-popup').classList.add('appear');
-}
-
 //if (localStorage.user && window.location.pathname === '/profil') { profile() };
 
 //API fetch requete POST pour formulaire
@@ -207,14 +202,13 @@ export default class Profil extends React.Component {
         };
         if (validArray.length === inputsArray.length) {
             updateProfile(data);
-            //alert('votre profil a été mis à jour');
+            this.props.alertToggle('votre profil a été mis à jour');
         };
     }
 
     render() {
         return (
             <div>
-                <AlertPopup isVisible='false' />
                 <main>
                     <div className='profil'>
                         <div>
@@ -248,7 +242,7 @@ export default class Profil extends React.Component {
                             <label htmlFor='birthdate'>Date de Naissance</label>
                             <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' autoComplete='bday' required />
                         </div>
-                        <button type='submit' id='submit-btn' className='submit-btn' onClick={AlertAppears}>Modifier les infos</button>
+                        <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
                         <button type='button' id='delete-btn' className='submit-btn' onClick={deleteProfile}>Effacer le profil</button>
                     </form>
                 </main>
