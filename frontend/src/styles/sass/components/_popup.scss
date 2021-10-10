@@ -5,15 +5,15 @@
     height: 120vh;
     @include positionTopLeft;
     z-index: 100;
-    background-color: rgba($color:$third-color, $alpha: .8);
+    background-color: rgba($color:$eight-color, $alpha: .7);
     &__field {
         background-color: white;
-        margin: 6% auto;
+        margin: 3% auto;
         width: 80%;
         @include mobile-version {
             width: 90%;
         }
-        max-width: 40rem;
+        max-width: 60rem;
         @include flex-column;
         justify-content: space-around;
         @include borderRadius;
@@ -21,15 +21,33 @@
         div {
             @include flexCenter;
         }
+        &__form {
+            width: 80%;
+            
+        }
         &__text {
             width: 90%;
             min-height: 3rem;
-            border: solid $primary-color;
-            margin: 0 auto;
+            border: solid 1px $primary-color;
+            margin: .5rem auto;
+            label {
+                margin-left: 1rem;
+            }
+            input {
+                width: 60%;
+                margin-left: 1rem;
+            }
+            textarea {
+                margin: 1rem 1rem;
+                width: auto;
+                min-width: 15rem;
+            }
+            
         }
         &__image {
             display: flex;
             align-items: center;
+            margin: .5rem auto;
             transition: 300ms ease-out;
             &::before {
                 @include icon('\f302', 2rem);
@@ -41,6 +59,11 @@
             }
         }
     }
+}
+
+#image-field {
+    display: flex;
+    justify-content: space-around;
 }
 
 .alert-popup {

@@ -6,9 +6,7 @@ import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 import Footer from './Footer';
 import { storeToLocal, recupLocal } from './Storage';
 
-let user = {};
 let messagesFetched = [];
-let userPseudo;
 const userStored = JSON.parse(localStorage.getItem('user'));
 let messagesStored;
 const arrayDom = [];
@@ -53,7 +51,7 @@ function BuildComments() {
         arrayDom.push(
             <div key={element.id}>
                 <CommentCard
-                    pseudo='Machin'
+                    pseudo={element.user_pseudo}
                     title={element.title}
                     article={element.article}
                     createdAt={element.createdAt}
@@ -63,7 +61,6 @@ function BuildComments() {
             </div>
         )
     });
-    console.log(arrayDom);
     return (
         <div>
             {arrayDom}
@@ -80,7 +77,7 @@ const CommentCard = props => {
             <div className='comments__card__profil'>
                 <div>
                     <h3 tabIndex='0'>{props.pseudo}</h3>
-                    <p tabIndex='0'>{props.createdAt}</p>
+                    <p tabIndex='0'>{props.createdAt.split('T')[0]} à {props.createdAt.split('T')[1].split('.')[0]}</p>
                 </div>
                 <h4 tabIndex='0'>{props.title}</h4>
             </div>
@@ -99,26 +96,70 @@ const CommentCard = props => {
     )
 }
 
-const CommentPopup = () => {
+class CommentPopup extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            USERS_id: userStored.id,
+            pseudo: userStored.pseudo,
+            title: '',
+            article: '',
+            attachment: '',
+            user_like: 0,
+            user_comment: '',
+            likes: 0
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-    let classePop = 'message-pop';
+    handleSubmit(e) {
+        e.preventDefault();
 
-    return (
-        <div className={classePop} id='user-comment'>
-            <div className='message-pop__field'>
-                <div>
-                    <div className='profil__photo'>
-                        <img url={user.photoProfil} alt='profil' tabIndex='0' />
+
+        //loginSubmit(data, this.props);
+
+    }
+    handleChange(e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({
+            [name]: value
+        });
+    }
+
+    render() {
+        return (
+            <div className='message-pop' id='user-comment'>
+                <div className='message-pop__field'>
+                    <div>
+                        <div className='profil__photo'>
+                            <img url={userStored.photoProfil} alt='profil' tabIndex='0' />
+                        </div>
+                        <h3 tabIndex='0'>{userStored.pseudo}, c'est à vous !</h3>
                     </div>
-                    <h3 tabIndex='0'>{userPseudo}, c'est à vous !</h3>
+                    <form className='message-pop__field__form' onSubmit={this.handleSubmit}>
+                        <div className='message-pop__field__text' tabIndex='0'>
+                            <label htmlFor='title'>Titre</label>
+                            <input type='text' name='title' max='60' value={this.state.title} onChange={this.handleChange} />
+                        </div>
+                        <div className='message-pop__field__text' tabIndex='0'>
+                            <label htmlFor='article'></label>
+                            <textarea name="article" rows="5" cols="33" value={this.state.article} onChange={this.handleChange}></textarea>
+                        </div>
+                        <div className='message-pop__field__text' tabIndex='0'>
+                            <label htmlFor='article'>Ajoutez une pièce jointe</label>
+                            <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' value={this.state.attachment} onChange={this.handleChange} />
+                        </div>
+                        <div id='image-field'>
+                            <button type='submit' className='submit-btn' onClick={AddClass}>publier</button>
+                            <button type='submit' className='submit-btn' onClick={AddClass}>annuler</button>
+                        </div>
+                    </form>
                 </div>
-                <div className='message-pop__field__text' tabIndex='0'></div>
-                <div className='message-pop__field__image' tabIndex='0'>Ajoutez une pièce jointe</div>
-                <button type='submit' className='submit-btn' onClick={AddClass}>publier</button>
-                <button type='submit' className='submit-btn' onClick={AddClass}>annuler</button>
             </div>
-        </div>
-    )
+        )
+    }
 }
 const AddClass = () => {
     document.getElementById('user-comment').classList.toggle('appear');
@@ -146,6 +187,8 @@ class ArrowUp extends React.Component {
 }
 
 export default class CommentPage extends React.Component {
+
+
     render() {
         return (
             <main>
@@ -154,9 +197,9 @@ export default class CommentPage extends React.Component {
                 <div className='comments'>
                     <div className='comments__btn'>
                         <div className='profil__photo mini' tabIndex='0'>
-                            <img src={user.photoProfil} alt='profil' />
+                            <img src={userStored.photoProfil} alt='profil' />
                         </div>
-                        <span onClick={AddClass} tabIndex='0'>{userPseudo}, partagez votre story</span>
+                        <span onClick={AddClass} tabIndex='0'>{userStored.pseudo}, partagez votre story</span>
                     </div>
                     <BuildComments />
                 </div>
