@@ -48,7 +48,7 @@ function fetchMessages() {
 }
 
 function BuildComments() {
-
+    arrayDom.length = 0;
     messagesFetched.forEach(element => {
         arrayDom.push(
             <div key={element.id}>
@@ -63,7 +63,7 @@ function BuildComments() {
             </div>
         )
     });
-
+    console.log(arrayDom);
     return (
         <div>
             {arrayDom}
@@ -159,32 +159,6 @@ export default class CommentPage extends React.Component {
                         <span onClick={AddClass} tabIndex='0'>{userPseudo}, partagez votre story</span>
                     </div>
                     <BuildComments />
-                    <CommentCard
-                        pseudo='Machin'
-                        title='Journée à la plage'
-                        article='dfdsjkhfdshfkjdshfkjdhfk fdkjefg fdzhf fjkdl fjk lf, jfdlzjf , fjds ,fe khfkdjs.'
-                        createdAt='03/01/2021'
-                        user_like='0'
-                        likes='32'
-                    />
-                    {/*  <CommentCard
-                        pseudo='Bidule'
-                        titre='Enfin vacciné'
-                        article='fds fdf fdsfdf hd odj  jfds , fjdsfj f,f fds jf,dzf jkf .'
-                        date='28/08/2021'
-                    />
-                    <CommentCard
-                        name='Truc much'
-                        titre='Fin des vacances, on retourne bosser !'
-                        article='gfhdlkgh fdhfjk fkld f fdlskhf f fdhsfkjhkd ffjkdh. dfdkjfh fdkj fkds fkd fhdkjh fd hfkdjh fkjdfkdfkdsjkfdkf  hkfjdhsfhkds.
-                    fdshflkds
-                    fdslfhkdsjhfkdhfjkdhfkjd. hydysioue
-                    dfdfdsf fdfdf
-                    Trerrekl fdsfdsfdsf.
-                    mlkhfdslkhfdh fkdh fk fkjhdsk jdfk.'
-                        date='07/09/2021'
-                        aime='200'
-                    /> */}
                 </div>
                 <div>
                     <img src={logo} alt='Groupomania' tabIndex='0' />

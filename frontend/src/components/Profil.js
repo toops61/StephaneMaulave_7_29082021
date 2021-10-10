@@ -44,7 +44,7 @@ function profile() {
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {
-    const userStored = recupLocal('user');
+    const userStored = JSON.parse(localStorage.getItem('user'));;
     const url = 'http://localhost:4200/user/' + userStored.id;
 
     let request = {
@@ -103,13 +103,14 @@ export default class Profil extends React.Component {
     constructor(props) {
         super(props)
 
-        const user = recupLocal('user');
+        const user = JSON.parse(localStorage.getItem('user'));;
         this.state = {
             lastname: '',
             firstname: '',
             pseudo: user.pseudo,
             birthdate: '',
             job: '',
+            password: '',
             photoProfil: user.photoProfil
         }
         this.handleChange = this.handleChange.bind(this);
@@ -196,7 +197,7 @@ export default class Profil extends React.Component {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length) {
+        if (validArray.length === inputsArray.length && inputsArray[5].value === inputsArray[6].value) {
             updateProfile(data, this.props);
             this.props.confirmToggle('votre profil a été mis à jour');
         };
@@ -220,23 +221,31 @@ export default class Profil extends React.Component {
                     <form className='login__form' onSubmit={this.handleSubmit}>
                         <div className='login__form__field'>
                             <label htmlFor='pseudo'>Pseudo</label>
-                            <input type='text' name='pseudo' id='pseudo' className='' value={this.state.pseudo} onChange={this.rejectPseudo} minLength='2' maxLength='31' autoComplete='username' required />
+                            <input type='text' name='pseudo' id='pseudo' className='' value={this.state.pseudo} onChange={this.rejectPseudo} minLength='2' maxLength='31' autoComplete='username' />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='job'>Emploi</label>
-                            <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' autoComplete='organization-title' required />
+                            <input type='text' name='job' id='job' className='' value={this.state.job} onChange={this.rejectText} minLength='2' maxLength='50' autoComplete='organization-title' />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='firstname'>Prénom</label>
-                            <input type='text' name='firstname' id='firstname' className='' value={this.state.firstname} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='given-name' required />
+                            <input type='text' name='firstname' id='firstname' className='' value={this.state.firstname} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='given-name' />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='lastname'>Nom</label>
-                            <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='family-name' required />
+                            <input type='text' name='lastname' id='lastname' className='' value={this.state.lastname} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='family-name' />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='birthdate'>Date de Naissance</label>
-                            <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' autoComplete='bday' required />
+                            <input type='date' name='birthdate' id='birthdate' className='' value={this.state.birthdate} onChange={this.handleChange} min='1900-01-01' max='2006-01-01' autoComplete='bday' />
+                        </div>
+                        <div className='login__form__field'>
+                            <label htmlFor='password'>Mot de passe</label>
+                            <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' />
+                        </div>
+                        <div className='login__form__field'>
+                            <label htmlFor='password'>Confirmez</label>
+                            <input type='password' name='passwordconf' id='passwordconf' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' />
                         </div>
                         <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
                         <button type='button' id='delete-btn' className='submit-btn' onClick={() => deleteProfile(this.props)}>Effacer le profil</button>
