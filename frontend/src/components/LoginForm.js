@@ -2,11 +2,7 @@ import React from 'react';
 import validator from 'validator';
 import { Link } from 'react-router-dom';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
-
-//fonction update du local storage et du tableau des produits
-function storeToLocal(where, what) {
-    localStorage.setItem(where, JSON.stringify(what));
-}
+import { storeToLocal, recupLocal } from './Storage';
 
 //API fetch requete POST pour formulaire
 function loginSubmit(data, props) {
@@ -30,8 +26,8 @@ function loginSubmit(data, props) {
         .then(function (value) {
             const pseudo = value.data.pseudo;
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
-            props.confirmToggle(`Bienvenue ${pseudo}`)
-            //alert(`Bienvenue ${pseudo}`);
+            props.confirmToggle(`Bienvenue ${pseudo}`);
+            //const [userProfil, setUserProfil] = React.useState(value.data);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
@@ -40,6 +36,7 @@ function loginSubmit(data, props) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
+            return userLogged;
             //window.location.reload();
         })
         .catch(function (error) {
@@ -58,6 +55,7 @@ export default class LoginForm extends React.Component {
         this.rejectPassword = this.rejectPassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
 
     rejectMail(e) {
         const name = e.target.name;

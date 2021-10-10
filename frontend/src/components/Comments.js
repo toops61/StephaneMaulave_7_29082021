@@ -4,16 +4,74 @@ import React from 'react';
 import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 //import imgProfil from '../assets/photo_profil.jpg';
 import Footer from './Footer';
+import { storeToLocal, recupLocal } from './Storage';
 
 let user = {};
-let messages = {};
+let messagesFetched = [];
 let userPseudo;
+const userStored = JSON.parse(localStorage.getItem('user'));
+let messagesStored;
+const arrayDom = [];
 
-if (localStorage.user) {
-    user = JSON.parse(localStorage.getItem('user'));
-    messages = localStorage.messages ? JSON.parse(localStorage.getItem('messages')) : null;
-    userPseudo = user.pseudo;
+if (localStorage.messages) {
+    messagesFetched = JSON.parse(localStorage.getItem('messages'));
+} else if (localStorage.user) {
+    fetchMessages();
 }
+
+function fetchMessages() {
+
+    const url = 'http://localhost:4200/commentsPage';
+    //let loginUser = {};
+
+    let request = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userStored.token
+        }
+    };
+
+    fetch(url, request)
+        .then(function (rep) {
+            let recupMessages = rep.json();
+            return recupMessages;
+        })
+        .then(function (value) {
+            messagesFetched = value;
+            storeToLocal('messages', value);
+            return messagesFetched;
+        })
+        .catch(function (error) {
+            console.log('erreur !' + error);
+        })
+}
+
+function BuildComments() {
+
+    messagesFetched.forEach(element => {
+        arrayDom.push(
+            <div key={element.id}>
+                <CommentCard
+                    pseudo='Machin'
+                    title={element.title}
+                    article={element.article}
+                    createdAt={element.createdAt}
+                    user_like='0'
+                    likes={element.likes}
+                />
+            </div>
+        )
+    });
+
+    return (
+        <div>
+            {arrayDom}
+        </div>
+    )
+}
+
+
 
 const CommentCard = props => {
 
@@ -100,6 +158,7 @@ export default class CommentPage extends React.Component {
                         </div>
                         <span onClick={AddClass} tabIndex='0'>{userPseudo}, partagez votre story</span>
                     </div>
+                    <BuildComments />
                     <CommentCard
                         pseudo='Machin'
                         title='Journée à la plage'

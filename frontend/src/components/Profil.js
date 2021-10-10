@@ -2,12 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import validator from 'validator';
+import { storeToLocal, recupLocal } from './Storage';
 
 let userInfos;
-
-function storeToLocal(where, what) {
-    localStorage.setItem(where, JSON.stringify(what));
-}
 
 function profile() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -47,7 +44,7 @@ function profile() {
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {
-    const userStored = JSON.parse(localStorage.getItem('user'));
+    const userStored = recupLocal('user');
     const url = 'http://localhost:4200/user/' + userStored.id;
 
     let request = {
@@ -106,7 +103,7 @@ export default class Profil extends React.Component {
     constructor(props) {
         super(props)
 
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = recupLocal('user');
         this.state = {
             lastname: '',
             firstname: '',

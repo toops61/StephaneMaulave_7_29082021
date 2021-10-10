@@ -3,6 +3,6 @@
 export function storeToLocal(where, what) {
     localStorage.setItem(where, JSON.stringify(what));
 }
-export function recupLocal(what, where) {
-    what = JSON.parse(localStorage.getItem(where));
+export function recupLocal(where) {
+    JSON.parse(localStorage.getItem(where));
 }
