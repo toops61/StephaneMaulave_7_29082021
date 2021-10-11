@@ -55,6 +55,7 @@ function BuildComments() {
                     title={element.title}
                     article={element.article}
                     createdAt={element.createdAt}
+                    author_id={element.USERS_id}
                     user_like='0'
                     likes={element.likes}
                 />
@@ -68,9 +69,12 @@ function BuildComments() {
     )
 }
 
+function AddComment() {
 
+    console.log('ajout commentaire');
+}
 
-const CommentCard = props => {
+function CommentCard(props) {
 
     return (
         <div className='comments__card'>
@@ -89,7 +93,10 @@ const CommentCard = props => {
                 </div>
                 <div className='user-comment'>
                     <div className='user-comment__like' tabIndex='0'>Vous aimez</div>
-                    <div className='user-comment__btn' tabIndex='0'>commentez ici</div>
+                    <div>
+                        {props.author_id === userStored.id ? <button onClick={AddClass} className='user-comment__btn'>modifiez votre publication</button> : null}
+                    </div>
+                    <div className='user-comment__btn' tabIndex='0' onClick={AddComment}>commentez ici</div>
                 </div>
             </div>
         </div>
@@ -175,11 +182,11 @@ class CommentPopup extends React.Component {
                     <form className='message-pop__field__form' onSubmit={this.handleSubmit}>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='title'>Titre</label>
-                            <input type='text' name='title' max='60' value={this.state.title} onChange={this.handleChange} />
+                            <input type='text' name='title' max='60' value={this.state.title} onChange={this.handleChange} required />
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='article'></label>
-                            <textarea name="article" rows="5" cols="33" value={this.state.article} onChange={this.handleChange}></textarea>
+                            <textarea name="article" rows="5" cols="33" value={this.state.article} onChange={this.handleChange} required ></textarea>
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='article'>Ajoutez une pièce jointe</label>
