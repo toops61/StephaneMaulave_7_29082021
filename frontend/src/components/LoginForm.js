@@ -19,11 +19,11 @@ function loginSubmit(data, props) {
     };
 
     fetch(url, request)
-        .then(function (rep) {
+        .then(rep => {
             let userProfil = rep.json();
             return userProfil;
         })
-        .then(function (value) {
+        .then(value => {
             const pseudo = value.data.pseudo;
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
             props.confirmToggle(`Bienvenue ${pseudo}`);
@@ -39,7 +39,7 @@ function loginSubmit(data, props) {
             return userLogged;
             //window.location.reload();
         })
-        .catch(function (error) {
+        .catch(error => {
             console.log('erreur !' + error);
         })
 }

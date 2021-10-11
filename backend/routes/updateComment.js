@@ -6,12 +6,12 @@ const auth = require('../auth/auth')
 
 module.exports = (app) => {
     app.put('/commentPage/:id', auth, (req, res) => {
-        const USERS_id = req.params.id
+        const id = req.params.id
         Message.update(req.body, {
-            where: { USERS_id: USERS_id }
+            where: { id: id }
         })
             .then(_ => {
-                return Message.findOne({ where: { USERS_id: USERS_id } })
+                return Message.findOne({ where: { id: id } })
                     .then(comment => {
                         if (comment === null) {
                             const message = 'Problème de chargement'

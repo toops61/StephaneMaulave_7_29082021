@@ -1,7 +1,7 @@
 const { Message } = require('../db/sequelize')
 const { ValidationError, UniqueConstraintError } = require('sequelize')
 const jwt = require('jsonwebtoken')
-//const auth = require('../auth/auth')
+const auth = require('../auth/auth')
 const multer = require('../middleware/multer-config')
 //const upload = multer({ dest: 'images/' })
 //const fs = require('fs')
@@ -9,7 +9,7 @@ const multer = require('../middleware/multer-config')
 require('dotenv').config()
 
 module.exports = (app) => {
-    app.post('/commentsPage/', multer, (req, res) => {
+    app.post('/commentsPage/', multer, auth, (req, res) => {
         const comment = req.body
         //utilisateur.photoProfil = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         Message.create(comment)

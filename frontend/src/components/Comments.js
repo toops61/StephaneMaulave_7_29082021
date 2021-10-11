@@ -96,12 +96,41 @@ const CommentCard = props => {
     )
 }
 
+//API fetch requete POST pour formulaire
+function commentSubmit(data, props) {
+    const url = 'http://localhost:4200/commentsPage';
+    //const file = document.querySelector('#photoProfil').files[0];
+
+    let request = {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userStored.token
+        }
+    };
+
+    fetch(url, request)
+        .then(rep => {
+            let userComment = rep.json();
+            return userComment;
+        })
+        .then(value => {
+            props.confirmToggle(value.message);
+            messagesFetched.push(value.data);
+            localStorage.setItem('messages', JSON.stringify(messagesFetched));
+        })
+        .catch(error => {
+            console.log('erreur ' + error);
+        })
+}
+
 class CommentPopup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             USERS_id: userStored.id,
-            pseudo: userStored.pseudo,
+            user_pseudo: userStored.pseudo,
             title: '',
             article: '',
             attachment: '',
@@ -109,16 +138,17 @@ class CommentPopup extends React.Component {
             user_comment: '',
             likes: 0
         }
+        this.onChangeHandler = this.onChangeHandler.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit(e) {
         e.preventDefault();
-
-
-        //loginSubmit(data, this.props);
-
+        document.getElementById('user-comment').classList.toggle('appear');
+        const data = this.state;
+        commentSubmit(JSON.stringify(data), this.props);
+        //<Link to="/commentsPage"></Link>
     }
     handleChange(e) {
         const name = e.target.name;
@@ -126,6 +156,10 @@ class CommentPopup extends React.Component {
         this.setState({
             [name]: value
         });
+    }
+
+    onChangeHandler(e) {
+        this.setState({ file: e.target.files[0] })
     }
 
     render() {
@@ -149,11 +183,11 @@ class CommentPopup extends React.Component {
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='article'>Ajoutez une pièce jointe</label>
-                            <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' value={this.state.attachment} onChange={this.handleChange} />
+                            <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' value={this.state.attachment} onChange={this.onChangeHandler} />
                         </div>
                         <div id='image-field'>
-                            <button type='submit' className='submit-btn' onClick={AddClass}>publier</button>
-                            <button type='submit' className='submit-btn' onClick={AddClass}>annuler</button>
+                            <button type='submit' className='submit-btn'>publier</button>
+                            <button type='button' className='submit-btn' onClick={AddClass}>annuler</button>
                         </div>
                     </form>
                 </div>
@@ -161,7 +195,8 @@ class CommentPopup extends React.Component {
         )
     }
 }
-const AddClass = () => {
+const AddClass = (e) => {
+    e.preventDefault();
     document.getElementById('user-comment').classList.toggle('appear');
 }
 
@@ -188,12 +223,11 @@ class ArrowUp extends React.Component {
 
 export default class CommentPage extends React.Component {
 
-
     render() {
         return (
             <main>
                 <ArrowUp />
-                <CommentPopup />
+                <CommentPopup confirmVisible={this.props.confirmVisible} confirmToggle={this.props.confirmToggle} isVisible={this.props.isVisible} alertToggle={this.props.alertToggle} messagealert={this.props.messagealert} setMessagealert={this.props.setMessagealert} />
                 <div className='comments'>
                     <div className='comments__btn'>
                         <div className='profil__photo mini' tabIndex='0'>

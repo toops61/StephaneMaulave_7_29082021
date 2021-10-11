@@ -57,18 +57,18 @@ function updateProfile(data) {
     };
 
     fetch(url, request)
-        .then(function (rep) {
+        .then(rep => {
             let userProfil = rep.json();
             return userProfil;
         })
-        .then(function (value) {
+        .then(value => {
             const pseudo = value.data.pseudo;
             if (pseudo !== userStored.pseudo) {
                 userStored.pseudo = pseudo;
                 storeToLocal('user', userStored);
             }
         })
-        .catch(function (error) {
+        .catch(error => {
             console.log('erreur !' + error);
         })
 }
@@ -198,7 +198,7 @@ export default class Profil extends React.Component {
             }
         };
         if (validArray.length === inputsArray.length && inputsArray[5].value === inputsArray[6].value) {
-            updateProfile(data, this.props);
+            updateProfile(data);
             this.props.confirmToggle('votre profil a été mis à jour');
         };
     }
