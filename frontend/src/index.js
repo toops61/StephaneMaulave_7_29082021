@@ -33,34 +33,38 @@ function Index() {
 
   return (
     <React.StrictMode>
-      <div className={isLoading ? 'loader' : 'loader hidden'}>
-        <Loader />
-      </div>
-      <Router>
-        <Header />
-        <AlertPopup isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
-        <ConfirmPopup confirmVisible={confirmVisible} confirmToggle={confirmToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
-        <Switch>
-          <Route exact path="/">
-            {localStorage.getItem('user') === null ? <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
-          </Route>
-          <Route path="/subscribe">
-            <SubscribeForm isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
-          </Route>
-          <Route path="/commentsPage">
-            {localStorage.getItem('user') === null ? <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
-          </Route>
-          <Route path="/login">
-            <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} history={history} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
-          </Route>
-          <Route path="/logout">
-            <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
-          </Route>
-          <Route path="/profil">
-            {localStorage.getItem('user') === null ? <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} history={history} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Profil isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
-          </Route>
-        </Switch>
-      </Router>
+      {isLoading ?
+        <div className='loader'>
+          <Loader />
+        </div> :
+        <Router>
+          <div className='loader hidden'>
+            <Loader />
+          </div>
+          <Header />
+          <AlertPopup isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+          <ConfirmPopup confirmVisible={confirmVisible} confirmToggle={confirmToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+          <Switch>
+            <Route exact path="/">
+              {localStorage.getItem('user') === null ? <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+            </Route>
+            <Route path="/subscribe">
+              <SubscribeForm isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+            </Route>
+            <Route path="/commentsPage">
+              {localStorage.getItem('user') === null ? <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Comments isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+            </Route>
+            <Route path="/login">
+              <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} history={history} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+            </Route>
+            <Route path="/logout">
+              <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />
+            </Route>
+            <Route path="/profil">
+              {localStorage.getItem('user') === null ? <LoginForm isLoading={isLoading} setIsLoading={setIsLoading} history={history} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} /> : <Profil isLoading={isLoading} setIsLoading={setIsLoading} confirmVisible={confirmVisible} confirmToggle={confirmToggle} isVisible={isVisible} alertToggle={alertToggle} messagealert={messagealert} setMessagealert={setMessagealert} />}
+            </Route>
+          </Switch>
+        </Router>}
     </React.StrictMode>
   )
 }

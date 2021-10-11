@@ -36,6 +36,7 @@ function loginSubmit(data, props) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
+            props.setIsLoading(!props.isLoading);
             return userLogged;
             //window.location.reload();
         })
@@ -85,6 +86,7 @@ export default class LoginForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const data = JSON.stringify(this.state);
+        this.props.setIsLoading(!this.props.isLoading);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {

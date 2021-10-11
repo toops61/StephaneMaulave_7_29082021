@@ -5,7 +5,6 @@ import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 //import imgProfil from '../assets/photo_profil.jpg';
 import Footer from './Footer';
 import { storeToLocal, recupLocal } from './Storage';
-import Loader from './Loader';
 
 let messagesFetched = [];
 const userStored = JSON.parse(localStorage.getItem('user'));
