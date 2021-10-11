@@ -29,7 +29,6 @@ function loginSubmit(data, props) {
             props.confirmToggle(`Bienvenue ${pseudo}`);
             //const [userProfil, setUserProfil] = React.useState(value.data);
             props.setUser(value.data);
-            console.log(props.user);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,

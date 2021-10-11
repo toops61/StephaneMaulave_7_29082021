@@ -21,6 +21,7 @@ function Index() {
   const [messagealert, setMessagealert] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [user, setUser] = React.useState({});
+  const [comments, setComments] = React.useState({});
   let history = useHistory();
 
   function alertToggle(message) {
@@ -37,6 +38,8 @@ function Index() {
     confirmToggle: confirmToggle,
     user: user,
     setUser: setUser,
+    comments: comments,
+    setComments: setComments,
     isLoading: isLoading,
     setIsLoading: setIsLoading,
     isVisible: isVisible,

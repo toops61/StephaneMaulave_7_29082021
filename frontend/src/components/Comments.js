@@ -239,9 +239,9 @@ export default class CommentPage extends React.Component {
                     <div className='comments'>
                         <div className='comments__btn'>
                             <div className='profil__photo mini' tabIndex='0'>
-                                <img src={userStored.photoProfil} alt='profil' />
+                                <img src={this.props.user.photoProfil} alt='profil' />
                             </div>
-                            <span onClick={AddClass} tabIndex='0'>{userStored.pseudo}, partagez votre story</span>
+                            <span onClick={AddClass} tabIndex='0'>{this.props.user.pseudo}, partagez votre story</span>
                         </div>
                         <BuildComments />
                     </div> : null}
