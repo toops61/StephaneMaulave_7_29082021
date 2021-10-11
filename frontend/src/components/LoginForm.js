@@ -28,6 +28,8 @@ function loginSubmit(data, props) {
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
             props.confirmToggle(`Bienvenue ${pseudo}`);
             //const [userProfil, setUserProfil] = React.useState(value.data);
+            props.setUser(value.data);
+            console.log(props.user);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
@@ -36,6 +38,7 @@ function loginSubmit(data, props) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
+            console.log('je stoppe le loader : ' + userLogged);
             props.setIsLoading(!props.isLoading);
             return userLogged;
             //window.location.reload();

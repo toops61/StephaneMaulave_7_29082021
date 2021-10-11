@@ -235,15 +235,16 @@ export default class CommentPage extends React.Component {
             <main>
                 <ArrowUp />
                 <CommentPopup confirmVisible={this.props.confirmVisible} confirmToggle={this.props.confirmToggle} isVisible={this.props.isVisible} alertToggle={this.props.alertToggle} messagealert={this.props.messagealert} setMessagealert={this.props.setMessagealert} />
-                <div className='comments'>
-                    <div className='comments__btn'>
-                        <div className='profil__photo mini' tabIndex='0'>
-                            <img src={userStored.photoProfil} alt='profil' />
+                {messagesFetched !== [] ?
+                    <div className='comments'>
+                        <div className='comments__btn'>
+                            <div className='profil__photo mini' tabIndex='0'>
+                                <img src={userStored.photoProfil} alt='profil' />
+                            </div>
+                            <span onClick={AddClass} tabIndex='0'>{userStored.pseudo}, partagez votre story</span>
                         </div>
-                        <span onClick={AddClass} tabIndex='0'>{userStored.pseudo}, partagez votre story</span>
-                    </div>
-                    <BuildComments />
-                </div>
+                        <BuildComments />
+                    </div> : null}
                 <div>
                     <img src={logo} alt='Groupomania' tabIndex='0' />
                 </div>

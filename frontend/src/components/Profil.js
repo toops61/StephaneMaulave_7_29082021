@@ -103,15 +103,15 @@ export default class Profil extends React.Component {
     constructor(props) {
         super(props)
 
-        const user = JSON.parse(localStorage.getItem('user'));;
+        //const userFetched = JSON.parse(localStorage.getItem('user'));;
         this.state = {
-            lastname: '',
-            firstname: '',
-            pseudo: user.pseudo,
-            birthdate: '',
-            job: '',
+            lastname: this.props.user.lastname,
+            firstname: this.props.user.firstname,
+            pseudo: this.props.user.pseudo,
+            birthdate: this.props.user.birthdate,
+            job: this.props.user.job,
             password: '',
-            photoProfil: user.photoProfil
+            photoProfil: this.props.user.photoProfil
         }
         this.handleChange = this.handleChange.bind(this);
         this.rejectText = this.rejectText.bind(this);
@@ -121,7 +121,7 @@ export default class Profil extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         //profile();
-        //console.log(userInfos);
+        console.log(this.props.user);
         //this.setState({ lastname: userInfos.lastname });
     }
 
