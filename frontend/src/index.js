@@ -6,7 +6,7 @@ import Loader from './components/Loader';
 import Header from './components/Header';
 import LoginForm from './components/LoginForm';
 import SubscribeForm from './components/SubscribeForm';
-import Comments from './components/Comments';
+import CommentPage from './components/Comments';
 import Profil from './components/Profil';
 //import App from './components/App';
 import reportWebVitals from './reportWebVitals';
@@ -36,6 +36,7 @@ function Index() {
   let props = {
     confirmVisible: confirmVisible,
     confirmToggle: confirmToggle,
+    alertToggle: alertToggle,
     user: user,
     setUser: setUser,
     comments: comments,
@@ -43,7 +44,6 @@ function Index() {
     isLoading: isLoading,
     setIsLoading: setIsLoading,
     isVisible: isVisible,
-    alertToggle: alertToggle,
     messagealert: messagealert,
     setMessagealert: setMessagealert
   }
@@ -71,14 +71,14 @@ function Index() {
             setMessagealert={setMessagealert} />
           <Switch>
             <Route exact path="/">
-              {localStorage.getItem('user') === null || user === {} ? <LoginForm {...props} /> : <Comments {...props} />}
+              {localStorage.getItem('user') === null ? <LoginForm {...props} /> : <CommentPage {...props} />}
             </Route>
             <Route path="/subscribe">
               <SubscribeForm {...props} />
             </Route>
             <Route path="/commentsPage">
-              {localStorage.getItem('user') === null || user === {} ?
-                <LoginForm {...props} /> : <Comments {...props} />}
+              {localStorage.getItem('user') === null ?
+                <LoginForm {...props} /> : <CommentPage {...props} />}
             </Route>
             <Route path="/login">
               <LoginForm {...props} />

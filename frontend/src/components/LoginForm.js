@@ -4,11 +4,37 @@ import { Link } from 'react-router-dom';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 import { storeToLocal, recupLocal } from './Storage';
 
-//API fetch requete POST pour formulaire
-function loginSubmit(data, props) {
+//API fetch requete GET pour récupérer les messages
+function fetchMessages(token, props) {
 
+    const url = 'http://localhost:4200/commentsPage';
+
+    let request = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    };
+
+    fetch(url, request)
+        .then(function (rep) {
+            let recupMessages = rep.json();
+            return recupMessages;
+        })
+        .then(function (value) {
+            storeToLocal('messages', value);
+            props.setComments(value);
+            props.setIsLoading(props.isLoading);
+        })
+        .catch(function (error) {
+            console.log('erreur !' + error);
+        })
+}
+
+//API fetch requete POST se connecter et récupérer les données user
+function loginSubmit(data, props) {
     const url = 'http://localhost:4200/login';
-    //let loginUser = {};
 
     let request = {
         method: 'POST',
@@ -36,9 +62,8 @@ function loginSubmit(data, props) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
-            props.setIsLoading(props.isLoading);
+            fetchMessages(value.token, props);
             return (userLogged);
-            //window.location.reload();
         })
         .catch(error => {
             console.log('erreur !' + error);
