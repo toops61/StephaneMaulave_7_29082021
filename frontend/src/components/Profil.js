@@ -62,6 +62,7 @@ function updateProfile(data) {
             return userProfil;
         })
         .then(value => {
+
             const pseudo = value.data.pseudo;
             if (pseudo !== userStored.pseudo) {
                 userStored.pseudo = pseudo;
@@ -198,7 +199,7 @@ export default class Profil extends React.Component {
             }
         };
         if (validArray.length === inputsArray.length && inputsArray[5].value === inputsArray[6].value) {
-            updateProfile(data);
+            updateProfile(data, this.props);
             this.props.confirmToggle('votre profil a été mis à jour');
         };
     }
@@ -241,11 +242,11 @@ export default class Profil extends React.Component {
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='password'>Mot de passe</label>
-                            <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' />
+                            <input type='password' name='password' id='password' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' required />
                         </div>
                         <div className='login__form__field'>
                             <label htmlFor='password'>Confirmez</label>
-                            <input type='password' name='passwordconf' id='passwordconf' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' />
+                            <input type='password' name='passwordconf' id='passwordconf' className='' onChange={this.rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' required />
                         </div>
                         <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
                         <button type='button' id='delete-btn' className='submit-btn' onClick={() => deleteProfile(this.props)}>Effacer le profil</button>
