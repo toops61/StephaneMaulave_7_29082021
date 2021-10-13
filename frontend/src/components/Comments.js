@@ -4,11 +4,8 @@ import React from 'react';
 import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 //import imgProfil from '../assets/photo_profil.jpg';
 import Footer from './Footer';
-import { storeToLocal, recupLocal } from './Storage';
+//import { storeToLocal, recupLocal } from './Storage';
 
-//let messagesFetched = [];
-
-//let messagesStored;
 const arrayDom = [];
 
 /* function fetchMessages(props) {
@@ -65,7 +62,7 @@ class ArrowUp extends React.Component {
 function commentSubmit(data, props) {
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
     const url = 'http://localhost:4200/commentsPage';
-    const messagesFetched = props.Comments;
+    const messagesFetched = props.comments;
     //const file = document.querySelector('#photoProfil').files[0];
 
     let request = {
@@ -99,15 +96,16 @@ function BuildComments(props) {
     messagesFetched.forEach(element => {
         arrayDom.push(
             <div key={element.id}>
-                {/* <CommentCard props={props} /> */}
                 <CommentCard
+                    id={element.id}
                     pseudo={element.user_pseudo}
+                    USERS_id={element.USERS_id}
                     title={element.title}
                     article={element.article}
                     createdAt={element.createdAt}
-                    USERS_id={element.USERS_id}
                     user_like='0'
                     likes={element.likes}
+                    modify={element.USERS_id === props.user.id || props.user.isAdmin ? true : false}
                 />
             </div>
         )
@@ -125,7 +123,7 @@ function AddComment() {
 }
 
 function CommentCard(props) {
-    const userStored = localStorage.user ? JSON.parse(localStorage.getItem('messages')) : null;
+    //const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
 
     return (
         <div className='comments__card'>
@@ -145,7 +143,7 @@ function CommentCard(props) {
                 <div className='user-comment'>
                     <div className='user-comment__like' tabIndex='0'>Vous aimez</div>
                     <div>
-                        {props.USER_id === userStored.id ? <button onClick={AddClass} className='user-comment__btn'>modifiez votre publication</button> : null}
+                        {props.modify ? <button onClick={AddClass} className='user-comment__btn'>modifiez votre publication</button> : null}
                     </div>
                     <div className='user-comment__btn' tabIndex='0' onClick={AddComment}>commentez ici</div>
                 </div>
@@ -159,7 +157,7 @@ class CommentPopup extends React.Component {
         super(props);
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : this.props.user;
         this.state = {
-            USERS_id: this.props.user ? this.props.user.USERS_id : userStored.id,
+            USERS_id: this.props.user ? this.props.user.id : userStored.id,
             user_pseudo: this.props.user ? this.props.user.pseudo : userStored.pseudo,
             title: '',
             article: '',

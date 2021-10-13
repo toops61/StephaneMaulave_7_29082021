@@ -121,9 +121,6 @@ export default class Profil extends React.Component {
         this.rejectPassword = this.rejectPassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        //profile();
-        console.log(this.props.user);
-        //this.setState({ lastname: userInfos.lastname });
     }
 
     handleChange(e) {
