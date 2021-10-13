@@ -133,6 +133,7 @@ function CommentCard(props) {
     function AddLike() {
         setLike(!like);
         like ? setLikes(likes - 1) : setLikes(likes + 1);
+
     }
 
     return (
@@ -151,7 +152,7 @@ function CommentCard(props) {
                     <div className='users__likes' tabIndex='0'>{likes}</div>
                 </div>
                 <div className='user-comment'>
-                    <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => AddLike(props)}>Vous aimez</div>
+                    <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => AddLike(props)}>{like ? 'Vous aimez' : 'Aimer ?'}</div>
                     <div>
                         {props.modify ? <button onClick={AddClass} className='user-comment__btn'>modifiez votre publication</button> : null}
                     </div>
