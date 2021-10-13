@@ -92,6 +92,7 @@ function commentSubmit(data, props) {
 function BuildComments(props) {
     arrayDom.length = 0;
     const messagesFetched = props.comments;
+
     if (!messagesFetched) { return props.setIsLoading(!props.isLoading) }
     messagesFetched.forEach(element => {
         arrayDom.push(
@@ -103,7 +104,7 @@ function BuildComments(props) {
                     title={element.title}
                     article={element.article}
                     createdAt={element.createdAt}
-                    user_like='0'
+                    user_like={element.user_like}
                     likes={element.likes}
                     modify={element.USERS_id === props.user.id || props.user.isAdmin ? true : false}
                 />
@@ -122,8 +123,15 @@ function AddComment() {
     console.log('ajout commentaire');
 }
 
+
+
 function CommentCard(props) {
     //const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
+    const [like, setLike] = React.useState(props.user_like);
+
+    function AddLike() {
+        setLike(!like);
+    }
 
     return (
         <div className='comments__card'>
@@ -141,7 +149,7 @@ function CommentCard(props) {
                     <div className='users__likes' tabIndex='0'>{props.likes}</div>
                 </div>
                 <div className='user-comment'>
-                    <div className='user-comment__like' tabIndex='0'>Vous aimez</div>
+                    <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={AddLike}>Vous aimez</div>
                     <div>
                         {props.modify ? <button onClick={AddClass} className='user-comment__btn'>modifiez votre publication</button> : null}
                     </div>

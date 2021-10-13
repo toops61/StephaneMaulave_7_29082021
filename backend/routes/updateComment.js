@@ -3,7 +3,6 @@ const { ValidationError, UniqueConstraintError } = require('sequelize')
 const auth = require('../auth/auth')
 //const multer = require('../middleware/multer-config')
 
-
 module.exports = (app) => {
     app.put('/commentPage/:id', auth, (req, res) => {
         const id = req.params.id

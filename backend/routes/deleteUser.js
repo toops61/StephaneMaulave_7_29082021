@@ -10,7 +10,6 @@ module.exports = (app) => {
                     return res.status(404).json({ message })
                 }
                 const userDeleted = user;
-                //console.log(userDeleted)
                 return User.destroy({
                     where: { id: user.id }
                 })

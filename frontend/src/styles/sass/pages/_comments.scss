@@ -79,7 +79,16 @@
         }
         &:hover {
             transform: scale(1.8);
-        }        
+        }
+        &__true {
+            @extend .user-comment__like;
+            &::before {
+            @include icon('\f164', 1.7rem);
+            color: rgb(32, 180, 99);
+            margin: .5rem .5rem .5rem 0;
+            text-shadow: 0px 0px 4px black;
+            }
+        }       
     }
     &__btn {
         @extend .comments__btn;
