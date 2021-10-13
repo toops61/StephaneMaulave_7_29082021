@@ -149,6 +149,10 @@ function CommentCard(props) {
                 <div className='publication-photo'>photo publication</div>
                 <p tabIndex='0'>{props.article}</p>
                 <div>
+                    <h2 tabIndex='0'>commentaires : </h2>
+                    <p tabIndex='0'></p>
+                </div>
+                <div>
                     <div className='users__likes' tabIndex='0'>{likes}</div>
                 </div>
                 <div className='user-comment'>

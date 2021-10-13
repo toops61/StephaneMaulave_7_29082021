@@ -5,7 +5,7 @@ const MessageModel = require('../models/comment');
 require('dotenv').config();
 
 const sequelize = new Sequelize(
-    'Projet7',
+    process.env.DB_NAME,
     process.env.DB_USER,
     process.env.DB_PASS,
     {
