@@ -128,9 +128,11 @@ function AddComment() {
 function CommentCard(props) {
     //const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
     const [like, setLike] = React.useState(props.user_like);
+    const [likes, setLikes] = React.useState(props.likes);
 
     function AddLike() {
         setLike(!like);
+        like ? setLikes(likes - 1) : setLikes(likes + 1);
     }
 
     return (
@@ -146,10 +148,10 @@ function CommentCard(props) {
                 <div className='publication-photo'>photo publication</div>
                 <p tabIndex='0'>{props.article}</p>
                 <div>
-                    <div className='users__likes' tabIndex='0'>{props.likes}</div>
+                    <div className='users__likes' tabIndex='0'>{likes}</div>
                 </div>
                 <div className='user-comment'>
-                    <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={AddLike}>Vous aimez</div>
+                    <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => AddLike(props)}>Vous aimez</div>
                     <div>
                         {props.modify ? <button onClick={AddClass} className='user-comment__btn'>modifiez votre publication</button> : null}
                     </div>
