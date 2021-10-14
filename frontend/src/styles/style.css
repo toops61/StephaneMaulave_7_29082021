@@ -44,7 +44,7 @@ main {
   background-color: white;
   border-radius: 30px;
   width: 80%;
-  max-width: 50rem;
+  max-width: 70rem;
   margin: 1rem auto;
 }
 main img {
@@ -133,7 +133,7 @@ a {
   line-height: 1;
 }
 
-.message-pop {
+.message-pop, .userComment-popup {
   display: none;
   position: fixed;
   width: 100%;
@@ -143,7 +143,7 @@ a {
   z-index: 100;
   background-color: rgba(0, 130, 91, 0.7);
 }
-.message-pop__field {
+.message-pop__field, .userComment-popup__field {
   background-color: white;
   margin: 3% auto;
   width: 80%;
@@ -156,11 +156,11 @@ a {
   border: solid black;
 }
 @media screen and (max-width: 400px) {
-  .message-pop__field {
+  .message-pop__field, .userComment-popup__field {
     width: 90%;
   }
 }
-.message-pop__field div {
+.message-pop__field div, .userComment-popup__field div {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -726,6 +726,9 @@ a {
   border-top: solid #eb678f;
 }
 .comments__card__profil {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   width: 85%;
   background-color: white;
   border-radius: 30px;
@@ -764,15 +767,27 @@ a {
   margin-top: 0;
   background-color: white;
 }
+.comments__card__field__answer {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.comments__card__field__answer p {
+  width: 60%;
+}
+.comments__card__field__answer h4 {
+  margin: 0 1rem;
+}
 
 .user-comment {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   width: 100%;
 }
 .user-comment__like, .user-comment__like__true {
-  width: 3rem;
-  height: 3 rem;
   margin: 0 0 0.5rem 2rem;
   display: flex;
   justify-content: center;
@@ -816,9 +831,7 @@ a {
 }
 
 .users__likes {
-  width: 3rem;
-  height: 3 rem;
-  margin: 0 0 0.5rem 1rem;
+  margin: 0 0 1rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -833,7 +846,7 @@ a {
   text-rendering: auto;
   line-height: 1;
   color: #eb678f;
-  margin: 0.5rem 0.5rem 0.5rem 0;
+  margin: 0.5rem 0.5rem 0.5rem 1rem;
   text-shadow: 0px 0px 4px black;
 }
 

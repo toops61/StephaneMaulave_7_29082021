@@ -104,6 +104,7 @@ function BuildComments(props) {
                     title={element.title}
                     article={element.article}
                     createdAt={element.createdAt}
+                    user_comment={element.user_comment}
                     user_like={element.user_like}
                     likes={element.likes}
                     modify={element.USERS_id === props.user.id || props.user.isAdmin ? true : false}
@@ -118,26 +119,44 @@ function BuildComments(props) {
     )
 }
 
-function AddComment() {
-
-    console.log('ajout commentaire');
-}
-
-
-
 function CommentCard(props) {
     //const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
     const [like, setLike] = React.useState(props.user_like);
     const [likes, setLikes] = React.useState(props.likes);
+    const [commentVisible, setCommentVisible] = React.useState(false);
+    const [userComment, setUserComment] = React.useState('');
 
     function AddLike() {
         setLike(!like);
         like ? setLikes(likes - 1) : setLikes(likes + 1);
+    }
 
+    function AddUserComment(e) {
+        e.preventDefault();
+        setCommentVisible(!commentVisible);
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        //document.getElementById('user-comment').classList.toggle('appear');
+        const data = e.target[0].value;
+        setCommentVisible(!commentVisible);
+        setUserComment(userComment + ' ' + data);
+        //commentSubmit(JSON.stringify(data), this.props);
     }
 
     return (
         <div className='comments__card'>
+            <div className={commentVisible ? 'userComment-popup appear' : 'userComment-popup'}>
+                <form className='userComment-popup__field' onSubmit={handleSubmit}>
+                    <div>
+                        <label htmlFor='userComment'></label>
+                        <textarea rows="5" cols="33" required></textarea>
+                    </div>
+                    <button type='submit' className='submit-btn'>publier</button>
+                    <button type='submit' className='submit-btn' onClick={AddUserComment}>annuler</button>
+                </form>
+            </div>
             <div className='comments__card__profil'>
                 <div>
                     <h3 tabIndex='0'>{props.pseudo}</h3>
@@ -148,19 +167,21 @@ function CommentCard(props) {
             <div className='comments__card__field'>
                 <div className='publication-photo'>photo publication</div>
                 <p tabIndex='0'>{props.article}</p>
-                <div>
-                    <h2 tabIndex='0'>commentaires : </h2>
-                    <p tabIndex='0'></p>
-                </div>
-                <div>
-                    <div className='users__likes' tabIndex='0'>{likes}</div>
+                <div className='comments__card__field__answer'>
+                    <h4 tabIndex='0'>commentaires: </h4>
+                    <p tabIndex='0'>{userComment}</p>
+                    <div>
+                        <div className='users__likes' tabIndex='0'>
+                            <span>{likes}</span>
+                        </div>
+                    </div>
                 </div>
                 <div className='user-comment'>
                     <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => AddLike(props)}>{like ? 'Vous aimez' : 'Aimer ?'}</div>
                     <div>
                         {props.modify ? <button onClick={AddClass} className='user-comment__btn'>modifiez votre publication</button> : null}
                     </div>
-                    <div className='user-comment__btn' tabIndex='0' onClick={AddComment}>commentez ici</div>
+                    <button type='button' className='user-comment__btn' tabIndex='0' onClick={AddUserComment}>commentez ici</button>
                 </div>
             </div>
         </div>
@@ -221,7 +242,7 @@ class CommentPopup extends React.Component {
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='article'></label>
-                            <textarea name="article" rows="5" cols="33" value={this.state.article} onChange={this.handleChange} required ></textarea>
+                            <textarea name="article" rows="5" cols="33" value={this.state.article} onChange={this.handleChange} required></textarea>
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='file'>Ajoutez une pièce jointe</label>

@@ -118,6 +118,13 @@
     @include flexCenter;
 }
 
+.userComment-popup {
+    @extend .message-pop;
+    &__field {
+        @extend .message-pop__field;
+    }
+}
+
 .appear {
     display: block;
 }

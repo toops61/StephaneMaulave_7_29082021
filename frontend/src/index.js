@@ -71,13 +71,13 @@ function Index() {
             setMessagealert={setMessagealert} />
           <Switch>
             <Route exact path="/">
-              {localStorage.getItem('user') === null ? <LoginForm {...props} /> : <CommentPage {...props} />}
+              {localStorage.getItem('user') === null || user === {} ? <LoginForm {...props} /> : <CommentPage {...props} />}
             </Route>
             <Route path="/subscribe">
               <SubscribeForm {...props} />
             </Route>
             <Route path="/commentsPage">
-              {localStorage.getItem('user') === null ?
+              {localStorage.getItem('user') === null || user === {} ?
                 <LoginForm {...props} /> : <CommentPage {...props} />}
             </Route>
             <Route path="/login">

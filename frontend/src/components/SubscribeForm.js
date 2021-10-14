@@ -2,14 +2,10 @@ import React from "react";
 /* import { render } from "react-dom"; */
 import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
+import { storeToLocal, recupLocal } from './Storage';
 //import axios from 'axios';
 //import { Link } from "react-router-dom";
 //import alertPopup from './AlertPopup';
-
-//fonction update du local storage et du tableau des produits
-function storeToLocal(where, what) {
-    localStorage.setItem(where, JSON.stringify(what));
-}
 
 /* function previewFile() {
     const file = document.querySelector('#photoProfil').files[0];
@@ -19,6 +15,34 @@ function storeToLocal(where, what) {
     }
     console.log(reader.result)
 } */
+
+//API fetch requete GET pour récupérer les messages
+function fetchMessages(token, props) {
+
+    const url = 'http://localhost:4200/commentsPage';
+
+    let request = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    };
+
+    fetch(url, request)
+        .then(function (rep) {
+            let recupMessages = rep.json();
+            return recupMessages;
+        })
+        .then(function (value) {
+            storeToLocal('messages', value);
+            props.setComments(value);
+            props.setIsLoading(props.isLoading);
+        })
+        .catch(function (error) {
+            console.log('erreur !' + error);
+        })
+}
 
 //API fetch requete POST pour formulaire
 function subscribeSubmit(data, props) {
@@ -44,6 +68,7 @@ function subscribeSubmit(data, props) {
             const pseudo = value.data.pseudo;
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
             pseudo === undefined ? props.alertToggle(`il y a eu une erreur, le mail ou le pseudo existe déjà : ${value.message}`) : props.confirmToggle(`Bienvenue ${pseudo}`);
+            props.setUser(value.data);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
@@ -52,7 +77,8 @@ function subscribeSubmit(data, props) {
                 token: value.token
             }
             storeToLocal('user', userLogged);
-            //window.location.reload();
+            fetchMessages(value.token, props);
+            return (userLogged);
         })
         .catch(error => {
             console.log('erreur ' + error);
@@ -160,8 +186,8 @@ export default class SubscribeForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const data = this.state;
-
+        const data = JSON.stringify(this.state);
+        this.props.setIsLoading(!this.props.isLoading);
         //data.append(this.state);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
@@ -174,7 +200,7 @@ export default class SubscribeForm extends React.Component {
             }
         };
         if (validArray.length === inputsArray.length && inputsArray[6].value === inputsArray[7].value) {
-            subscribeSubmit(JSON.stringify(data), this.props);
+            subscribeSubmit(data, this.props);
             //<Link to="/commentsPage"></Link>
         }
     }
