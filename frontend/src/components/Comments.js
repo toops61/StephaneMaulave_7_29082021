@@ -137,7 +137,7 @@ function CommentCard(props) {
                 <div className='user-comment'>
                     <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => AddLike(props)}>{like ? 'Vous aimez' : 'Aimer ?'}</div>
                     <div>
-                        {props.modify ? <button onClick={AddClass} className='user-comment__btn'>modifiez votre publication</button> : null}
+                        {props.modify ? <button className='user-comment__btn'>modifiez votre publication</button> : null}
                     </div>
                     <button type='button' className='user-comment__btn' tabIndex='0' onClick={AddUserComment}>commentez ici</button>
                 </div>
@@ -146,7 +146,7 @@ function CommentCard(props) {
     )
 }
 
-class CommentPopup extends React.Component {
+class ArticlePopup extends React.Component {
     constructor(props) {
         super(props);
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : this.props.user;
@@ -167,7 +167,7 @@ class CommentPopup extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        document.getmessageById('user-comment').classList.toggle('appear');
+        this.props.setArticleVisible(!this.props.articleVisible);
         const data = this.state;
         commentSubmit(JSON.stringify(data), this.props);
     }
@@ -185,7 +185,7 @@ class CommentPopup extends React.Component {
 
     render() {
         return (
-            <div className='message-pop' id='user-comment'>
+            <div className={this.props.articleVisible ? 'message-pop appear' : 'message-pop'} id='user-comment'>
                 <div className='message-pop__field'>
                     <div>
                         <div className='profil__photo'>
@@ -208,7 +208,7 @@ class CommentPopup extends React.Component {
                         </div>
                         <div id='image-field'>
                             <button type='submit' className='submit-btn'>publier</button>
-                            <button type='button' className='submit-btn' onClick={AddClass}>annuler</button>
+                            <button type='button' className='submit-btn' onClick={() => openArticlePopup(this.props)}>annuler</button>
                         </div>
                     </form>
                 </div>
@@ -216,28 +216,22 @@ class CommentPopup extends React.Component {
         )
     }
 }
-const AddClass = (e) => {
-    e.preventDefault();
-    document.getmessageById('user-comment').classList.toggle('appear');
+
+function openArticlePopup(props) {
+    props.setArticleVisible(!props.articleVisible);
 }
 
 export default class CommentPage extends React.Component {
-    /* constructor(props) {
-        super(props);
-        if (this.props.comments !== {}) {
-            const messagesFetched = this.props.comments;
-        }
-    } */
+
     componentDidMount() {
         window.addEventListener('scroll', this.props.arrowToggle);
     }
 
     render() {
-
         return (
             this.props.comments ?
                 <main>
-                    <CommentPopup
+                    <ArticlePopup
                         confirmVisible={this.props.confirmVisible}
                         confirmToggle={this.props.confirmToggle}
                         alertToggle={this.props.alertToggle}
@@ -250,6 +244,8 @@ export default class CommentPage extends React.Component {
                         isVisible={this.props.isVisible}
                         messagealert={this.props.messagealert}
                         setMessagealert={this.props.setMessagealert}
+                        articleVisible={this.props.articleVisible}
+                        setArticleVisible={this.props.setArticleVisible}
                     />
 
                     <div className='comments'>
@@ -257,7 +253,7 @@ export default class CommentPage extends React.Component {
                             <div className='profil__photo mini' tabIndex='0'>
                                 <img src={this.props.user.photoProfil} alt='profil' />
                             </div>
-                            <span onClick={AddClass} tabIndex='0'>{this.props.user.pseudo}, partagez votre story</span>
+                            <span onClick={() => openArticlePopup(this.props)} tabIndex='0'>{this.props.user.pseudo}, partagez votre story</span>
                         </div>
                         <BuildComments
                             confirmVisible={this.props.confirmVisible}
@@ -272,6 +268,8 @@ export default class CommentPage extends React.Component {
                             isVisible={this.props.isVisible}
                             messagealert={this.props.messagealert}
                             setMessagealert={this.props.setMessagealert}
+                            articleVisible={this.props.articleVisible}
+                            setArticleVisible={this.props.setArticleVisible}
                         />
                     </div>
                     <div>

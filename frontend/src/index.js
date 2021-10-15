@@ -23,6 +23,7 @@ function Index() {
   const [user, setUser] = React.useState({});
   const [comments, setComments] = React.useState({});
   const [arrowVisible, setArrowVisible] = React.useState(false);
+  const [articleVisible, setArticleVisible] = React.useState(false);
 
   let history = useHistory();
 
@@ -77,7 +78,9 @@ function Index() {
     messagealert: messagealert,
     setMessagealert: setMessagealert,
     arrowVisible: arrowVisible,
-    setArrowVisible: setArrowVisible
+    setArrowVisible: setArrowVisible,
+    articleVisible: articleVisible,
+    setArticleVisible: setArticleVisible
   }
 
   return (
