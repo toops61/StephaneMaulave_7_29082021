@@ -83,6 +83,9 @@ function CommentCard(props) {
     const [likes, setLikes] = React.useState(props.likes);
     const [commentVisible, setCommentVisible] = React.useState(false);
     const [userComment, setUserComment] = React.useState('');
+    const [title, setTitle] = React.useState(props.title);
+    const [article, setArticle] = React.useState(props.article);
+    const [articleIsvisible, setArticleIsvisible] = React.useState(false);
 
     function AddLike() {
         setLike(!like);
@@ -103,8 +106,14 @@ function CommentCard(props) {
         //commentSubmit(JSON.stringify(data), this.props);
     }
 
+    function modifyArticle(props) {
+        setArticleIsvisible(!articleIsvisible);
+
+    }
+
     return (
         <div className='comments__card'>
+            <div></div>
             <div className={commentVisible ? 'userComment-popup appear' : 'userComment-popup'}>
                 <form className='userComment-popup__field' onSubmit={handleSubmit}>
                     <div>
@@ -137,7 +146,7 @@ function CommentCard(props) {
                 <div className='user-comment'>
                     <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => AddLike(props)}>{like ? 'Vous aimez' : 'Aimer ?'}</div>
                     <div>
-                        {props.modify ? <button className='user-comment__btn'>modifiez votre publication</button> : null}
+                        {props.modify ? <button className='user-comment__btn' onClick={() => modifyArticle(props)}>modifiez votre publication</button> : null}
                     </div>
                     <button type='button' className='user-comment__btn' tabIndex='0' onClick={AddUserComment}>commentez ici</button>
                 </div>
