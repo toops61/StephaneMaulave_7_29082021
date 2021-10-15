@@ -22,6 +22,8 @@ function Index() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [user, setUser] = React.useState({});
   const [comments, setComments] = React.useState({});
+  const [arrowVisible, setArrowVisible] = React.useState(false);
+
   let history = useHistory();
 
   function alertToggle(message) {
@@ -33,10 +35,38 @@ function Index() {
     setMessagealert(message);
   }
 
+  function windowup() {
+    setArrowVisible(!arrowVisible);
+    window.scroll(0, 0);
+  }
+
+  function arrowToggle() {
+    if (window.scrollY > 135 && !arrowVisible) {
+      setArrowVisible(!arrowVisible);
+    } else if (window.scrollY < 135 && arrowVisible) {
+      setArrowVisible(!arrowVisible);
+    }
+  }
+
+  /* window.onscroll = () => {
+    if (window.location.pathname === '/commentsPage') {
+        window.scrollY > 135 ?
+            document.getmessageById('arrow-up').classList.add('appears') : document.getmessageById('arrow-up').classList.remove('appears')
+    } */
+
+  function ArrowUp() {
+    return (
+      <div id='arrow-up' tabIndex='0' className={arrowVisible ? 'arrow-up appear' : 'arrow-up'} onClick={windowup}>
+        <div></div>
+      </div>
+    )
+  }
+
   let props = {
     confirmVisible: confirmVisible,
     confirmToggle: confirmToggle,
     alertToggle: alertToggle,
+    arrowToggle: arrowToggle,
     user: user,
     setUser: setUser,
     comments: comments,
@@ -45,7 +75,9 @@ function Index() {
     setIsLoading: setIsLoading,
     isVisible: isVisible,
     messagealert: messagealert,
-    setMessagealert: setMessagealert
+    setMessagealert: setMessagealert,
+    arrowVisible: arrowVisible,
+    setArrowVisible: setArrowVisible
   }
 
   return (
@@ -58,6 +90,7 @@ function Index() {
           <div className='loader hidden'>
             <Loader />
           </div>
+          <ArrowUp arrowVisible={arrowVisible} setArrowVisible={setArrowVisible} />
           <Header />
           <AlertPopup
             isVisible={isVisible}
