@@ -9,7 +9,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     USERS_id: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'User',
+        key: 'id',
+        as: 'USERS_id'
+      }
     },
     user_pseudo: {
       allowNull: false,
