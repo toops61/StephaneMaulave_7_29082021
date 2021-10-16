@@ -23,12 +23,13 @@ function fetchMessages(token, props) {
             return recupMessages;
         })
         .then(function (value) {
-            //storeToLocal('messages', value);
             props.setComments(value);
             props.setIsLoading(props.isLoading);
         })
         .catch(function (error) {
-            console.log('erreur !' + error);
+            props.setIsLoading(props.isLoading);
+            props.alertToggle('Vous n\'avez pas correctement rempli les champs');
+            console.log('erreur ! ' + error);
         })
 }
 
@@ -66,7 +67,9 @@ function loginSubmit(data, props) {
             return (userLogged);
         })
         .catch(error => {
-            console.log('erreur !' + error);
+            props.setIsLoading(props.isLoading);
+            props.alertToggle('Vous n\'avez pas correctement rempli les champs');
+            console.log('erreur ! ' + error);
         })
 }
 
