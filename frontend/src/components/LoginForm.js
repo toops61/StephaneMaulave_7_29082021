@@ -23,7 +23,7 @@ function fetchMessages(token, props) {
             return recupMessages;
         })
         .then(function (value) {
-            storeToLocal('messages', value);
+            //storeToLocal('messages', value);
             props.setComments(value);
             props.setIsLoading(props.isLoading);
         })

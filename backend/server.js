@@ -1,19 +1,3 @@
-/* const express = require('express');
-const server = express();
-
-server.use(express.urlencoded({ extended: true }));
-server.use(express.json());
-
-server.get('/', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).send('<h1>Bonjour, bienvenue dans le serveur</h1>');
-});
-
-server.use('/api/', apiRouter);
-
-server.listen(8080, () => {
-    console.log('Server en écoute');
-}); */
 const http = require('http');
 const app = require('./app');
 

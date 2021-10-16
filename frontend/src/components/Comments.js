@@ -29,7 +29,7 @@ import Footer from './Footer';
 function commentSubmit(data, props) {
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
     const url = 'http://localhost:4200/commentsPage';
-    const messagesFetched = props.comments;
+    const messagesFetched = props.comments ? props.comments : [];
     //const file = document.querySelector('#photoProfil').files[0];
 
     let request = {
@@ -49,7 +49,7 @@ function commentSubmit(data, props) {
         .then(value => {
             props.confirmToggle(value.message);
             messagesFetched.push(value.data);
-            localStorage.setItem('messages', JSON.stringify(messagesFetched));
+            //localStorage.setItem('messages', JSON.stringify(messagesFetched));
         })
         .catch(error => {
             console.log('erreur ' + error);
@@ -57,19 +57,20 @@ function commentSubmit(data, props) {
 }
 
 function BuildComments(props) {
-    const messagesFetched = props.comments;
+    const messagesFetched = props.comments ? props.comments : [];
 
-    if (!messagesFetched) { return props.setIsLoading(!props.isLoading) }
-    const arrayDom = messagesFetched.map(message => {
-        return (
-            <div key={message.id}>
-                <CommentCard {...message}
-                    pseudo={message.user_pseudo}
-                    modify={message.USERS_id === props.user.id || props.user.isAdmin ? true : false}
-                />
-            </div>
-        )
-    });
+    if (messagesFetched.length > 0) {
+        var arrayDom = messagesFetched.map(message => {
+            return (
+                <div key={message.id}>
+                    <CommentCard {...message}
+                        pseudo={message.user_pseudo}
+                        modify={message.USERS_id === props.user.id || props.user.isAdmin ? true : false}
+                    />
+                </div>
+            )
+        });
+    }
     return (
         <div>
             {arrayDom}
