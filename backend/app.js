@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 //const sequelize = require('./db/sequelize')
 const commentsRoute = require('./routes/comments');
+const usersRoute = require('./routes/users');
 dotenv.config();
 
 //const path = require('path');
@@ -21,17 +22,19 @@ app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-require('./routes/subscribe')(app)
-require('./routes/login')(app)
-require('./routes/deleteUser')(app)
-require('./routes/userProfile')(app)
-require('./routes/updateProfile')(app)
+//require('./routes/subscribe')(app)
+//require('./routes/login')(app)
+//require('./routes/deleteUser')(app)
+//require('./routes/userProfile')(app)
+//require('./routes/updateProfile')(app)
 //require('./routes/commentsPage')(app)
 //require('./routes/comment')(app)
 //require('./routes/updateComment')(app)
 
 //app.use('/api/auth', userRoutes);
 app.use('/commentsPage', commentsRoute);
+app.use('/', usersRoute);
+
 //sequelize.initDb()
 
 module.exports = app;
