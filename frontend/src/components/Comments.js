@@ -233,10 +233,6 @@ function openArticlePopup(props) {
 
 export default class CommentPage extends React.Component {
 
-    componentDidMount() {
-        window.addEventListener('scroll', this.props.arrowToggle);
-    }
-
     render() {
         return (
             this.props.comments ?

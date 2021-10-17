@@ -42,18 +42,12 @@ function Index() {
   }
 
   function arrowToggle() {
-    if (window.scrollY > 135 && !arrowVisible) {
+    if (window.scrollY > 350 && !arrowVisible) {
       setArrowVisible(!arrowVisible);
-    } else if (window.scrollY < 135 && arrowVisible) {
+    } else if (window.scrollY < 350 && arrowVisible) {
       setArrowVisible(!arrowVisible);
     }
   }
-
-  /* window.onscroll = () => {
-    if (window.location.pathname === '/commentsPage') {
-        window.scrollY > 135 ?
-            document.getmessageById('arrow-up').classList.add('appears') : document.getmessageById('arrow-up').classList.remove('appears')
-    } */
 
   function ArrowUp() {
     return (
@@ -82,6 +76,10 @@ function Index() {
     articleVisible: articleVisible,
     setArticleVisible: setArticleVisible
   }
+
+
+  window.addEventListener('scroll', arrowToggle);
+
 
   return (
     <React.StrictMode>
