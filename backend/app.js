@@ -3,7 +3,7 @@ const app = express();
 const dotenv = require('dotenv');
 const path = require('path');
 //const sequelize = require('./db/sequelize')
-
+const commentsRoute = require('./routes/comments');
 dotenv.config();
 
 //const path = require('path');
@@ -26,12 +26,13 @@ require('./routes/login')(app)
 require('./routes/deleteUser')(app)
 require('./routes/userProfile')(app)
 require('./routes/updateProfile')(app)
-require('./routes/commentsPage')(app)
-require('./routes/comment')(app)
-require('./routes/updateComment')(app)
+//require('./routes/commentsPage')(app)
+//require('./routes/comment')(app)
+//require('./routes/updateComment')(app)
 
 //app.use('/api/auth', userRoutes);
-
+app.use('/commentsPage', commentsRoute);
+app.use('/commentsPage', commentsRoute);
 //sequelize.initDb()
 
 module.exports = app;
