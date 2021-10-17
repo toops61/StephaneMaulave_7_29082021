@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const UserModel = require('../models/models');
-const MessageModel = require('../models/models');
+const UserModel = require('../models/user');
+const MessageModel = require('../models/comment');
 const DIALECTS = ['mysql'];
 require('dotenv').config();
 

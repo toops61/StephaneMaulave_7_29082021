@@ -1,10 +1,57 @@
 module.exports = (sequelize, DataTypes) => {
+  return sequelize.define('Message', {
+    id: {
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+      unique: true
+    },
+    USERS_id: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    title: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    article: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    attachment: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    user_like: {
+      allowNull: true,
+      type: DataTypes.BOOLEAN
+    },
+    user_comment: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    likes: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
+  })
+}
+
+/* module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
     id: {
       allowNull: false,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
-      //autoIncrement: true,
       primaryKey: true
     },
     USERS_id: {
@@ -17,10 +64,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'USERS_id'
       }
     },
-    /* user_pseudo: {
-      allowNull: false,
-      type: DataTypes.STRING
-    }, */
     title: {
       allowNull: false,
       type: DataTypes.STRING
@@ -56,4 +99,4 @@ module.exports = (sequelize, DataTypes) => {
   })
   Message.sync();
   return Message;
-}
+} */
