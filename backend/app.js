@@ -32,7 +32,6 @@ require('./routes/updateProfile')(app)
 
 //app.use('/api/auth', userRoutes);
 app.use('/commentsPage', commentsRoute);
-app.use('/commentsPage', commentsRoute);
 //sequelize.initDb()
 
 module.exports = app;
