@@ -1,5 +1,3 @@
-//const { User, Message } = require("../db/sequelize")
-
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Message', {
         id: {
@@ -106,7 +104,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     })
 }
-User.hasMany(Message, {
+/* User.hasMany(Message, {
     as: 'messages',
     hooks: true,
     onDelete: 'cascade',
@@ -117,4 +115,4 @@ Message.belongsTo(User, {
     as: 'user',
     foreignKey: 'USERS_id',
     targetKey: 'id'
-});
+}); */

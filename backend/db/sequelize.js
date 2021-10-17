@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const UserModel = require('../models/user');
-const MessageModel = require('../models/comment');
+const UserModel = require('../models/models');
+const MessageModel = require('../models/models');
 const DIALECTS = ['mysql'];
 require('dotenv').config();
 
@@ -26,15 +26,18 @@ const sequelize = new Sequelize(
 const Message = MessageModel(sequelize, DataTypes);
 const User = UserModel(sequelize, DataTypes);
 
-/* User.hasMany(Message, {
-    onDelete: "cascade",
+User.hasMany(Message, {
+    as: 'messages',
     hooks: true,
-    foreignKey: {
-        name: "USERS_id",
-        allowNull: false,
-    }
-}); */
-//Message.belongsTo(User);
+    onDelete: 'cascade',
+    sourceKey: 'id',
+    foreignKey: 'USERS_id'
+});
+Message.belongsTo(User, {
+    as: 'user',
+    foreignKey: 'USERS_id',
+    targetKey: 'id'
+});
 
 module.exports = {
     User, Message

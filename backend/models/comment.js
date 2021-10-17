@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'USERS_id'
       }
     },
-    user_pseudo: {
+    /* user_pseudo: {
       allowNull: false,
       type: DataTypes.STRING
-    },
+    }, */
     title: {
       allowNull: false,
       type: DataTypes.STRING
