@@ -26,14 +26,14 @@ const sequelize = new Sequelize(
 const Message = MessageModel(sequelize, DataTypes);
 const User = UserModel(sequelize, DataTypes);
 
-User.hasMany(Message, {
+/* User.hasMany(Message, {
     onDelete: "cascade",
     hooks: true,
     foreignKey: {
         name: "USERS_id",
         allowNull: false,
     }
-});
+}); */
 //Message.belongsTo(User);
 
 module.exports = {
