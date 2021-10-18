@@ -4,27 +4,6 @@ import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 import Footer from './Footer';
 //import { storeToLocal, recupLocal } from './Storage';
 
-/* window.onscroll = () => {
-    if (window.location.pathname === '/commentsPage') {
-        window.scrollY > 135 ?
-            document.getmessageById('arrow-up').classList.add('appears') : document.getmessageById('arrow-up').classList.remove('appears')
-    }
-} */
-
-/* class ArrowUp extends React.Component {
-    arrowUp() {
-        window.scroll(0, 0);
-    }
-
-    render() {
-        return (
-            <div id='arrow-up' tabIndex='0' className='arrow-up' onClick={this.arrowUp}>
-                <div></div>
-            </div>
-        )
-    }
-} */
-
 //API fetch requete POST pour formulaire
 function commentSubmit(data, props) {
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
@@ -100,7 +79,6 @@ function CommentCard(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        //document.getmessageById('user-comment').classList.toggle('appear');
         const data = e.target[0].value;
         setCommentVisible(!commentVisible);
         setUserComment(userComment + ' ' + data);
@@ -255,7 +233,7 @@ export default class CommentPage extends React.Component {
                     />
 
                     <div className='comments'>
-                        <div className='comments__btn' onClick={() => openArticlePopup(this.props)}>
+                        <div className='comments__btn' onClick={() => openArticlePopup(this.props)} id='comment-btn'>
                             <div className='profil__photo mini' tabIndex='0'>
                                 <img src={this.props.user.photoProfil} alt='profil' />
                             </div>

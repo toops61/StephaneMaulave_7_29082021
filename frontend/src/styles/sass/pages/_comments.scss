@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     &__btn {
-        position: relative;
         @include flexCenter;
         background-color: white;
         width: 80%;
@@ -12,14 +11,7 @@
         @include borderRadius;
         margin: .5rem auto;  
         border: solid $primary-color;
-        &:hover::before {
-            opacity: 1;
-        }
-        &::before {
-            @include textBulle('C\'est à vous !');
-            top: .5vw;
-            left: 5vw;
-        }
+        
     }
     &__card {
         width: 100%;
@@ -135,4 +127,20 @@
 
 .publication-photo {
     display: none;
+}
+
+#comment-btn {
+    position: relative;
+    transition: transform 400ms ease-out;
+    &:hover {
+        transform: scale(1.2);
+    }
+    &:hover::before {
+        opacity: .8;
+    }
+    &::before {
+        @include textBulle('C\'est à vous !');
+        top: .5vw;
+        left: 5vw;
+    }
 }
