@@ -8,6 +8,7 @@
     max-width: 60rem;
     margin: 0 auto;
     &__logo {
+        position: relative;
         width: 6rem;
         height: 6rem;
         img {
@@ -23,9 +24,8 @@
         }
         &::before {
             @include textBulle('Fil d\'actualité');
-            top: 4vh;
-            left: 20vh;
-            
+            top: 1vw;
+            left: 6vw;
         }
         
     }
@@ -67,8 +67,8 @@
     }
     &::before {
         @include textBulle('Profil');
-        top: 10vh;
-        right: 84vh;
+        top: 3vw;
+        right: 25vw;
     }
     
     

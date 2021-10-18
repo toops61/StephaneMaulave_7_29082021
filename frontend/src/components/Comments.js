@@ -255,11 +255,11 @@ export default class CommentPage extends React.Component {
                     />
 
                     <div className='comments'>
-                        <div className='comments__btn'>
+                        <div className='comments__btn' onClick={() => openArticlePopup(this.props)}>
                             <div className='profil__photo mini' tabIndex='0'>
                                 <img src={this.props.user.photoProfil} alt='profil' />
                             </div>
-                            <span onClick={() => openArticlePopup(this.props)} tabIndex='0'>{this.props.user.pseudo}, partagez votre story</span>
+                            <span tabIndex='0'>{this.props.user.pseudo}, partagez votre story</span>
                         </div>
                         <BuildComments
                             confirmVisible={this.props.confirmVisible}

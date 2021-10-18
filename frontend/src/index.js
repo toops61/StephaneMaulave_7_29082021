@@ -27,10 +27,6 @@ function Index() {
 
   let history = useHistory();
 
-  function displayHoverPopup(texte) {
-
-  }
-
   function alertToggle(message) {
     setIsVisible(!isVisible);
     setMessagealert(message);
