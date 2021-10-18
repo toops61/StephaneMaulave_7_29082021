@@ -77,7 +77,6 @@ function Index() {
     setArticleVisible: setArticleVisible
   }
 
-
   window.addEventListener('scroll', arrowToggle);
 
 
@@ -92,7 +91,7 @@ function Index() {
             <Loader />
           </div>
           <ArrowUp arrowVisible={arrowVisible} setArrowVisible={setArrowVisible} />
-          <Header />
+          <Header {...props} />
           <AlertPopup
             isVisible={isVisible}
             alertToggle={alertToggle}

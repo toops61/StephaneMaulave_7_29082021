@@ -1,7 +1,7 @@
 import brandLogo from '../assets/Groupomania_Logos/icon.png';
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = (props) => {
     const logOut = () => {
         localStorage.clear();
         window.location.reload();
@@ -24,15 +24,16 @@ const Header = () => {
                     </div>
                 </Link>
                 <ul>
-                    <li>
+                    {props.user.pseudo ? null : <li>
                         <Link to="/login">Connexion</Link>
-                    </li>
-                    <li>
+                    </li>}
+                    {props.user.pseudo ? null : <li>
                         <Link to="/subscribe">Inscription</Link>
-                    </li>
-                    <li>
-                        <Link to="/logout" onClick={logOut}>Déconnexion</Link>
-                    </li>
+                    </li>}
+                    {props.user.pseudo ?
+                        <li>
+                            <Link to="/logout" onClick={logOut}>Déconnexion</Link>
+                        </li> : null}
                 </ul>
             </nav>
         </header>
