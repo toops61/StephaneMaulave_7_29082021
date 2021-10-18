@@ -53,6 +53,7 @@ function loginSubmit(data, props) {
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
             props.confirmToggle(`Bienvenue ${pseudo}`);
             props.setUser(value.data);
+            const UserContext = React.createContext(value.data);
             localStorage.clear();
             const userLogged = {
                 id: value.data.id,
