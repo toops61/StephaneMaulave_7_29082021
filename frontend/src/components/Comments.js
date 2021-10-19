@@ -35,6 +35,36 @@ function commentSubmit(data, props) {
         })
 }
 
+//API fetch requete PUT pour formulaire
+function commentUpdate(data, props) {
+    const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
+    const url = 'http://localhost:4200/commentsPage/' + props.comment.id;
+    const messagesFetched = props.comments ? props.comments : [];
+    //const file = document.querySelector('#photoProfil').files[0];
+
+    let request = {
+        method: 'PUT',
+        body: data,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userStored.token
+        }
+    };
+
+    fetch(url, request)
+        .then(rep => {
+            let userComment = rep.json();
+            return userComment;
+        })
+        .then(value => {
+            props.confirmToggle(value.message);
+            messagesFetched.push(value.data);
+        })
+        .catch(error => {
+            console.log('erreur ' + error);
+        })
+}
+
 function BuildComments(props) {
     const messagesFetched = props.comments ? props.comments : [];
 
@@ -58,7 +88,6 @@ function BuildComments(props) {
 }
 
 function CommentCard(props) {
-    //const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
     const [like, setLike] = React.useState(props.user_like);
     const [likes, setLikes] = React.useState(props.likes);
     const [commentVisible, setCommentVisible] = React.useState(false);
@@ -66,6 +95,44 @@ function CommentCard(props) {
     const [title, setTitle] = React.useState(props.title);
     const [article, setArticle] = React.useState(props.article);
     const [articleIsvisible, setArticleIsvisible] = React.useState(false);
+
+    function closeWindow() {
+        setArticleIsvisible(!articleIsvisible)
+    }
+
+    function changeTitle(e) {
+        e.preventDefault();
+        setTitle(e.target.value);
+    }
+    function changeArticle(e) {
+        e.preventDefault();
+        setArticle(e.target.value);
+    }
+
+    function UpdateComment() {
+        return (
+            <section className='message-pop appear'>
+                <div className='message-pop__field'>
+                    <form className='message-pop__field__form'>
+                        <div className='message-pop__field__text' tabIndex='0'>
+                            <label htmlFor='title'>Titre</label>
+                            <input type='text' name='title' max='60' value={title} onChange={changeTitle} required />
+                        </div>
+                        <div className='message-pop__field__text' tabIndex='0'>
+                            <label htmlFor='article'></label>
+                            <textarea name="article" rows="5" cols="33" placeholder={article} onChange={changeArticle} required></textarea>
+                        </div>
+                        <div className='message-pop__field__text' tabIndex='0'>
+                            <label htmlFor='file'>Ajoutez une pièce jointe</label>
+                            <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' />
+                        </div>
+                        <button type='submit' className='submit-btn' onClick={commentUpdate}>envoyer</button>
+                        <button type='button' className='submit-btn' onClick={closeWindow}>annuler</button>
+                    </form>
+                </div>
+            </section>
+        )
+    }
 
     function AddLike() {
         setLike(!like);
@@ -82,7 +149,6 @@ function CommentCard(props) {
         const data = e.target[0].value;
         setCommentVisible(!commentVisible);
         setUserComment(userComment + ' ' + data);
-        //commentSubmit(JSON.stringify(data), this.props);
     }
 
     function modifyArticle(props) {
@@ -92,7 +158,7 @@ function CommentCard(props) {
 
     return (
         <div className='comments__card'>
-            <div></div>
+            {articleIsvisible ? <UpdateComment title={title} setTitle={setTitle} article={article} setArticle={setArticle} /> : null}
             <div className={commentVisible ? 'userComment-popup appear' : 'userComment-popup'}>
                 <form className='userComment-popup__field' onSubmit={handleSubmit}>
                     <div>
@@ -106,13 +172,13 @@ function CommentCard(props) {
             <div className='comments__card__profil'>
                 <div>
                     <h3 tabIndex='0'>{props.pseudo}</h3>
-                    <p tabIndex='0'>{props.createdAt.split('T')[0]} à {props.createdAt.split('T')[1].split('.')[0]}</p>
+                    {props.updatedAt !== props.createdAt ? <p tabIndex='0'>modifié le {props.updatedAt.split('T')[0]} à {props.updatedAt.split('T')[1].split('.')[0]}</p> : <p tabIndex='0'>créé le {props.createdAt.split('T')[0]} à {props.createdAt.split('T')[1].split('.')[0]}</p>}
                 </div>
-                <h4 tabIndex='0'>{props.title}</h4>
+                <h4 tabIndex='0'>{title}</h4>
             </div>
             <div className='comments__card__field'>
                 <div className='publication-photo'>photo publication</div>
-                <p tabIndex='0'>{props.article}</p>
+                <p tabIndex='0'>{article}</p>
                 <div className='comments__card__field__answer'>
                     <h4 tabIndex='0'>commentaires: </h4>
                     <p tabIndex='0'>{userComment}</p>

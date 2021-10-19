@@ -14,10 +14,7 @@ const Header = (props) => {
                     <img src={brandLogo} alt='Groupomania brand' />
                 </Link>
             </div>
-            {/* <div className='header__notification' tabIndex='0'>
-                <div></div>
-                <p>Vous avez { } message(s)</p>
-            </div> */}
+            {props.user.pseudo ? null : <h2> ! vous n'êtes pas connecté ! </h2>}
             <nav>
                 <Link to="/profil">
                     <div className='user-icon'>

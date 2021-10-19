@@ -1,8 +1,8 @@
 //import imgProfil from '../assets/photo_profil.jpg';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Footer from './Footer';
 import validator from 'validator';
-import { storeToLocal, recupLocal } from './Storage';
+import { storeToLocal } from './Storage';
 
 let userInfos;
 
@@ -39,8 +39,6 @@ function profile() {
             console.log('erreur !' + error);
         })
 }
-
-//if (localStorage.user && window.location.pathname === '/profil') { profile() };
 
 //API fetch requete POST pour formulaire
 function updateProfile(data) {
