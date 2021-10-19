@@ -65,6 +65,32 @@ function commentUpdate(data, props) {
         })
 }
 
+function deleteComment(props) {
+    const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
+    const url = 'http://localhost:4200/commentsPage/' + props.id;
+    /* const messagesFetched = props.comments ? props.comments : [];
+    for (let i = 0; i < messagesFetched.length; i++) {
+        let commentNumber = 0;
+
+    } */
+    let request = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userStored.token
+        }
+    };
+    if (window.confirm('Voulez-vous supprimer le message ?')) {
+        fetch(url, request)
+            .then(() => {
+                props.alertToggle('Le message a été supprimé !');
+            })
+            .catch(function (error) {
+                console.log('erreur !' + error);
+            })
+    }
+}
+
 function BuildComments(props) {
     const messagesFetched = props.comments ? props.comments : [];
 
@@ -72,7 +98,9 @@ function BuildComments(props) {
         var arrayDom = messagesFetched.map(message => {
             return (
                 <div key={message.id}>
-                    <CommentCard {...message}
+                    <CommentCard
+                        {...message}
+                        {...props}
                         pseudo={message.user_pseudo}
                         modify={message.USERS_id === props.user.id || props.user.isAdmin ? true : false}
                     />
@@ -153,7 +181,6 @@ function CommentCard(props) {
 
     function modifyArticle(props) {
         setArticleIsvisible(!articleIsvisible);
-
     }
 
     return (
@@ -196,10 +223,9 @@ function CommentCard(props) {
                 </div>
                 <div className='user-comment'>
                     <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => AddLike(props)}>{like ? 'Vous aimez' : 'Aimer ?'}</div>
-                    <div>
-                        {props.modify ? <button className='user-comment__btn' onClick={() => modifyArticle(props)}>modifiez votre publication</button> : null}
-                    </div>
-                    <button type='button' className='user-comment__btn' tabIndex='0' onClick={AddUserComment}>commentez ici</button>
+                    {props.modify ? <button className='user-comment__btn' onClick={() => modifyArticle(props)}>modifier</button> : null}
+                    {props.modify ? <button className='user-comment__btn' onClick={() => deleteComment(props)}>effacer</button> : null}
+                    <button type='button' className='user-comment__btn' tabIndex='0' onClick={AddUserComment}>commenter ici</button>
                 </div>
             </div>
         </div>
@@ -268,7 +294,7 @@ class ArticlePopup extends React.Component {
                             <input type='link' name='linkURL' id='linkURL' className='message-pop__field__link' tabIndex='0' value={this.state.linkURL} onChange={this.handleChange} />
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
-                            <label htmlFor='file'>Ajoutez une pièce jointe</label>
+                            <label htmlFor='file'>Ajouter une pièce jointe</label>
                             <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' value={this.state.attachment} onChange={this.onChangeHandler} />
                         </div>
                         <div id='image-field'>

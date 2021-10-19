@@ -89,7 +89,6 @@ function deleteProfile(props) {
             .then(() => {
                 props.alertToggle('Votre profil a été supprimé !');
                 localStorage.clear();
-                //window.location.reload();
             })
             .catch(function (error) {
                 console.log('erreur !' + error);

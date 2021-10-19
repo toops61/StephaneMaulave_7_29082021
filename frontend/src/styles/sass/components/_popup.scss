@@ -2,7 +2,7 @@
     display: none;
     position: fixed;
     width: 100%;
-    height: 120vh;
+    height: 120vw;
     @include positionTopLeft;
     z-index: 100;
     background-color: rgba($color:$eight-color, $alpha: .7);
