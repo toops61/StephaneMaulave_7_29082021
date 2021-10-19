@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     article: {
-      allowNull: false,
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    linkURL: {
+      allowNull: true,
       type: DataTypes.STRING
     },
     attachment: {

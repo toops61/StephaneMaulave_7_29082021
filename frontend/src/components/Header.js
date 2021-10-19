@@ -14,7 +14,7 @@ const Header = (props) => {
                     <img src={brandLogo} alt='Groupomania brand' />
                 </Link>
             </div>
-            {props.user.pseudo ? null : <h2> ! vous n'êtes pas connecté ! </h2>}
+            {props.user.pseudo ? null : <h2> ⚠️ vous n'êtes pas connecté ⚠️ </h2>}
             <nav>
                 <Link to="/profil">
                     <div className='user-icon'>

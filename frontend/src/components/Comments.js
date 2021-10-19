@@ -123,7 +123,7 @@ function CommentCard(props) {
                             <textarea name="article" rows="5" cols="33" placeholder={article} onChange={changeArticle} required></textarea>
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
-                            <label htmlFor='file'>Ajoutez une pièce jointe</label>
+                            <label htmlFor='file'>Ajouter une pièce jointe</label>
                             <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' />
                         </div>
                         <button type='submit' className='submit-btn' onClick={commentUpdate}>envoyer</button>
@@ -177,7 +177,13 @@ function CommentCard(props) {
                 <h4 tabIndex='0'>{title}</h4>
             </div>
             <div className='comments__card__field'>
-                <div className='publication-photo'>photo publication</div>
+                {props.attachment ? <div className='publication-photo'>
+                    <img src={props.attachment} alt='partage' />
+                </div> : null}
+                {props.linkURL ?
+                    <video className='publication-video' controls>
+                        <source src={props.linkURL} type='video'></source>
+                    </video> : null}
                 <p tabIndex='0'>{article}</p>
                 <div className='comments__card__field__answer'>
                     <h4 tabIndex='0'>commentaires: </h4>
@@ -209,6 +215,7 @@ class ArticlePopup extends React.Component {
             user_pseudo: this.props.user ? this.props.user.pseudo : userStored.pseudo,
             title: '',
             article: '',
+            linkURL: '',
             attachment: '',
             user_like: 0,
             user_comment: '',
@@ -250,11 +257,15 @@ class ArticlePopup extends React.Component {
                     <form className='message-pop__field__form' onSubmit={this.handleSubmit}>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='title'>Titre</label>
-                            <input type='text' name='title' max='60' value={this.state.title} onChange={this.handleChange} required />
+                            <input type='text' name='title' max='100' value={this.state.title} onChange={this.handleChange} required />
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='article'></label>
-                            <textarea name="article" rows="5" cols="33" value={this.state.article} onChange={this.handleChange} required></textarea>
+                            <textarea name='article' rows='5' cols="33" value={this.state.article} onChange={this.handleChange}></textarea>
+                        </div>
+                        <div className='message-pop__field__text' tabIndex='0'>
+                            <label htmlFor='linkURL'>Copier un lien</label>
+                            <input type='link' name='linkURL' id='linkURL' className='message-pop__field__link' tabIndex='0' value={this.state.linkURL} onChange={this.handleChange} />
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='file'>Ajoutez une pièce jointe</label>

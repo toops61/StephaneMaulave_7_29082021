@@ -906,7 +906,22 @@ a {
 }
 
 .publication-photo {
-  display: none;
+  width: 20%;
+  height: 20%;
+  margin: 1rem;
+  transition: transform 400ms ease-in-out;
+}
+.publication-photo img {
+  object-fit: cover;
+}
+.publication-photo:hover {
+  transform: scale(2);
+}
+
+.publication-video {
+  margin: 1rem;
+  width: 320px;
+  height: 240px;
 }
 
 #comment-btn {
