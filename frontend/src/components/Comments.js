@@ -36,15 +36,26 @@ function commentSubmit(data, props) {
 }
 
 //API fetch requete PUT pour formulaire
-function commentUpdate(data, props) {
+function commentUpdate(data) {
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
-    const url = 'http://localhost:4200/commentsPage/' + props.comment.id;
-    const messagesFetched = props.comments ? props.comments : [];
+    const url = 'http://localhost:4200/commentsPage/' + data.id;
+    const messagesFetched = data.comments ? data.comments : [];
+    /* for (let ind = 0; ind < messagesFetched.length; ind++) {
+        if (messagesFetched[ind].id === data.id) {
+            messagesFetched.splice(ind, 1);
+        }
+    } */
     //const file = document.querySelector('#photoProfil').files[0];
+    let modifiedComment = {
+        id: data.id,
+        title: data.title,
+        article: data.article,
+        likes: data.likes
+    };
 
     let request = {
         method: 'PUT',
-        body: data,
+        body: JSON.stringify(modifiedComment),
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + userStored.token
@@ -57,8 +68,8 @@ function commentUpdate(data, props) {
             return userComment;
         })
         .then(value => {
-            props.confirmToggle(value.message);
-            messagesFetched.push(value.data);
+            data.confirmToggle(value.message);
+            //messagesFetched.push(value.data);
         })
         .catch(error => {
             console.log('erreur ' + error);
@@ -68,11 +79,7 @@ function commentUpdate(data, props) {
 function deleteComment(props) {
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
     const url = 'http://localhost:4200/commentsPage/' + props.id;
-    /* const messagesFetched = props.comments ? props.comments : [];
-    for (let i = 0; i < messagesFetched.length; i++) {
-        let commentNumber = 0;
 
-    } */
     let request = {
         method: 'DELETE',
         headers: {
@@ -84,6 +91,12 @@ function deleteComment(props) {
         fetch(url, request)
             .then(() => {
                 props.alertToggle('Le message a été supprimé !');
+                const messagesFetched = props.comments ? props.comments : [];
+                for (let ind = 0; ind < messagesFetched.length; ind++) {
+                    if (messagesFetched[ind].id === props.id) {
+                        return messagesFetched.splice(ind, 1);
+                    }
+                }
             })
             .catch(function (error) {
                 console.log('erreur !' + error);
@@ -97,7 +110,7 @@ function BuildComments(props) {
     if (messagesFetched.length > 0) {
         var arrayDom = messagesFetched.map(message => {
             return (
-                <div key={message.id}>
+                <div key={message.id + message.updatedAt}>
                     <CommentCard
                         {...message}
                         {...props}
@@ -154,7 +167,7 @@ function CommentCard(props) {
                             <label htmlFor='file'>Ajouter une pièce jointe</label>
                             <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' />
                         </div>
-                        <button type='submit' className='submit-btn' onClick={commentUpdate}>envoyer</button>
+                        <button type='submit' className='submit-btn' onClick={() => commentUpdate(props)}>envoyer</button>
                         <button type='button' className='submit-btn' onClick={closeWindow}>annuler</button>
                     </form>
                 </div>
@@ -162,9 +175,12 @@ function CommentCard(props) {
         )
     }
 
-    function AddLike() {
+    function addLike(props) {
         setLike(!like);
         like ? setLikes(likes - 1) : setLikes(likes + 1);
+        const arrayUpdate = { ...props };
+        arrayUpdate.likes = likes;
+        //commentUpdate(arrayUpdate);
     }
 
     function AddUserComment(e) {
@@ -179,13 +195,13 @@ function CommentCard(props) {
         setUserComment(userComment + ' ' + data);
     }
 
-    function modifyArticle(props) {
+    function modifyArticle() {
         setArticleIsvisible(!articleIsvisible);
     }
 
     return (
         <div className='comments__card'>
-            {articleIsvisible ? <UpdateComment title={title} setTitle={setTitle} article={article} setArticle={setArticle} /> : null}
+            {articleIsvisible ? <UpdateComment likes={likes} title={title} setTitle={setTitle} article={article} setArticle={setArticle} props={props} /> : null}
             <div className={commentVisible ? 'userComment-popup appear' : 'userComment-popup'}>
                 <form className='userComment-popup__field' onSubmit={handleSubmit}>
                     <div>
@@ -222,8 +238,8 @@ function CommentCard(props) {
                     </div>
                 </div>
                 <div className='user-comment'>
-                    <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => AddLike(props)}>{like ? 'Vous aimez' : 'Aimer ?'}</div>
-                    {props.modify ? <button className='user-comment__btn' onClick={() => modifyArticle(props)}>modifier</button> : null}
+                    <div className={like ? 'user-comment__like__true' : 'user-comment__like'} tabIndex='0' onClick={() => addLike(props)}>{like ? 'Vous aimez' : 'Aimer ?'}</div>
+                    {props.modify ? <button className='user-comment__btn' onClick={modifyArticle}>modifier</button> : null}
                     {props.modify ? <button className='user-comment__btn' onClick={() => deleteComment(props)}>effacer</button> : null}
                     <button type='button' className='user-comment__btn' tabIndex='0' onClick={AddUserComment}>commenter ici</button>
                 </div>
