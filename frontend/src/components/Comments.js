@@ -51,8 +51,7 @@ function commentUpdate(e, state) {
     let modifiedComment = {
         id: id,
         title: state.title,
-        article: state.article,
-        likes: state.likes
+        article: state.article
     };
 
     let request = {
@@ -72,6 +71,36 @@ function commentUpdate(e, state) {
         .then(value => {
             if (state.setArticleIsvisible) { state.setArticleIsvisible(!state.articleIsvisible) };
             state.props ? state.props.confirmToggle(value.message) : state.confirmToggle(value.message);
+        })
+        .catch(error => {
+            console.log('erreur ' + error);
+        })
+}
+
+function commentLike(props, likes) {
+    const id = props.id;
+    const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
+    const url = 'http://localhost:4200/commentsPage/' + id;
+    let modifiedComment = {
+        likes: likes
+    };
+
+    let request = {
+        method: 'PUT',
+        body: JSON.stringify(modifiedComment),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + userStored.token
+        }
+    };
+
+    fetch(url, request)
+        .then(rep => {
+            let userComment = rep.json();
+            return userComment;
+        })
+        .then(value => {
+            console.log(value);
         })
         .catch(error => {
             console.log('erreur ' + error);
@@ -143,24 +172,6 @@ function CommentCard(props) {
         setArticleIsvisible(!articleIsvisible)
     }
 
-    /* function changeTitle(e) {
-        const value = e.target.value;
-        setTitle(value);
-    } */
-    function changeArticle(e) {
-        setArticle(e.target.value);
-    }
-
-    /* handleChange(e) {
-        const name = e.target.name;
-        const value = e.target.value;
-        const year = value.substring(0, 4);
-        this.setState({
-            [name]: value
-        });
-        value !== null && year <= 2006 && year > 1900 ? e.target.className = 'valid' : e.target.className = 'invalid';
-    } */
-
     function UpdateComment(state) {
         return (
             <section className='message-pop appear'>
@@ -186,10 +197,11 @@ function CommentCard(props) {
         )
     }
 
-    function addLike(state) {
+    function addLike() {
         setLike(!like);
-        like ? setLikes(likes - 1) : setLikes(likes + 1);
-        setTimeout(function () { commentUpdate(null, state) }, 500);
+        const totalLikes = like ? likes - 1 : likes + 1;
+        setLikes(totalLikes);
+        commentLike(props, totalLikes);
     }
 
     function AddUserComment(e) {
