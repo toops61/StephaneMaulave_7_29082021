@@ -143,12 +143,23 @@ function CommentCard(props) {
         setArticleIsvisible(!articleIsvisible)
     }
 
-    function changeTitle(e) {
-        setTitle(e.target.value);
-    }
+    /* function changeTitle(e) {
+        const value = e.target.value;
+        setTitle(value);
+    } */
     function changeArticle(e) {
         setArticle(e.target.value);
     }
+
+    /* handleChange(e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        const year = value.substring(0, 4);
+        this.setState({
+            [name]: value
+        });
+        value !== null && year <= 2006 && year > 1900 ? e.target.className = 'valid' : e.target.className = 'invalid';
+    } */
 
     function UpdateComment(state) {
         return (
@@ -157,11 +168,11 @@ function CommentCard(props) {
                     <form className='message-pop__field__form' onSubmit={(e) => commentUpdate(e, state)} method="put" encType="multipart/form-data">
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='title'>Titre</label>
-                            <input type='text' name='title' max='60' value={state.title} onChange={changeTitle} required />
+                            <input type='text' name='title' max='100' value={state.title} onChange={(e) => setTitle(e.target.value)} required />
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='article'></label>
-                            <textarea name="article" rows="5" cols="33" value={state.article} onChange={changeArticle} required></textarea>
+                            <textarea name="article" rows="5" cols="33" value={state.article} onChange={(e) => setArticle(e.target.value)} required></textarea>
                         </div>
                         <div className='message-pop__field__text' tabIndex='0'>
                             <label htmlFor='file'>Ajouter une pièce jointe</label>
