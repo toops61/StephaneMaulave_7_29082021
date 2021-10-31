@@ -77,12 +77,13 @@ function commentUpdate(e, state) {
         })
 }
 
-function commentLike(props, likes) {
+function commentLike(props, likes, user_like) {
     const id = props.id;
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
     const url = 'http://localhost:4200/commentsPage/' + id;
     let modifiedComment = {
-        likes: likes
+        likes: likes,
+        user_like: user_like
     };
 
     let request = {
@@ -98,9 +99,6 @@ function commentLike(props, likes) {
         .then(rep => {
             let userComment = rep.json();
             return userComment;
-        })
-        .then(value => {
-            console.log(value);
         })
         .catch(error => {
             console.log('erreur ' + error);
@@ -201,7 +199,7 @@ function CommentCard(props) {
         setLike(!like);
         const totalLikes = like ? likes - 1 : likes + 1;
         setLikes(totalLikes);
-        commentLike(props, totalLikes);
+        commentLike(props, totalLikes, !like);
     }
 
     function AddUserComment(e) {
@@ -313,7 +311,7 @@ class ArticlePopup extends React.Component {
                 <div className='message-pop__field'>
                     <div>
                         <div className='profil__photo'>
-                            <img url={this.props.user ? this.props.user.photoProfil : this.userStored.photoProfil} alt='profil' tabIndex='0' />
+                            <img src={this.props.user ? this.props.user.photoProfil : this.userStored.photoProfil} alt='profil' tabIndex='0' />
                         </div>
                         <h3 tabIndex='0'>{this.props.user ? this.props.user.pseudo : this.userStored.pseudo}, c'est à vous !</h3>
                     </div>
