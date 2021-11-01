@@ -19,7 +19,7 @@ const sequelize = new Sequelize(
         host: process.env.DB_HOST,
         dialect: process.env.DB_DIALECT,
         logging: true,
-        timezone: '+02:00'
+        timezone: '+01:00'
     }
 );
 

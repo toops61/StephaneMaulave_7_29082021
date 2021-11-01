@@ -1,4 +1,4 @@
-const { User } = require('../db/sequelize')
+const { User, Message } = require('../db/sequelize')
 
 exports.deleteUser = (req, res) => {
     User.findByPk(req.params.id)
@@ -8,6 +8,9 @@ exports.deleteUser = (req, res) => {
                 return res.status(404).json({ message })
             }
             const userDeleted = user;
+            Message.destroy({
+                where: { USERS_id: user.id }
+            })
             return User.destroy({
                 where: { id: user.id }
             })
