@@ -8,11 +8,15 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 exports.createUser = (req, res) => {
-    const utilisateur = req.body
-    //utilisateur.photoProfil = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    const utilisateur = req.body;
+    console.log(req.file);
     bcrypt.hash(req.body.password, 10, (err, hash) => {
-        utilisateur.password = hash
-        User.create(utilisateur)
+        utilisateur.password = hash;
+        const profil = {
+            ...utilisateur,
+            photoProfil: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.name}` : `http://localhost:4200/images/default-avatar.png`
+        };
+        User.create(profil)
             .then(user => {
                 const message = `Votre profil a bien été crée.`
                 res.json({

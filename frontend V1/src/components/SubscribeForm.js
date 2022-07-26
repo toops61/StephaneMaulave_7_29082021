@@ -3,7 +3,7 @@ import React from "react";
 import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 import { storeToLocal, recupLocal } from './Storage';
-//import axios from 'axios';
+import axios from 'axios';
 //import { Link } from "react-router-dom";
 //import alertPopup from './AlertPopup';
 
@@ -47,12 +47,14 @@ function fetchMessages(token, props) {
 //API fetch requete POST pour formulaire
 function subscribeSubmit(data, props) {
     const url = 'http://localhost:4200/subscribe';
-    //const file = document.querySelector('#photoProfil').files[0];
+    const fd = new FormData();
+    fd.append('photo', data.file, data.file.name);
     //let loginUser = {};
 
     let request = {
         method: 'POST',
-        body: data,
+        body: JSON.stringify(data),
+        file: data.file,
         headers: {
             'Content-Type': 'application/json'
         }
@@ -64,7 +66,6 @@ function subscribeSubmit(data, props) {
             return userProfil;
         })
         .then(value => {
-            //console.log(value);
             const pseudo = value.data.pseudo;
             const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
             pseudo === undefined ? props.alertToggle(`il y a eu une erreur, le mail ou le pseudo existe déjà : ${value.message}`) : props.confirmToggle(`Bienvenue ${pseudo}`);
@@ -98,7 +99,8 @@ export default class SubscribeForm extends React.Component {
             email: '',
             password: '',
             photoProfil: 'http://localhost:4200/images/default-avatar.png',
-            isAdmin: false
+            isAdmin: false,
+            file: null
         }
         this.handleChange = this.handleChange.bind(this);
         this.rejectText = this.rejectText.bind(this);
@@ -169,7 +171,7 @@ export default class SubscribeForm extends React.Component {
     }
 
     onChangeHandler(e) {
-        this.setState({ file: e.target.files[0] })
+        this.setState({ file: e.target.files[0] });
     }
 
     /* onClickHandler = () => {
@@ -186,9 +188,8 @@ export default class SubscribeForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const data = JSON.stringify(this.state);
+        const data = this.state;
         this.props.setIsLoading(!this.props.isLoading);
-        //data.append(this.state);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {
@@ -215,7 +216,7 @@ export default class SubscribeForm extends React.Component {
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='firstname'>Prénom</label>
-                        <input type='text' name='firstname' id='firstname' className='' value={this.state.firstName} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='given-name' required />
+                        <input type='text' name='firstname' id='firstname' className='' value={this.state.firstname} onChange={this.rejectText} minLength='2' maxLength='31' autoComplete='given-name' required />
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='pseudo'>Pseudo</label>
