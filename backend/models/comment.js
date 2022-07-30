@@ -40,8 +40,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     likes: {
-      allowNull: false,
-      type: DataTypes.INTEGER
+      allowNull: true,
+      type: DataTypes.STRING
     },
     createdAt: {
       allowNull: false,

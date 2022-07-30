@@ -120,6 +120,7 @@
 
 .userComment-popup {
     @extend .message-pop;
+    display: block;
     &__field {
         @extend .message-pop__field;
     }

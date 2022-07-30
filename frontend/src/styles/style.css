@@ -304,6 +304,9 @@ a {
   align-items: center;
 }
 
+.userComment-popup {
+  display: block;
+}
 .appear {
   display: block;
 }

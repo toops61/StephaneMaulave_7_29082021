@@ -10,8 +10,7 @@
         min-height: 3rem;
         @include borderRadius;
         margin: .5rem auto;  
-        border: solid $primary-color;
-        
+        border: solid $primary-color;   
     }
     &__card {
         width: 100%;
