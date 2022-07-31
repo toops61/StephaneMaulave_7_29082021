@@ -114,7 +114,9 @@ a {
 }
 
 .arrow-up {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   position: fixed;
   bottom: 2rem;
@@ -122,11 +124,6 @@ a {
   width: 3rem;
   height: 3rem;
   background-color: rgba(0, 0, 0, 0.7);
-}
-.arrow-up.appears {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .arrow-up div {
   color: white;
@@ -787,45 +784,46 @@ a {
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 1rem auto;
   border-top: solid #eb678f;
 }
-.comments__card__profil {
+.comments__card__title {
+  width: 86%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.comments__card__title__box {
+  padding: 0.5rem 0;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  width: 85%;
+  flex: 1;
   background-color: white;
   border-radius: 30px;
   border: solid #3e8b7e;
-  margin: 0.5rem auto;
+  margin: 0.5rem 0;
 }
-.comments__card__profil div {
-  margin: 0 1rem;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  align-items: center;
-}
-.comments__card__profil div p {
+.comments__card__title__box p {
   margin: 0 1rem;
   font-size: 0.8rem;
 }
-.comments__card__profil div h3 {
-  margin: 0.5rem;
+.comments__card__title__box h3 {
+  margin: 0 0 0 1rem;
 }
-.comments__card__profil h4 {
+.comments__card__title__box h4 {
   font-size: 0.8rem;
-  margin: 0 1rem 0 1rem;
-  padding: 0.5rem 1rem;
+  margin: 0 1rem;
 }
 .comments__card__field {
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 1rem;
 }
-.comments__card__field p {
+.comments__card__field__article {
   width: 90%;
   border: solid #3e8b7e;
   padding: 1rem;
@@ -839,8 +837,50 @@ a {
   align-items: center;
   flex-wrap: wrap;
 }
-.comments__card__field__answer p {
-  width: 60%;
+.comments__card__field__answer .comments-section {
+  position: relative;
+  margin: 1rem 0;
+  width: 65%;
+  border: solid #3e8b7e;
+  background-color: white;
+  min-height: 2rem;
+}
+.comments__card__field__answer .comments-section .comment {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
+}
+.comments__card__field__answer .comments-section .comment h4 {
+  margin: 0 0.5rem 0 0;
+  white-space: nowrap;
+}
+.comments__card__field__answer .comments-section .comment__image {
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+  margin-right: 1rem;
+}
+.comments__card__field__answer .comments-section .comment__image img {
+  border-radius: 50%;
+  border: solid 2px #eb678f;
+  object-fit: contain;
+}
+.comments__card__field__answer .comments-section .comment p {
+  margin: 0;
+}
+.comments__card__field__answer .comments-section .comment .delete {
+  z-index: 50;
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  background-color: black;
+  border-radius: 50%;
+  right: 0;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 }
 .comments__card__field__answer h4 {
   margin: 0 1rem;

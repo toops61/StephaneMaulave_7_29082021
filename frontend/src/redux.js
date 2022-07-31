@@ -5,7 +5,6 @@ const generalParamsSlice = createSlice({
     initialState: {
             isLoading: false,
             connected: false,
-            arrowVisible: false,
             articleVisible: false,
             commentVisible: false
         },
@@ -68,6 +67,7 @@ const userSlice = createSlice({
                 isAdmin: false,
                 file: null
             };
+            return state;
         }
     }
 })
@@ -85,8 +85,9 @@ const commentSlice = createSlice({
             state.splice(index, 1, action.payload);
             return state;
         },
-        deleteComment: (state,action) => {
-            state = state.filter(t => t.id !== action.payload.id);
+        deleteComment: (state, action) => {
+            state = state.filter(e => e.id !== action.payload.id);
+            return state;
         }
     }
 })

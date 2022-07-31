@@ -35,6 +35,8 @@ export default function LoginForm() {
             .then(function (value) {
                 const comments = value;
                 comments.forEach(e => {
+                    e.likes = e.likes !== "NULL" ? JSON.parse(e.likes) : [];
+                    e.users_comments = e.users_comments !== "NULL" ? JSON.parse(e.users_comments) : [];
                     dispatch(createComment(e));
                 });
                 //dispatch(updateGeneralParam({isLoading:false}));

@@ -8,8 +8,11 @@ import CommentPage from './components/Comments';
 import Profil from './components/Profil';
 import { updateGeneralParam } from './redux';
 import { AlertPopup, ConfirmPopup } from './components/alertWindows';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [scroll, setScroll] = useState(0);
+  const [arrowAppears, setArrowAppears] = useState(false);
 
   const generalParams = useSelector(state => state.generalParams);
   const alertParams = useSelector(state => state.alertParams);
@@ -17,26 +20,43 @@ function App() {
 
   const dispatch = useDispatch();
 
-  function windowup() {
-    dispatch(updateGeneralParam({arrowVisible:false}));
+  const  windowup = () => {
+    setArrowAppears(false);
     window.scroll(0, 0);
-  }
-
-  function arrowToggle() {
-    if (window.scrollY > 350 && !generalParams.arrowVisible) {
-      dispatch(updateGeneralParam({arrowVisible:true}));
-    } else if (window.scrollY < 350 && generalParams.arrowVisible) {
-      dispatch(updateGeneralParam({arrowVisible:false}));
-    }
   }
 
   function ArrowUp() {
     return (
-      <div id='arrow-up' tabIndex='0' className={generalParams.arrowVisible ? 'arrow-up appear' : 'arrow-up'} onClick={windowup}>
+      <div id='arrow-up' tabIndex='0' className='arrow-up' onClick={windowup}>
         <div></div>
       </div>
     )
   }
+
+  useEffect(() => {
+    const handleScroll = event => {
+      const scrollTop = window.scrollY;
+      setScroll(scrollTop);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (scroll > 350 && !arrowAppears) {
+      setArrowAppears(true);
+    } else if (scroll < 350 && arrowAppears) {
+      setArrowAppears(false);
+    }
+  
+  }, [scroll])
+  
+
+  //window.addEventListener('scroll', arrowToggle);
 
   return (
     <div className="App">
@@ -48,7 +68,7 @@ function App() {
           <div className='loader hidden'>
             <Loader />
           </div>
-          <ArrowUp />
+          {arrowAppears && <ArrowUp />}
           <Header />
           {alertParams.confirmVisible && <ConfirmPopup />}
           {alertParams.alertVisible && <AlertPopup />}

@@ -31,11 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
-    user_like: {
-      allowNull: true,
-      type: DataTypes.BOOLEAN
-    },
-    user_comment: {
+    users_comments: {
       allowNull: true,
       type: DataTypes.STRING
     },
