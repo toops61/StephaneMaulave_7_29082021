@@ -42,7 +42,7 @@ function ArticleCard(props) {
 
     const comments = useSelector(state => state.handleComments);
     const comment = comments[props.messageId];
-    const commentsArray = [...comment.users_comments]
+    let commentsArray = [...comment.users_comments]
 
     function deleteArticle() {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
@@ -66,31 +66,6 @@ function ArticleCard(props) {
                 })
         }
     }
-
-    /* function UpdateComment(state) {
-        return (
-            <section className='message-pop appear'>
-                <div className='message-pop__field'>
-                    <form className='message-pop__field__form' onSubmit={(e) => commentUpdate(e, state)} method="put" encType="multipart/form-data">
-                        <div className='message-pop__field__text' tabIndex='0'>
-                            <label htmlFor='title'>Titre</label>
-                            <input type='text' name='title' max='100' value={state.title} onChange={(e) => setTitle(e.target.value)} required />
-                        </div>
-                        <div className='message-pop__field__text' tabIndex='0'>
-                            <label htmlFor='article'></label>
-                            <textarea name="article" rows="5" cols="33" value={state.article} onChange={(e) => setArticle(e.target.value)} required></textarea>
-                        </div>
-                        <div className='message-pop__field__text' tabIndex='0'>
-                            <label htmlFor='file'>Ajouter une pièce jointe</label>
-                            <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' />
-                        </div>
-                        <button type='submit' className='submit-btn'>envoyer</button>
-                        <button type='button' className='submit-btn' onClick={closeWindow}>annuler</button>
-                    </form>
-                </div>
-            </section>
-        )
-    } */
 
     const commentLike = likes => {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
@@ -132,12 +107,48 @@ function ArticleCard(props) {
         props.setModifiedArticle(comment.id)
     }
 
+    const deleteComment = id => {
+        commentsArray = commentsArray.filter(e => e.commentId !== id);
+        dispatch(modifyComment({...comment,users_comments:commentsArray}));
+        fetchModifiedComment();
+        //props.setModifiedArticle(comment.id);
+    }
+
+    const fetchModifiedComment = () => {
+        const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
+        const url = 'http://localhost:4200/commentsPage/' + comment.id;
+        let modifiedComment = {
+            users_comments: JSON.stringify(commentsArray)
+        };
+
+        let request = {
+            method: 'PUT',
+            body: JSON.stringify(modifiedComment),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userStored.token
+            }
+        };
+
+        if (window.confirm('Voulez-vous supprimer le message ?')) {
+            fetch(url, request)
+            .then(rep => {
+                let userComment = rep.json();
+                dispatch(updateAlertsParam({message:'Votre commentaire a été supprimé !',confirmVisible:true}));
+                return userComment;
+            })
+            .catch(error => {
+                console.log('erreur ' + error);
+            })
+        }
+    }
+
     const modifyArticle = () => {
         dispatch(updateGeneralParam({articleVisible:true}));
         props.setModifiedArticle(comment.id);
     }
 
-    const commentDom = commentsArray.map(comment => {
+    const commentDom = commentsArray.map((comment) => {
         return (
             <div key={comment.commentId} className="comment">
                 <div className="comment__image">
@@ -145,7 +156,7 @@ function ArticleCard(props) {
                 </div>
                 <h4>{comment.pseudo} : </h4>
                 <p>{comment.content}</p>
-                <div className="delete"><p>X</p></div>
+                <div className="delete" onClick={() => deleteComment(comment.commentId)}><p>X</p></div>
             </div>
         ) 
     });
