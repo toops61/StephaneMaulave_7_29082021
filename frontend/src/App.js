@@ -60,27 +60,23 @@ function App() {
 
   return (
     <div className="App">
-      {generalParams.isLoading ?
-        <div className='loader'>
+      <>
+        <div className='loader hidden'>
           <Loader />
-        </div> :
-        <>
-          <div className='loader hidden'>
-            <Loader />
-          </div>
-          {arrowAppears && <ArrowUp />}
-          <Header />
-          {alertParams.confirmVisible && <ConfirmPopup />}
-          {alertParams.alertVisible && <AlertPopup />}
-          <Routes>
-            <Route path="/" element={<LoginForm />} /> 
-            <Route path="/subscribe" element={<SubscribeForm />} />
-            <Route path="/commentsPage" element={!generalParams.connected ? <LoginForm/> : <CommentPage />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/logout" element={<LoginForm />} />
-            <Route path="/profil" element={!generalParams.connected ? <LoginForm /> : <Profil />} />
-          </Routes>
-        </>}
+        </div>
+        {arrowAppears && <ArrowUp />}
+        <Header />
+        {alertParams.confirmVisible && <ConfirmPopup />}
+        {alertParams.alertVisible && <AlertPopup />}
+        <Routes>
+          <Route path="/" element={<LoginForm />} /> 
+          <Route path="/subscribe" element={<SubscribeForm />} />
+          <Route path="/commentsPage" element={!generalParams.connected ? <LoginForm/> : <CommentPage />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/logout" element={<LoginForm />} />
+          <Route path="/profil" element={!generalParams.connected ? <LoginForm /> : <Profil />} />
+        </Routes>
+      </>
     </div>
   );
 }

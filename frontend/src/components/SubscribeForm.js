@@ -55,7 +55,6 @@ export default function SubscribeForm() {
             .then(function (value) {
                 storeToLocal('messages', value);
                 //setComments(value);
-                //dispatch(updateGeneralParam({isLoading:true}));
             })
             .catch(function (error) {
                 console.log('erreur !' + error);
@@ -190,7 +189,6 @@ export default function SubscribeForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = subscribeData;
-        dispatch(updateGeneralParam({isLoading: false}));
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {

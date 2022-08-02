@@ -14,7 +14,7 @@
             width: 90%;
         }
         max-width: 60rem;
-        @include flex-column;
+        @include flexColumn;
         justify-content: space-around;
         @include borderRadius;
         border: solid black;
@@ -80,7 +80,7 @@
         min-height: 12rem;
         margin: 16% auto;
         text-align: center;
-        @include flex-column;
+        @include flexColumn;
         @include tablette-version {
             width: 60vw
         }
@@ -123,6 +123,11 @@
     display: block;
     &__field {
         @extend .message-pop__field;
+        .comment-area {
+            margin-top: 2rem;
+            min-width: 70vw;
+            min-height: 20vh;
+        }
     }
 }
 

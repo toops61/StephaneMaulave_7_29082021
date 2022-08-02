@@ -39,7 +39,6 @@ export default function LoginForm() {
                     e.users_comments = e.users_comments !== "NULL" ? JSON.parse(e.users_comments) : [];
                     dispatch(createComment(e));
                 });
-                //dispatch(updateGeneralParam({isLoading:false}));
             })
             .catch(function (error) {
                 console.log('erreur ! ' + error);
@@ -74,7 +73,8 @@ export default function LoginForm() {
                     id: value.data.id,
                     pseudo: pseudo,
                     photoProfil: photoProfil,
-                    token: value.token
+                    token: value.token,
+                    isAdmin: value.data.isAdmin
                 }
                 storeToLocal('user', userLogged);
                 dispatch(updateGeneralParam({connected:true}))

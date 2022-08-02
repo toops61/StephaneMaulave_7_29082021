@@ -1,5 +1,5 @@
 .login {
-    @include flex-column;
+    @include flexColumn;
     margin-bottom: 2rem;
     &__form {
         background-color: $third-color;

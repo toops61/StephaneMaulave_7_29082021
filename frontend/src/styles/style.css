@@ -304,6 +304,12 @@ a {
 .userComment-popup {
   display: block;
 }
+.userComment-popup__field .comment-area {
+  margin-top: 2rem;
+  min-width: 70vw;
+  min-height: 20vh;
+}
+
 .appear {
   display: block;
 }

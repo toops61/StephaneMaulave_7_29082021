@@ -22,7 +22,7 @@
     box-shadow: $offsetX $offsetY $blur $fifth-color;
 }
 
-@mixin flex-column {
+@mixin flexColumn {
     display: flex;
     flex-direction: column;
     align-items: center;

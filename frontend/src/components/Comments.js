@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 import { createComment, deleteComment, modifyComment, updateAlertsParam, updateGeneralParam } from '../redux';
@@ -11,8 +11,10 @@ import Footer from './Footer';
 
 function BuildArticles(props) {
 
-    const messagesFetched = [...useSelector(state => state.handleComments)];
+    let messagesFetched = [...useSelector(state => state.handleComments)];
     const user = useSelector(state => state.handleUser)
+
+    //const array = messagesFetched.sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1);
 
     if (messagesFetched.length > 0) {
         var arrayDom = messagesFetched.map((message,index) => {
@@ -23,6 +25,7 @@ function BuildArticles(props) {
                         modify={message.USERS_id === user.id || user.isAdmin ? true : false}
                         messageId={index}
                         setModifiedArticle={props.setModifiedArticle}
+                        setModifiedComment={props.setModifiedComment}
                     />
                 </div>
             )
@@ -67,7 +70,7 @@ function ArticleCard(props) {
         }
     }
 
-    const commentLike = likes => {
+    const articleLike = likes => {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
         const url = 'http://localhost:4200/commentsPage/' + comment.id;
         let modifiedComment = {
@@ -98,23 +101,30 @@ function ArticleCard(props) {
         let likes = comment.likes === 'NULL' ? [] : [...comment.likes];
         !userLikes ? likes.push(userStored.id) : likes = likes.filter(e => e!== userStored.id);
         dispatch(modifyComment({...comment,likes:likes}));
-        commentLike(likes);
+        articleLike(likes);
     }
 
     const addUserComment = e => {
         e.preventDefault();
         dispatch(updateGeneralParam({commentVisible:true}));
-        props.setModifiedArticle(comment.id)
+        props.setModifiedArticle(comment.id);
     }
 
     const deleteComment = id => {
         commentsArray = commentsArray.filter(e => e.commentId !== id);
         dispatch(modifyComment({...comment,users_comments:commentsArray}));
-        fetchModifiedComment();
+        fetchModifiedArticle();
         //props.setModifiedArticle(comment.id);
     }
 
-    const fetchModifiedComment = () => {
+    const changeComment = id => {
+        console.log('MODIFY');
+        dispatch(updateGeneralParam({commentVisible:true}));
+        props.setModifiedArticle(comment.id);
+        props.setModifiedComment(id);
+    }
+
+    const fetchModifiedArticle = () => {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
         const url = 'http://localhost:4200/commentsPage/' + comment.id;
         let modifiedComment = {
@@ -150,13 +160,13 @@ function ArticleCard(props) {
 
     const commentDom = commentsArray.map((comment) => {
         return (
-            <div key={comment.commentId} className="comment">
+            <div key={comment.commentId} className="comment" onClick={() => comment.userId === userStored.id || userStored.isAdmin ? changeComment(comment.commentId): null}>
                 <div className="comment__image">
                     <img src={comment.photoProfil} alt="profil" />
                 </div>
                 <h4>{comment.pseudo} : </h4>
                 <p>{comment.content}</p>
-                <div className="delete" onClick={() => deleteComment(comment.commentId)}><p>X</p></div>
+                {(comment.userId === userStored.id || userStored.isAdmin) && <div className="delete" onClick={() => deleteComment(comment.commentId)}><p>X</p></div>}
             </div>
         ) 
     });
@@ -198,7 +208,7 @@ function ArticleCard(props) {
                     <div className='user-comment__like' tabIndex='0' onClick={() => addLike()}>Aimer ?</div>}
                     {props.modify && <button className='user-comment__btn' onClick={modifyArticle}>modifier</button>}
                     {props.modify && <button className='user-comment__btn' onClick={() => deleteArticle()}>effacer</button>}
-                    <button type='button' className='user-comment__btn' tabIndex='0' onClick={addUserComment}>commenter ici</button>
+                    <button type='button' className='user-comment__btn' tabIndex='0' onClick={addUserComment}>commentez</button>
                 </div>
             </div>
         </div>
@@ -432,19 +442,18 @@ function AddComment(props) {
         dispatch(modifyComment({...comment,users_comments:commentsArray}));
         articleModify(commentsArray);
         props.setModifiedArticle('');
+        props.setModifiedComment('');
         //setUserComment(userComment + ' ' + data);
     }
+    
 
     const articleModify = data => {
         const url = 'http://localhost:4200/commentsPage/'+props.modifiedArticle;
         //const file = document.querySelector('#photoProfil').files[0];
         let modifiedComment = {
-            ...comment,
-            users_comments: JSON.stringify(data),
-            likes: JSON.stringify(comment.likes)
+            users_comments: JSON.stringify(data)
         };
-        
-        console.log(modifiedComment.users_comments);
+
         let request = {
             method: 'PUT',
             body: JSON.stringify(modifiedComment),
@@ -468,6 +477,8 @@ function AddComment(props) {
     const hideUserComment = e => {
         e.preventDefault();
         dispatch(updateGeneralParam({commentVisible:false}));
+        props.setModifiedArticle('');
+        props.setModifiedComment('');
     }
 
     return (
@@ -475,7 +486,7 @@ function AddComment(props) {
             <form className='userComment-popup__field' onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor='userComment'></label>
-                    <textarea rows="5" cols="33" required value={newComment.content} onChange={commentChange}></textarea>
+                    <textarea className='comment-area' required value={newComment.content} onChange={commentChange}></textarea>
                 </div>
                 <button type='submit' className='submit-btn'>publier</button>
                 <button type='submit' className='submit-btn' onClick={hideUserComment}>annuler</button>
@@ -487,6 +498,7 @@ function AddComment(props) {
 export default function CommentPage() {
 
     const [modifiedArticle, setModifiedArticle] = useState('');
+    const [modifiedComment, setModifiedComment] = useState('');
 
     const userStored = JSON.parse(localStorage.getItem('user'));
 
@@ -497,8 +509,16 @@ export default function CommentPage() {
 
     return (
         <main>
-            {generalParams.articleVisible && <ArticlePopup modifiedArticle={modifiedArticle} setModifiedArticle={setModifiedArticle} />}
-            {generalParams.commentVisible && <AddComment  modifiedArticle={modifiedArticle} setModifiedArticle={setModifiedArticle} />}
+            {generalParams.articleVisible && <ArticlePopup 
+                modifiedArticle={modifiedArticle} 
+                setModifiedArticle={setModifiedArticle} 
+            />}
+            {generalParams.commentVisible && <AddComment 
+                modifiedArticle={modifiedArticle} 
+                setModifiedArticle={setModifiedArticle}
+                modifiedComment={modifiedComment} 
+                setModifiedComment={setModifiedComment}
+            />}
             <div className='comments'>
                 <div className='comments__btn' onClick={() => dispatch(updateGeneralParam({articleVisible:true}))} id='comment-btn'>
                     <div className='profil__photo mini' tabIndex='0'>
@@ -506,7 +526,7 @@ export default function CommentPage() {
                     </div>
                     <span tabIndex='0'>{userStored.pseudo}, partagez votre story</span>
                 </div>
-                <BuildArticles setModifiedArticle={setModifiedArticle} />
+                <BuildArticles setModifiedArticle={setModifiedArticle} setModifiedComment={setModifiedComment} />
             </div>
             <div>
                 <img src={logo} alt='Groupomania' tabIndex='0' />
