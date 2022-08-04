@@ -3,13 +3,12 @@ const { ValidationError, UniqueConstraintError } = require('sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 //const upload = multer({ dest: 'images/' })
-//const fs = require('fs')
+const fs = require('fs')
 
 require('dotenv').config()
 
 exports.createUser = (req, res) => {
     const utilisateur = req.body;
-    console.log(req.file);
     bcrypt.hash(req.body.password, 10, (err, hash) => {
         utilisateur.password = hash;
         const profil = {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 /* import { render } from "react-dom"; */
 import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
@@ -34,6 +34,9 @@ export default function SubscribeForm() {
         file: null
     })
 
+    const [photoFile, setPhotoFile] = useState();
+    const [photoProfil, setPhotoProfil] = useState();
+
     //API fetch requete GET pour récupérer les messages
     const fetchMessages = token => {
 
@@ -66,7 +69,6 @@ export default function SubscribeForm() {
         const url = 'http://localhost:4200/subscribe';
         //const fd = new FormData();
         //fd.append('photo', data.file, data.file.name);
-        //let loginUser = {};
 
         let request = {
             method: 'POST',
@@ -77,7 +79,7 @@ export default function SubscribeForm() {
             }
         };
 
-        console.log();
+        console.log(data.file);
 
         fetch(url, request)
             .then(rep => {
@@ -88,8 +90,8 @@ export default function SubscribeForm() {
                 const pseudo = value.data.pseudo;
                 const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
                 dispatch(updateAlertsParam(pseudo === undefined ? ({message:'Vous n\'avez pas correctement rempli les champs',alertVisible:true}) : ({message:`Bienvenue ${pseudo}`,confirmVisible:true})));
+
                 console.log(value.data);
-                //setUser(value.data);
                 
                 localStorage.clear();
                 const userLogged = {
@@ -184,7 +186,23 @@ export default function SubscribeForm() {
             ...subscribeData,
             file: e.target.files[0]
         });
+        if (e.target.files[0] !== null) {
+            setPhotoFile(e.target.files[0]);
+        } 
     }
+
+    const printFile = file => {
+        var reader = new FileReader();
+        reader.onload = function() {
+          setPhotoProfil(reader.result);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    useEffect(() => {
+        photoFile !== undefined && printFile(photoFile);
+    }, [photoFile])
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -244,6 +262,12 @@ export default function SubscribeForm() {
                 <label htmlFor='photoProfil'>Photo profil</label>
                 <input type='file' name='photoProfil' id='photoProfil' onChange={onChangeHandler} className='' accept='image/png, image/jpg, image/jpeg image/webp' />
             </div>
+            {subscribeData.file !== null && 
+            <div className="login__form__field photo-selected">
+                <div>
+                    <img src={photoProfil} alt="profil" />
+                </div>
+            </div>}
             <button type='submit' id='submit-btn' className='submit-btn'>S'inscrire</button>
         </form>
         <div className='login__logo' tabIndex='0'>

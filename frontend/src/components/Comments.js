@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
 import { createComment, deleteComment, modifyComment, updateAlertsParam, updateGeneralParam } from '../redux';
@@ -21,7 +21,6 @@ function BuildArticles(props) {
             return (
                 <div key={message.id + message.updatedAt}>
                     <ArticleCard
-                        pseudo={message.user_pseudo}
                         modify={message.USERS_id === user.id || user.isAdmin ? true : false}
                         messageId={index}
                         setModifiedArticle={props.setModifiedArticle}
@@ -110,21 +109,13 @@ function ArticleCard(props) {
         props.setModifiedArticle(comment.id);
     }
 
-    const deleteComment = id => {
-        commentsArray = commentsArray.filter(e => e.commentId !== id);
-        dispatch(modifyComment({...comment,users_comments:commentsArray}));
-        fetchModifiedArticle();
-        //props.setModifiedArticle(comment.id);
-    }
-
     const changeComment = id => {
-        console.log('MODIFY');
         dispatch(updateGeneralParam({commentVisible:true}));
         props.setModifiedArticle(comment.id);
         props.setModifiedComment(id);
     }
 
-    const fetchModifiedArticle = () => {
+    const fetchModifiedArticle = id => {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
         const url = 'http://localhost:4200/commentsPage/' + comment.id;
         let modifiedComment = {
@@ -145,6 +136,8 @@ function ArticleCard(props) {
             .then(rep => {
                 let userComment = rep.json();
                 dispatch(updateAlertsParam({message:'Votre commentaire a été supprimé !',confirmVisible:true}));
+                commentsArray = commentsArray.filter(e => e.commentId !== id);
+                dispatch(modifyComment({...comment,users_comments:commentsArray}));
                 return userComment;
             })
             .catch(error => {
@@ -160,13 +153,13 @@ function ArticleCard(props) {
 
     const commentDom = commentsArray.map((comment) => {
         return (
-            <div key={comment.commentId} className="comment" onClick={() => comment.userId === userStored.id || userStored.isAdmin ? changeComment(comment.commentId): null}>
+            <div key={comment.commentId} className="comment">
                 <div className="comment__image">
                     <img src={comment.photoProfil} alt="profil" />
                 </div>
                 <h4>{comment.pseudo} : </h4>
-                <p>{comment.content}</p>
-                {(comment.userId === userStored.id || userStored.isAdmin) && <div className="delete" onClick={() => deleteComment(comment.commentId)}><p>X</p></div>}
+                <p onClick={() => comment.userId === userStored.id || userStored.isAdmin ? changeComment(comment.commentId): null}>{comment.content}</p>
+                {(comment.userId === userStored.id || userStored.isAdmin) && <div className="delete" onClick={() => fetchModifiedArticle(comment.commentId)}><p>X</p></div>}
             </div>
         ) 
     });
@@ -215,15 +208,15 @@ function ArticleCard(props) {
     )
 }
 
-export function ArticlePopup(props) {
+function ArticlePopup(props) {
     const user = useSelector(state => state.handleUser);
     const visible = useSelector(state => state.generalParams.articleVisible);
 
-    const comments = [...useSelector(state => state.handleComments)];
+    const articles = [...useSelector(state => state.handleComments)];
 
     const dispatch = useDispatch();
 
-    const comment = props.modifiedArticle === '' ? 
+    const article = props.modifiedArticle === '' ? 
     {
         USERS_id: user.id,
         user_pseudo: user.pseudo,
@@ -233,9 +226,9 @@ export function ArticlePopup(props) {
         attachment: '',
         users_comments: [],
         likes: []
-    } : comments.filter(e => e.id === props.modifiedArticle)[0];
+    } : articles.filter(e => e.id === props.modifiedArticle)[0];
 
-    const [updatedArticle, setUpdatedArticle] = useState({...comment});
+    const [updatedArticle, setUpdatedArticle] = useState({...article});
 
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : {};
 
@@ -413,18 +406,21 @@ export function ArticlePopup(props) {
 function AddComment(props) {
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : {};
 
-    const comments = [...useSelector(state => state.handleComments)];
-    const comment = comments.filter(e => e.id === props.modifiedArticle)[0];
+    const articles = [...useSelector(state => state.handleComments)];
+    const article = articles.filter(e => e.id === props.modifiedArticle)[0];
 
     const dispatch = useDispatch();
 
-    const [newComment, setNewComment] = useState({
+    let modifiedComment = '';
+    props.modifiedComment !== '' && (modifiedComment = article.users_comments.filter(e => e.commentId === props.modifiedComment)[0])
+
+    const [newComment, setNewComment] = useState(props.modifiedComment === '' ? {
         userId: userStored.id,
         pseudo: userStored.pseudo,
         photoProfil: userStored.photoProfil,
         commentId: uuidv4(),
         content: ''
-    })
+    } : {...modifiedComment});
 
     const commentChange = e => {
         const value = e.target.value;
@@ -436,10 +432,15 @@ function AddComment(props) {
 
     const handleSubmit = e => {
         e.preventDefault();
-        const commentsArray = [...comment.users_comments];
-        commentsArray.push(newComment);
+        const commentsArray = [...article.users_comments];
+        if (props.modifiedComment === '') {
+            commentsArray.push(newComment);
+        } else {
+            const index = commentsArray.findIndex(e => e.commentId === props.modifiedComment);
+            commentsArray.splice(index, 1, newComment);
+        }
         dispatch(updateGeneralParam({commentVisible:false}));
-        dispatch(modifyComment({...comment,users_comments:commentsArray}));
+        dispatch(modifyComment({...article,users_comments:commentsArray}));
         articleModify(commentsArray);
         props.setModifiedArticle('');
         props.setModifiedComment('');
