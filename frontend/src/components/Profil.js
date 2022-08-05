@@ -4,15 +4,16 @@ import Footer from './Footer';
 import validator from 'validator';
 import { storeToLocal } from './Storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUser, modifyUser, updateAlertsParam } from '../redux';
+import { deleteComment, deleteUser, modifyUser, updateAlertsParam } from '../redux';
 
 
 export default function Profil() {
     const userStored = JSON.parse(localStorage.getItem('user'));
-
+    
     const dispatch = useDispatch();
-
+    
     const user = useSelector(state => state.handleUser);
+    const articles = useSelector(state => state.handleComments);
 
     const [userNew, setUserNew] = useState({
         lastname: user.lastname,
@@ -93,6 +94,31 @@ export default function Profil() {
                 console.log('erreur !' + error);
             })
     }
+
+    function deleteArticles() {
+        const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
+        const userArticles = articles.filter(e => e.USERS_id === userStored.id);
+        userArticles.map(e => {
+            const url = 'http://localhost:4200/commentsPage/' + e.id;
+
+            let request = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + userStored.token
+                }
+            };
+            
+            fetch(url, request)
+            .then(() => {
+                console.log(e.title + ' effacé');
+                dispatch(deleteComment(e));
+            })
+            .catch(function (error) {
+                console.log('erreur !' + error);
+            })
+        })
+    }
     
     const deleteProfile = () => {
         const userStored = JSON.parse(localStorage.getItem('user'));
@@ -111,6 +137,7 @@ export default function Profil() {
                 .then(() => {
                     dispatch(updateAlertsParam({message:'Votre profil a été supprimé !',confirmVisible:true}));
                     dispatch(deleteUser());
+                    deleteArticles();
                     window.location.reload();
                 })
                 .catch(function (error) {

@@ -1,23 +1,24 @@
-const { User } = require('../db/sequelize')
-const { ValidationError, UniqueConstraintError } = require('sequelize')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-//const upload = multer({ dest: 'images/' })
-const fs = require('fs')
+const { User } = require('../db/sequelize');
+const { ValidationError, UniqueConstraintError } = require('sequelize');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
-require('dotenv').config()
+require('dotenv').config();
 
 exports.createUser = (req, res) => {
-    const utilisateur = req.body;
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
+    const utilisateur = JSON.parse(req.body.user);
+    console.log(utilisateur);
+    const photo = req.file;
+    bcrypt.hash(utilisateur.password, 10, (err, hash) => {
         utilisateur.password = hash;
         const profil = {
             ...utilisateur,
-            photoProfil: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.name}` : `http://localhost:4200/images/default-avatar.png`
+            photoProfil: photo ? `${req.protocol}://${req.get('host')}/images/${photo.originalname}` : `http://localhost:4200/images/default-avatar.png`
         };
         User.create(profil)
             .then(user => {
-                const message = `Votre profil a bien été crée.`
+                const message = `Votre profil est crée, ${profil.pseudo}. Bienvenue !`
                 res.json({
                     message, data: user, token: jwt.sign(
                         { userId: user.id },

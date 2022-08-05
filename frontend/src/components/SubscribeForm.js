@@ -5,7 +5,7 @@ import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochro
 import { storeToLocal, recupLocal } from './Storage';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
-import { updateAlertsParam, updateGeneralParam } from "../redux";
+import { createComment, modifyUser, updateAlertsParam, updateGeneralParam } from "../redux";
 //import { Link } from "react-router-dom";
 //import alertPopup from './AlertPopup';
 
@@ -56,8 +56,12 @@ export default function SubscribeForm() {
                 return recupMessages;
             })
             .then(function (value) {
-                storeToLocal('messages', value);
-                //setComments(value);
+                const comments = value;
+                comments.forEach(e => {
+                    e.likes = e.likes !== "NULL" ? JSON.parse(e.likes) : [];
+                    e.users_comments = e.users_comments !== "NULL" ? JSON.parse(e.users_comments) : [];
+                    dispatch(createComment(e));
+                });
             })
             .catch(function (error) {
                 console.log('erreur !' + error);
@@ -65,21 +69,19 @@ export default function SubscribeForm() {
     }
 
     //API fetch requete POST pour formulaire
-    const subscribeSubmit = data => {
+    const subscribeSubmit = (data,file) => {
         const url = 'http://localhost:4200/subscribe';
-        //const fd = new FormData();
         //fd.append('photo', data.file, data.file.name);
+        const formData = new FormData();
+        formData.append('user', JSON.stringify(data));
+        formData.append('image', file);
 
         let request = {
             method: 'POST',
-            body: JSON.stringify(data),
-            file: data.file,
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            body: formData
         };
 
-        console.log(data.file);
+        console.log(request);
 
         fetch(url, request)
             .then(rep => {
@@ -89,8 +91,8 @@ export default function SubscribeForm() {
             .then(value => {
                 const pseudo = value.data.pseudo;
                 const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
-                dispatch(updateAlertsParam(pseudo === undefined ? ({message:'Vous n\'avez pas correctement rempli les champs',alertVisible:true}) : ({message:`Bienvenue ${pseudo}`,confirmVisible:true})));
-
+                dispatch(updateAlertsParam(pseudo === undefined ? ({message:'Vous n\'avez pas correctement rempli les champs',alertVisible:true}) : ({message:value.message,confirmVisible:true})));
+                dispatch(modifyUser({...value.data}))
                 console.log(value.data);
                 
                 localStorage.clear();
@@ -98,10 +100,12 @@ export default function SubscribeForm() {
                     id: value.data.id,
                     pseudo: pseudo,
                     photoProfil: photoProfil,
-                    token: value.token
+                    token: value.token,
+                    isAdmin: false
                 }
                 storeToLocal('user', userLogged);
                 fetchMessages(value.token);
+                dispatch(updateGeneralParam({connected:true}))
                 return (userLogged);
             })
             .catch(error => {
@@ -206,7 +210,9 @@ export default function SubscribeForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = subscribeData;
+        const imageFile = subscribeData.file;
+        const data = {...subscribeData};
+        delete data.file;
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {
@@ -218,7 +224,7 @@ export default function SubscribeForm() {
             }
         };
         if (validArray.length === inputsArray.length && inputsArray[6].value === inputsArray[7].value) {
-            subscribeSubmit(data);
+            subscribeSubmit(data,imageFile);
             //<Link to="/commentsPage"></Link>
         }
     }

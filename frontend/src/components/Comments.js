@@ -42,13 +42,13 @@ function ArticleCard(props) {
 
     const dispatch = useDispatch();
 
-    const comments = useSelector(state => state.handleComments);
-    const comment = comments[props.messageId];
-    let commentsArray = [...comment.users_comments]
+    const articles = useSelector(state => state.handleComments);
+    const article = articles[props.messageId];
+    let articlesArray = [...article.users_comments]
 
     function deleteArticle() {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
-        const url = 'http://localhost:4200/commentsPage/' + comment.id;
+        const url = 'http://localhost:4200/commentsPage/' + article.id;
 
         let request = {
             method: 'DELETE',
@@ -61,7 +61,7 @@ function ArticleCard(props) {
             fetch(url, request)
                 .then(() => {
                     dispatch(updateAlertsParam({message:'Le message a été supprimé !',confirmVisible:true}));
-                    dispatch(deleteComment(comment));
+                    dispatch(deleteComment(article));
                 })
                 .catch(function (error) {
                     console.log('erreur !' + error);
@@ -71,7 +71,7 @@ function ArticleCard(props) {
 
     const articleLike = likes => {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
-        const url = 'http://localhost:4200/commentsPage/' + comment.id;
+        const url = 'http://localhost:4200/commentsPage/' + article.id;
         let modifiedComment = {
             likes: JSON.stringify(likes)
         };
@@ -96,30 +96,30 @@ function ArticleCard(props) {
     }
 
     const addLike = () => {
-        const userLikes = comment.likes.includes(userStored.id) ? true : false;
-        let likes = comment.likes === 'NULL' ? [] : [...comment.likes];
+        const userLikes = article.likes.includes(userStored.id) ? true : false;
+        let likes = article.likes === 'NULL' ? [] : [...article.likes];
         !userLikes ? likes.push(userStored.id) : likes = likes.filter(e => e!== userStored.id);
-        dispatch(modifyComment({...comment,likes:likes}));
+        dispatch(modifyComment({...article,likes:likes}));
         articleLike(likes);
     }
 
     const addUserComment = e => {
         e.preventDefault();
         dispatch(updateGeneralParam({commentVisible:true}));
-        props.setModifiedArticle(comment.id);
+        props.setModifiedArticle(article.id);
     }
 
     const changeComment = id => {
         dispatch(updateGeneralParam({commentVisible:true}));
-        props.setModifiedArticle(comment.id);
+        props.setModifiedArticle(article.id);
         props.setModifiedComment(id);
     }
 
     const fetchModifiedArticle = id => {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
-        const url = 'http://localhost:4200/commentsPage/' + comment.id;
+        const url = 'http://localhost:4200/commentsPage/' + article.id;
         let modifiedComment = {
-            users_comments: JSON.stringify(commentsArray)
+            users_comments: JSON.stringify(articlesArray)
         };
 
         let request = {
@@ -134,11 +134,11 @@ function ArticleCard(props) {
         if (window.confirm('Voulez-vous supprimer le message ?')) {
             fetch(url, request)
             .then(rep => {
-                let userComment = rep.json();
+                let userArticle = rep.json();
                 dispatch(updateAlertsParam({message:'Votre commentaire a été supprimé !',confirmVisible:true}));
-                commentsArray = commentsArray.filter(e => e.commentId !== id);
-                dispatch(modifyComment({...comment,users_comments:commentsArray}));
-                return userComment;
+                articlesArray = articlesArray.filter(e => e.commentId !== id);
+                dispatch(modifyComment({...article,users_comments:articlesArray}));
+                return userArticle;
             })
             .catch(error => {
                 console.log('erreur ' + error);
@@ -148,18 +148,18 @@ function ArticleCard(props) {
 
     const modifyArticle = () => {
         dispatch(updateGeneralParam({articleVisible:true}));
-        props.setModifiedArticle(comment.id);
+        props.setModifiedArticle(article.id);
     }
 
-    const commentDom = commentsArray.map((comment) => {
+    const articlesDom = articlesArray.map(e => {
         return (
-            <div key={comment.commentId} className="comment">
+            <div key={e.commentId} className="comment">
                 <div className="comment__image">
-                    <img src={comment.photoProfil} alt="profil" />
+                    <img src={e.photoProfil} alt="profil" />
                 </div>
-                <h4>{comment.pseudo} : </h4>
-                <p onClick={() => comment.userId === userStored.id || userStored.isAdmin ? changeComment(comment.commentId): null}>{comment.content}</p>
-                {(comment.userId === userStored.id || userStored.isAdmin) && <div className="delete" onClick={() => fetchModifiedArticle(comment.commentId)}><p>X</p></div>}
+                <h4>{e.pseudo} : </h4>
+                <p onClick={() => e.userId === userStored.id || userStored.isAdmin ? changeComment(e.commentId): null}>{e.content}</p>
+                {(e.userId === userStored.id || userStored.isAdmin) && <div className="delete" onClick={() => fetchModifiedArticle(e.commentId)}><p>X</p></div>}
             </div>
         ) 
     });
@@ -168,36 +168,36 @@ function ArticleCard(props) {
         <div className='comments__card'>
             <div className='comments__card__title'>
                 <div className='comments__card__title__box'>
-                    <h3 tabIndex='0'>{comment.user_pseudo}</h3>
-                    {comment.updatedAt !== comment.createdAt ? <p tabIndex='0'>modifié le {comment.updatedAt.split('T')[0]} à {comment.updatedAt.split('T')[1].split('.')[0]}</p> : <p tabIndex='0'>créé le {comment.createdAt.split('T')[0]} à {comment.createdAt.split('T')[1].split('.')[0]}</p>}
-                <h4 tabIndex='0'>{comment.title}</h4>
+                    <h3 tabIndex='0'>{article.user_pseudo}</h3>
+                    {article.updatedAt !== article.createdAt ? <p tabIndex='0'>modifié le {article.updatedAt.split('T')[0]} à {article.updatedAt.split('T')[1].split('.')[0]}</p> : <p tabIndex='0'>créé le {article.createdAt.split('T')[0]} à {article.createdAt.split('T')[1].split('.')[0]}</p>}
+                <h4 tabIndex='0'>{article.title}</h4>
                 </div>
                 <div>
                     <div className='users__likes' tabIndex='0'>
-                        <span>{comment.likes.length}</span>
+                        <span>{article.likes.length}</span>
                     </div>
                 </div>
             </div>
             <div className='comments__card__field'>
                 {props.attachment ? <div className='publication-photo'>
-                    <img src={comment.attachment} alt='partage' />
+                    <img src={article.attachment} alt='partage' />
                 </div> : null}
-                {comment.linkURL ?
+                {article.linkURL ?
                     <video className='publication-video' controls>
-                        <source src={comment.linkURL} type='video'></source>
+                        <source src={article.linkURL} type='video'></source>
                     </video> : null}
                 <div className="comments__card__field__article">
-                    <p tabIndex='0'>{comment.article}</p>
+                    <p tabIndex='0'>{article.article}</p>
                 </div>
                 <div className='comments__card__field__answer'>
                     <h4 tabIndex='0'>commentaires: </h4>
                     <div className="comments-section">
-                        {commentDom}
+                        {articlesDom}
                     </div>
                     
                 </div>
                 <div className='user-comment'>
-                    {comment.likes.includes(userStored.id) ? <div className='user-comment__like__true' tabIndex='0' onClick={() => addLike()}>Vous aimez</div> :
+                    {article.likes.includes(userStored.id) ? <div className='user-comment__like__true' tabIndex='0' onClick={() => addLike()}>Vous aimez</div> :
                     <div className='user-comment__like' tabIndex='0' onClick={() => addLike()}>Aimer ?</div>}
                     {props.modify && <button className='user-comment__btn' onClick={modifyArticle}>modifier</button>}
                     {props.modify && <button className='user-comment__btn' onClick={() => deleteArticle()}>effacer</button>}
@@ -231,49 +231,6 @@ function ArticlePopup(props) {
     const [updatedArticle, setUpdatedArticle] = useState({...article});
 
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : {};
-
-    //API fetch requete PUT pour formulaire
-    /* const commentUpdate = (e, state) => {
-        if (e) { e.preventDefault() };
-        const id = state.props ? state.props.id : state.id;
-        const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
-        const url = 'http://localhost:4200/commentsPage/' + id;
-        //const messagesFetched = props.comments ? props.comments : [];
-        for (let ind = 0; ind < messagesFetched.length; ind++) {
-            if (messagesFetched[ind].id === data.id) {
-                messagesFetched.splice(ind, 1);
-            }
-        }
-        //const file = document.querySelector('#photoProfil').files[0];
-        let modifiedComment = {
-            id: id,
-            title: state.title,
-            article: state.article
-        };
-
-        let request = {
-            method: 'PUT',
-            body: JSON.stringify(modifiedComment),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + userStored.token
-            }
-        };
-
-        fetch(url, request)
-            .then(rep => {
-                let userComment = rep.json();
-                return userComment;
-            })
-            .then(value => {
-                console.log(value);
-                articleIsvisible && ;
-                 ? confirmToggle(value.message) : confirmToggle(value.message);
-            })
-            .catch(error => {
-                console.log('erreur ' + error);
-            })
-    } */
 
     const articleModify = data => {
         const url = 'http://localhost:4200/commentsPage/'+props.modifiedArticle;
@@ -312,10 +269,10 @@ function ArticlePopup(props) {
     const articleSubmit = data => {
         const url = 'http://localhost:4200/commentsPage';
         //const file = document.querySelector('#photoProfil').files[0];
-        const likesArray = data.likes;
-        const commentsArray = data.users_comments;
-        data.likes = JSON.stringify(likesArray);
-        data.users_comments = JSON.stringify(commentsArray);
+        /* const likesArray = data.likes;
+        const commentsArray = data.users_comments; */
+        data.likes = JSON.stringify([]);
+        data.users_comments = JSON.stringify([]);
         
         let request = {
             method: 'POST',
@@ -333,8 +290,7 @@ function ArticlePopup(props) {
         })
         .then(value => {
                 dispatch(updateAlertsParam({message:value.message,confirmVisible:true}));
-                console.log(value.data);
-                dispatch(createComment({...value.data,likes:likesArray,comments:commentsArray}))
+                dispatch(createComment({...value.data,likes:[],users_comments:[]}))
                 //localStorage.setItem('messages', JSON.stringify(messagesFetched));
             })
             .catch(error => {
