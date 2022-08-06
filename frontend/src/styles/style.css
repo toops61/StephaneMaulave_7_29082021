@@ -102,15 +102,19 @@ a {
 }
 
 .submit-btn {
-  background-color: #FFD7D7;
-  box-shadow: 2px 2px 14px #a71818;
+  background-color: #3e8b7e;
+  box-shadow: 2px 2px 8px black;
   border-radius: 30px;
+  color: white;
   padding: 0.3rem 1rem;
   margin: 1rem;
   transition: 300ms ease-in;
 }
 .submit-btn:hover {
   transform: scale(1.3);
+}
+.submit-btn a {
+  color: white;
 }
 
 .arrow-up {

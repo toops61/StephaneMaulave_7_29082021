@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import { storeToLocal } from './Storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteComment, deleteUser, modifyUser, updateAlertsParam } from '../redux';
+import { deleteComment, deleteUser, modifyComment, modifyUser, updateAlertsParam } from '../redux';
 
 
 export default function Profil() {
@@ -30,7 +30,7 @@ export default function Profil() {
     //API fetch requete POST pour formulaire
     const updateProfile = (data,file) => {
         const url = 'http://localhost:4200/user/' + user.id;
-    
+
         const formData = new FormData();
         formData.append('user', JSON.stringify(data));
         formData.append('image', file);
@@ -42,6 +42,26 @@ export default function Profil() {
                 'Authorization': 'Bearer ' + userStored.token
             }
         };
+
+        const modifyUserComments = () => {
+            const profilArticlesModified = [...articles.filter(e => e.USERS_id === userStored.id)].map(el => {
+                const modifiedArticle = {...el,user_pseudo:userNew.pseudo};
+                dispatch(modifyComment(modifiedArticle));
+                return modifiedArticle
+            });
+            console.log(profilArticlesModified);
+            const profilArticles = [...articles.filter(e => e.users_comments.some(el => el.userId === userStored.id))];
+            if (profilArticles.length > 0) {
+                const modifiedArticles = profilArticles.map(e => {
+                    const comments = [...e.users_comments.filter(el => el.userId === userStored.id)];
+                    const modifiedComments = comments.map(element => {
+                        return {...element,pseudo:userNew.pseudo,photoProfil:photoProfil}});
+                    const modifiedArticle = {...e,users_comments:modifiedComments};
+                    dispatch(modifyComment(modifiedArticle));
+                    return modifiedArticle;
+                })
+            }
+        }
     
         fetch(url, request)
             .then(rep => {
@@ -50,12 +70,13 @@ export default function Profil() {
             })
             .then(value => {
                 const pseudo = value.data.pseudo;
-                let photoProfil = userStored.photoProfil;
-                value.data.photoProfil && (photoProfil = value.data.photoProfil);
+                let photoProfil = user.photoProfil;
+                value.data.photoProfil && ((photoProfil = value.data.photoProfil) && (userStored.photoProfil = photoProfil));
                 if (pseudo !== userStored.pseudo) {
                     userStored.pseudo = pseudo;
                 }
                 storeToLocal('user', userStored);
+                modifyUserComments();
                 dispatch(updateAlertsParam({message:'votre profil a été mis à jour',confirmVisible:true}));
                 dispatch(modifyUser({...data,photoProfil:photoProfil}));
             })
@@ -93,6 +114,8 @@ export default function Profil() {
         const userStored = JSON.parse(localStorage.getItem('user'));
         const url = 'http://localhost:4200/user/' + user.id;
         //let loginUser = {};
+        const profilArticles = articles.filter(e => !e.users_comments.some(el => el.userId === userStored.id));
+        console.log(profilArticles);
     
         let request = {
             method: 'DELETE',
@@ -168,7 +191,6 @@ export default function Profil() {
         const data = {...userNew};
         const imageFile = userNew.file;
         delete data.file;
-        console.log(imageFile);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {

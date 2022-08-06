@@ -77,7 +77,7 @@ const commentSlice = createSlice({
     initialState:[],
     reducers: {
         createComment: (state, action) => {
-            state.push(action.payload);
+            state.unshift(action.payload);
             return state;
         },
         modifyComment: (state, action) => {

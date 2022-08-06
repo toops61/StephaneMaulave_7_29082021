@@ -1,12 +1,16 @@
 .submit-btn {
-    background-color: $third-color;
-    @include btn-shadow;
+    background-color: $primary-color;
+    box-shadow: 2px 2px 8px black;
     @include borderRadius;
+    color: white;
     padding: .3rem 1rem;
     margin: 1rem;
     transition: 300ms ease-in;
     &:hover {
         transform: scale(1.3);
+    }
+    a {
+        color: white;
     }
 }
 

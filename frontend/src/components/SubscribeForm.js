@@ -68,32 +68,40 @@ export default function SubscribeForm() {
             body: formData
         };
 
+        let message = 'Vous n\'avez pas correctement rempli les champs';
+        let status = '';
+
         fetch(url, request)
             .then(rep => {
                 let userProfil = rep.json();
+                status = rep.status === 401 ? 'error' : 'logged';
                 return userProfil;
             })
             .then(value => {
-                const pseudo = value.data.pseudo;
-                const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
-                dispatch(updateAlertsParam(pseudo === undefined ? ({message:'Vous n\'avez pas correctement rempli les champs',alertVisible:true}) : ({message:value.message,confirmVisible:true})));
-                dispatch(modifyUser({...value.data}));
-                
-                localStorage.clear();
-                const userLogged = {
-                    id: value.data.id,
-                    pseudo: pseudo,
-                    photoProfil: photoProfil,
-                    token: value.token,
-                    isAdmin: false
+                if (status === 'logged') {
+                    const pseudo = value.data.pseudo;
+                    const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
+                    dispatch(updateAlertsParam({message:value.message,confirmVisible:true}));
+                    localStorage.clear();
+                    const userLogged = {
+                        id: value.data.id,
+                        pseudo: pseudo,
+                        photoProfil: photoProfil,
+                        token: value.token,
+                        isAdmin: false
+                    }
+                    dispatch(modifyUser({...value.data,...userLogged}));
+                    storeToLocal('user', userLogged);
+                    fetchMessages(value.token);
+                    dispatch(updateGeneralParam({connected:true}))
+                    return (userLogged);
+                } else if (status === 'error') {
+                    dispatch(updateAlertsParam({message:value,alertVisible:true}));
                 }
-                storeToLocal('user', userLogged);
-                fetchMessages(value.token);
-                dispatch(updateGeneralParam({connected:true}))
-                return (userLogged);
             })
             .catch(error => {
                 console.log('erreur ' + error);
+                dispatch(updateAlertsParam({message:message,alertVisible:true}));
             })
     }
 
@@ -191,7 +199,6 @@ export default function SubscribeForm() {
         photoFile !== undefined && printFile(photoFile);
     }, [photoFile])
     
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const imageFile = subscribeData.file;
@@ -201,8 +208,9 @@ export default function SubscribeForm() {
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {
             const element = inputsArray[index];
+            const message = index === 6 || index === 7 ? 'le mot de passe doit contenir au moins huit caractères, une minuscule, une majuscule, un chiffre et un caractère spécial' : 'invalid ' + element.name;
             if (element.className === 'invalid') {
-                dispatch(updateAlertsParam({message:'le mot de passe doit contenir au moins huit caractères, une minuscule, une majuscule, un chiffre et un caractère spécial',alertVisible:true}));
+                dispatch(updateAlertsParam({message:message,alertVisible:true}));
             } else {
                 validArray.push(element.name);
             }

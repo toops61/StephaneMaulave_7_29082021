@@ -2,13 +2,11 @@ const { User } = require('../db/sequelize');
 const { ValidationError, UniqueConstraintError } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
 
 require('dotenv').config();
 
 exports.createUser = (req, res) => {
     const utilisateur = JSON.parse(req.body.user);
-    console.log(utilisateur);
     const photo = req.file;
     bcrypt.hash(utilisateur.password, 10, (err, hash) => {
         utilisateur.password = hash;

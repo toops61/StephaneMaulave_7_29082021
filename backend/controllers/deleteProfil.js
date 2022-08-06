@@ -9,7 +9,7 @@ exports.deleteUser = (req, res) => {
                 return res.status(404).json({ message })
             }
             const filename = user.photoProfil.split('/images/')[1];
-            user.photoProfil !== 'default-avatar.png' && fs.unlink(`images/${filename}`, (err) => {
+            filename !== 'default-avatar.png' && fs.unlink(`images/${filename}`, (err) => {
                 if (err) throw err;
             });
             const userDeleted = user;

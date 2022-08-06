@@ -1,14 +1,14 @@
 const { User } = require('../db/sequelize');
 const { ValidationError, UniqueConstraintError } = require('sequelize');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 exports.updateUser = (req, res) => {
     const utilisateur = JSON.parse(req.body.user);
-    console.log(utilisateur);
     const id = utilisateur.id;
     const photo = req.file;
     const filename = utilisateur.photoProfil.split('/images/')[1];
-    photo && utilisateur.photoProfil !== 'default-avatar.png' && fs.unlink(`images/${filename}`, (err) => {
+    (photo && filename !== 'default-avatar.png' && filename !== photo.originalname) && fs.unlink(`images/${filename}`, (err) => {
         if (err) throw err;
     });
     bcrypt.hash(utilisateur.password, 10, (err, hash) => {

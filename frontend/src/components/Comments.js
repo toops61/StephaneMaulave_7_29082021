@@ -326,11 +326,11 @@ function ArticlePopup(props) {
     return (
         <div className={visible ? 'message-pop appear' : 'message-pop'} id='user-comment'>
             <div className='message-pop__field'>
-                <div>
-                    <div className='profil__photo'>
-                        <img src={props.user ? props.user.photoProfil : userStored.photoProfil} alt='profil' tabIndex='0' />
+                <div className='profil'>
+                    <div className='photo'>
+                        <img src={user ? user.photoProfil : userStored.photoProfil} alt='profil' tabIndex='0' />
                     </div>
-                    <h3 tabIndex='0'>{props.user ? props.user.pseudo : userStored.pseudo}, c'est à vous !</h3>
+                    <h3 tabIndex='0'>{user ? user.pseudo : userStored.pseudo}, c'est à vous !</h3>
                 </div>
                 <form className='message-pop__field__form' onSubmit={handleSubmit}>
                     <div className='message-pop__field__text' tabIndex='0'>
