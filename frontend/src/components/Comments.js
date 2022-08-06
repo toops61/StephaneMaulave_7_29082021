@@ -44,7 +44,7 @@ function ArticleCard(props) {
 
     const articles = useSelector(state => state.handleComments);
     const article = articles[props.messageId];
-    let articlesArray = [...article.users_comments]
+    let commentsArray = [...article.users_comments]
 
     function deleteArticle() {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
@@ -115,11 +115,12 @@ function ArticleCard(props) {
         props.setModifiedComment(id);
     }
 
-    const fetchModifiedArticle = id => {
+    const fetchModifiedArticle = comment => {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
         const url = 'http://localhost:4200/commentsPage/' + article.id;
+        commentsArray = commentsArray.filter(e => e.commentId !== comment.commentId);
         let modifiedComment = {
-            users_comments: JSON.stringify(articlesArray)
+            users_comments: JSON.stringify(commentsArray)
         };
 
         let request = {
@@ -136,8 +137,7 @@ function ArticleCard(props) {
             .then(rep => {
                 let userArticle = rep.json();
                 dispatch(updateAlertsParam({message:'Votre commentaire a été supprimé !',confirmVisible:true}));
-                articlesArray = articlesArray.filter(e => e.commentId !== id);
-                dispatch(modifyComment({...article,users_comments:articlesArray}));
+                dispatch(modifyComment({...article,users_comments:commentsArray}));
                 return userArticle;
             })
             .catch(error => {
@@ -151,7 +151,7 @@ function ArticleCard(props) {
         props.setModifiedArticle(article.id);
     }
 
-    const articlesDom = articlesArray.map(e => {
+    const commentsDom = commentsArray.map(e => {
         return (
             <div key={e.commentId} className="comment">
                 <div className="comment__image">
@@ -159,7 +159,7 @@ function ArticleCard(props) {
                 </div>
                 <h4>{e.pseudo} : </h4>
                 <p onClick={() => e.userId === userStored.id || userStored.isAdmin ? changeComment(e.commentId): null}>{e.content}</p>
-                {(e.userId === userStored.id || userStored.isAdmin) && <div className="delete" onClick={() => fetchModifiedArticle(e.commentId)}><p>X</p></div>}
+                {(e.userId === userStored.id || userStored.isAdmin) && <div className="delete" onClick={() => fetchModifiedArticle(e)}><p>X</p></div>}
             </div>
         ) 
     });
@@ -192,7 +192,7 @@ function ArticleCard(props) {
                 <div className='comments__card__field__answer'>
                     <h4 tabIndex='0'>commentaires: </h4>
                     <div className="comments-section">
-                        {articlesDom}
+                        {commentsDom}
                     </div>
                     
                 </div>

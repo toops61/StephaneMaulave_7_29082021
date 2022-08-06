@@ -2,7 +2,7 @@ const { Message } = require('../db/sequelize')
 const { ValidationError, UniqueConstraintError } = require('sequelize')
 
 exports.updateComment = (req, res) => {
-    const id = req.params.id
+    const id = req.params.id;
     Message.update(req.body, {
         where: { id: id }
     })

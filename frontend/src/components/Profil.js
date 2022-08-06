@@ -26,6 +26,26 @@ export default function Profil() {
         password: '',
         photoProfil: user.photoProfil
     });
+
+    const fetchUpdatedArticle = (article) => {
+        const url = 'http://localhost:4200/commentsPage/' + article.id;
+        const articleToFetch = {...article,likes:JSON.stringify(article.likes),users_comments:JSON.stringify(article.users_comments)};
+        let request = {
+            method: 'PUT',
+            body: JSON.stringify(articleToFetch),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + userStored.token
+            }
+        };
+        
+        fetch(url, request)
+        .then()
+        .catch(error => {
+            console.log('erreur ' + error);
+            console.log(article);
+        })
+    }
     
     //API fetch requete POST pour formulaire
     const updateProfile = (data,file) => {
@@ -44,20 +64,21 @@ export default function Profil() {
         };
 
         const modifyUserComments = () => {
-            const profilArticlesModified = [...articles.filter(e => e.USERS_id === userStored.id)].map(el => {
+            articles.filter(e => e.USERS_id === userStored.id).map(el => {
                 const modifiedArticle = {...el,user_pseudo:userNew.pseudo};
                 dispatch(modifyComment(modifiedArticle));
+                fetchUpdatedArticle(modifiedArticle);
                 return modifiedArticle
             });
-            console.log(profilArticlesModified);
             const profilArticles = [...articles.filter(e => e.users_comments.some(el => el.userId === userStored.id))];
             if (profilArticles.length > 0) {
-                const modifiedArticles = profilArticles.map(e => {
+                profilArticles.map(e => {
                     const comments = [...e.users_comments.filter(el => el.userId === userStored.id)];
                     const modifiedComments = comments.map(element => {
                         return {...element,pseudo:userNew.pseudo,photoProfil:photoProfil}});
                     const modifiedArticle = {...e,users_comments:modifiedComments};
                     dispatch(modifyComment(modifiedArticle));
+                    fetchUpdatedArticle(modifiedArticle);
                     return modifiedArticle;
                 })
             }
@@ -85,7 +106,7 @@ export default function Profil() {
             })
     }
 
-    function deleteArticles() {
+    const deleteArticles = () => {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
         const userArticles = articles.filter(e => e.USERS_id === userStored.id);
         userArticles.map(e => {
@@ -109,13 +130,37 @@ export default function Profil() {
             })
         })
     }
+
+    const selectArticlesToModify = () => {
+        const likesArticles = [...articles.filter(e => e.likes.includes(userStored.id))];
+        if (likesArticles.length > 0) {
+            likesArticles.map(e => {
+                const likes = [...e.likes.filter(el => el !== userStored.id)];
+                const likesArticle = {...e,likes:likes};
+                dispatch(modifyComment(likesArticle));
+                fetchUpdatedArticle(likesArticle);
+                return likesArticle;
+            })
+        }
+
+        const commentsArticles = [...articles.filter(e => e.users_comments.some(el => el.userId === userStored.id))];
+        if (commentsArticles.length > 0) {
+            commentsArticles.map(e => {
+                const likes = e.likes.includes(userStored.id) ? e.likes.filter(el => el !== userStored.id) : e.likes;
+                const comments = [...e.users_comments.filter(el => el.userId !== userStored.id)];
+                const commentsArticle = {...e,users_comments:comments,likes:likes};
+                dispatch(modifyComment(commentsArticle));
+                fetchUpdatedArticle(commentsArticle);
+                return commentsArticle;
+            })
+        }
+    }
     
     const deleteProfile = () => {
         const userStored = JSON.parse(localStorage.getItem('user'));
         const url = 'http://localhost:4200/user/' + user.id;
         //let loginUser = {};
         const profilArticles = articles.filter(e => !e.users_comments.some(el => el.userId === userStored.id));
-        console.log(profilArticles);
     
         let request = {
             method: 'DELETE',
@@ -127,9 +172,10 @@ export default function Profil() {
         if (window.confirm('Voulez-vous supprimer votre profil ?')) {
             fetch(url, request)
                 .then(() => {
-                    dispatch(updateAlertsParam({message:'Votre profil a été supprimé !',confirmVisible:true}));
-                    dispatch(deleteUser());
                     deleteArticles();
+                    selectArticlesToModify();
+                    dispatch(deleteUser());
+                    dispatch(updateAlertsParam({message:'Votre profil a été supprimé !',confirmVisible:true}));
                     window.location.reload();
                 })
                 .catch(function (error) {
