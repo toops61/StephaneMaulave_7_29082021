@@ -268,9 +268,7 @@ function ArticlePopup(props) {
     //API fetch requete POST pour formulaire
     const articleSubmit = data => {
         const url = 'http://localhost:4200/commentsPage';
-        //const file = document.querySelector('#photoProfil').files[0];
-        /* const likesArray = data.likes;
-        const commentsArray = data.users_comments; */
+
         data.likes = JSON.stringify([]);
         data.users_comments = JSON.stringify([]);
         
@@ -423,7 +421,7 @@ function AddComment(props) {
         fetch(url, request)
         .then(rep => {
             let userComment = rep.json();
-            dispatch(updateAlertsParam({message:'Votre commentaire a été ajouté',confirmVisible:true}));
+            dispatch(updateAlertsParam({message:props.modifiedComment === '' ? 'Votre commentaire a été ajouté' : 'Votre commentaire a été modifié',confirmVisible:true}));
             return userComment;
         })
         .catch(error => {

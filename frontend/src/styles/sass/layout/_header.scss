@@ -13,6 +13,7 @@
         height: 6rem;
         img {
             @include imageFit;
+            filter: drop-shadow(1px 1px 2px black);
         }
         transition: 400ms ease-in;
         &:hover {
@@ -24,8 +25,9 @@
         }
         &::before {
             @include textBulle('Fil d\'actualité');
-            top: 1vw;
-            left: 6vw;
+            position: absolute;
+            top: 3rem;
+            left: 5rem;
         }
         
     }
@@ -56,19 +58,24 @@
 
 .user-icon {
     @include flexCenter;
+    position: relative;
     &:hover::before {
         opacity: .8;
-        transition: opacity .8s;
+        transition: .8s;
+    }
+    &:hover::after {
+        filter: drop-shadow(3px 4px 2px $seventh-color);
     }
     &::after {
         @include icon;
         font-size: 3rem;
         color: $sixth-color;
+        transition: filter .2s linear;
     }
     &::before {
         @include textBulle('Profil');
-        top: 3vw;
-        right: 25vw;
+        position: absolute;
+        right: 3rem;
     }
     
     
