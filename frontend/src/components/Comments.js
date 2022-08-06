@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import logo from '../assets/Groupomania_Logos/icon-left-font-decoupe.png';
+import logo from '../assets/Groupomania_Logos/logo-decoupe.png';
+import icon from '../assets/Groupomania_Logos/icon-decoupe.png';
 import { createComment, deleteComment, modifyComment, updateAlertsParam, updateGeneralParam } from '../redux';
 import { v4 as uuidv4 } from 'uuid';
 //import imgProfil from '../assets/photo_profil.jpg';
@@ -483,8 +484,13 @@ export default function CommentPage() {
                 </div>
                 <BuildArticles setModifiedArticle={setModifiedArticle} setModifiedComment={setModifiedComment} />
             </div>
-            <div>
-                <img src={logo} alt='Groupomania' tabIndex='0' />
+            <div className='logos-footer'>
+                <div className="logos-footer__icon">
+                    <img src={icon} alt='Groupomania' tabIndex='0' />
+                </div>
+                <div className="logos-footer__logo">
+                    <img src={logo} alt='Groupomania' tabIndex='0' />
+                </div>
             </div>
             <Footer />
         </main>

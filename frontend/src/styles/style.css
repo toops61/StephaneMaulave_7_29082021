@@ -1068,4 +1068,20 @@ a {
   left: 5vw;
 }
 
+.logos-footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+}
+.logos-footer__icon {
+  width: 20%;
+}
+.logos-footer__icon img {
+  filter: drop-shadow(5px 5px 1px #FD2D01);
+}
+.logos-footer__logo img {
+  filter: drop-shadow(5px 7px 1px #FFD7D7);
+}
+
 /*# sourceMappingURL=style.css.map */

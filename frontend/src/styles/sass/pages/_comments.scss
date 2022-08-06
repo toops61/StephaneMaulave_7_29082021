@@ -219,3 +219,21 @@
         left: 5vw;
     }
 }
+
+.logos-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+    &__icon {
+        width: 20%;
+        img {
+            filter: drop-shadow(5px 5px 1px $secondary-color);
+        }
+    }
+    &__logo {
+        img {
+            filter: drop-shadow(5px 7px 1px $third-color);
+        }
+    }
+}

@@ -132,7 +132,7 @@ export default function Profil() {
     }
 
     const selectArticlesToModify = () => {
-        const likesArticles = [...articles.filter(e => e.likes.includes(userStored.id))];
+        const likesArticles = [...articles.filter(e => e.likes.includes(userStored.id) && !e.users_comments.some(el => el.userId === userStored.id))];
         if (likesArticles.length > 0) {
             likesArticles.map(e => {
                 const likes = [...e.likes.filter(el => el !== userStored.id)];
