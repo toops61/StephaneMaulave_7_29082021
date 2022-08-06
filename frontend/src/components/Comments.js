@@ -478,7 +478,7 @@ export default function CommentPage() {
             />}
             <div className='comments'>
                 <div className='comments__btn' onClick={() => dispatch(updateGeneralParam({articleVisible:true}))} id='comment-btn'>
-                    <div className='profil__photo mini' tabIndex='0'>
+                    <div className='photo__mini' tabIndex='0'>
                         <img src={userStored.photoProfil} alt='profil' />
                     </div>
                     <span tabIndex='0'>{userStored.pseudo}, partagez votre story</span>

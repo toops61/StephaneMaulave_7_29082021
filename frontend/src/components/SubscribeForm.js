@@ -1,22 +1,9 @@
 import React, { useEffect, useState } from "react";
-/* import { render } from "react-dom"; */
 import validator from 'validator';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
-import { storeToLocal, recupLocal } from './Storage';
-import axios from 'axios';
+import { storeToLocal } from './Storage';
 import { useDispatch } from "react-redux";
 import { createComment, modifyUser, updateAlertsParam, updateGeneralParam } from "../redux";
-//import { Link } from "react-router-dom";
-//import alertPopup from './AlertPopup';
-
-/* function previewFile() {
-    const file = document.querySelector('#photoProfil').files[0];
-    const reader = new FileReader();
-    if (file) {
-        reader.readAsDataURL(file);
-    }
-    console.log(reader.result)
-} */
 
 export default function SubscribeForm() {
     const dispatch = useDispatch();
@@ -81,8 +68,6 @@ export default function SubscribeForm() {
             body: formData
         };
 
-        console.log(request);
-
         fetch(url, request)
             .then(rep => {
                 let userProfil = rep.json();
@@ -92,8 +77,7 @@ export default function SubscribeForm() {
                 const pseudo = value.data.pseudo;
                 const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
                 dispatch(updateAlertsParam(pseudo === undefined ? ({message:'Vous n\'avez pas correctement rempli les champs',alertVisible:true}) : ({message:value.message,confirmVisible:true})));
-                dispatch(modifyUser({...value.data}))
-                console.log(value.data);
+                dispatch(modifyUser({...value.data}));
                 
                 localStorage.clear();
                 const userLogged = {
@@ -266,7 +250,7 @@ export default function SubscribeForm() {
             </div>
             <div className='login__form__field'>
                 <label htmlFor='photoProfil'>Photo profil</label>
-                <input type='file' name='photoProfil' id='photoProfil' onChange={onChangeHandler} className='' accept='image/png, image/jpg, image/jpeg image/webp' />
+                <input type='file' name='photoProfil' id='photoProfil' onChange={onChangeHandler} accept='image/png, image/jpg, image/jpeg image/webp' />
             </div>
             {subscribeData.file !== null && 
             <div className="login__form__field photo-selected">

@@ -1,4 +1,5 @@
-const { User, Message } = require('../db/sequelize')
+const { User, Message } = require('../db/sequelize');
+const fs = require('fs');
 
 exports.deleteUser = (req, res) => {
     User.findByPk(req.params.id)
@@ -7,6 +8,10 @@ exports.deleteUser = (req, res) => {
                 const message = 'L\'utilisateur demandé n\'existe pas, essayez un autre...'
                 return res.status(404).json({ message })
             }
+            const filename = user.photoProfil.split('/images/')[1];
+            user.photoProfil !== 'default-avatar.png' && fs.unlink(`images/${filename}`, (err) => {
+                if (err) throw err;
+            });
             const userDeleted = user;
             Message.destroy({
                 where: { USERS_id: user.id }

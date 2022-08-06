@@ -1,7 +1,6 @@
 //import imgProfil from '../assets/photo_profil.jpg';
 import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
-import validator from 'validator';
 import { storeToLocal } from './Storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment, deleteUser, modifyUser, updateAlertsParam } from '../redux';
@@ -14,8 +13,11 @@ export default function Profil() {
     
     const user = useSelector(state => state.handleUser);
     const articles = useSelector(state => state.handleComments);
-
+    
+    const [photoFile, setPhotoFile] = useState();
+    const [photoProfil, setPhotoProfil] = useState(user.photoProfil);
     const [userNew, setUserNew] = useState({
+        ...user,
         lastname: user.lastname,
         firstname: user.firstname,
         pseudo: user.pseudo,
@@ -25,70 +27,37 @@ export default function Profil() {
         photoProfil: user.photoProfil
     });
     
-    const profile = () => {
-        const id = user.id;
-
-        let userInfos;
-        
-        const url = 'http://localhost:4200/user/' + id;
-        //let loginUser = {};
-    
-        let request = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + userStored.token
-            }
-        };
-    
-        fetch(url, request)
-            .then(rep => {
-                const userProfil = rep.json();
-                return userProfil;
-            })
-            .then(value => {
-                userInfos = value.data;
-                //console.log(userInfos);
-                return userInfos;
-                /* const inputField = document.querySelectorAll('form input');
-                inputField[1].value = userInfos.data.job;
-                inputField[2].value = userInfos.data.firstname;
-                inputField[3].value = userInfos.data.lastname;
-                inputField[4].value = userInfos.data.birthdate; */
-            })
-            .catch(error => {
-                console.log('erreur !' + error);
-            })
-    }
-    
     //API fetch requete POST pour formulaire
-    const updateProfile = data => {
-        const userStored = JSON.parse(localStorage.getItem('user'));
-        const url = 'http://localhost:4200/user/' + userStored.id;
+    const updateProfile = (data,file) => {
+        const url = 'http://localhost:4200/user/' + user.id;
     
+        const formData = new FormData();
+        formData.append('user', JSON.stringify(data));
+        formData.append('image', file);
+
         let request = {
             method: 'PUT',
-            body: data,
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + userStored.token
             }
         };
     
-        dispatch(modifyUser({...data}));
-
         fetch(url, request)
             .then(rep => {
                 let userProfil = rep.json();
                 return userProfil;
             })
             .then(value => {
-    
                 const pseudo = value.data.pseudo;
+                let photoProfil = userStored.photoProfil;
+                value.data.photoProfil && (photoProfil = value.data.photoProfil);
                 if (pseudo !== userStored.pseudo) {
                     userStored.pseudo = pseudo;
-                    storeToLocal('user', userStored);
                 }
+                storeToLocal('user', userStored);
+                dispatch(updateAlertsParam({message:'votre profil a été mis à jour',confirmVisible:true}));
+                dispatch(modifyUser({...data,photoProfil:photoProfil}));
             })
             .catch(error => {
                 console.log('erreur !' + error);
@@ -196,7 +165,10 @@ export default function Profil() {
 
     const handleSubmit = e => {
         e.preventDefault();
-        const data = JSON.stringify(userNew);
+        const data = {...userNew};
+        const imageFile = userNew.file;
+        delete data.file;
+        console.log(imageFile);
         const inputsArray = document.querySelectorAll('form div input');
         const validArray = [];
         for (let index = 0; index < inputsArray.length; index++) {
@@ -207,27 +179,49 @@ export default function Profil() {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length && inputsArray[5].value === inputsArray[6].value) {
-            updateProfile(data);
-            dispatch(updateAlertsParam({message:'votre profil a été mis à jour',confirmVisible:true}));
+        if (validArray.length === inputsArray.length && inputsArray[6].value === inputsArray[7].value) {
+            updateProfile(data,imageFile);
         };
     }
+
+    const onChangeHandler = (e) => {
+        setUserNew({
+            ...userNew,
+            file: e.target.files[0]
+        });
+        if (e.target.files[0] !== null) {
+            setPhotoFile(e.target.files[0]);
+        } 
+    }
+
+    const printFile = file => {
+        var reader = new FileReader();
+        reader.onload = function() {
+          setPhotoProfil(reader.result);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    useEffect(() => {
+        photoFile !== undefined && printFile(photoFile);
+    }, [photoFile])
 
     return (
         <div>
             <main>
-                <div className='profil'>
-                    <div>
-                        <div className='profil__photo'>
-                            <img src={userNew.photoProfil} alt='profil' />
-                        </div>
-                        <span><em>changer la photo</em></span>
-                    </div>
-                    <h1 className='profil__titre'>
-                        {userNew.pseudo}, modifiez vos infos
-                    </h1>
-                </div>
                 <form className='login__form' onSubmit={handleSubmit}>
+                    <div className='profil'>
+                        <div className='profil__box'>
+                            <div className='photo'>
+                                <img src={photoProfil} alt='profil' />
+                            </div>
+                            <label htmlFor='newPhotoProfil'></label>
+                            <input type='file' name='newPhotoProfil' id='newPhotoProfil' onChange={onChangeHandler} accept='image/png, image/jpg, image/jpeg image/webp' />
+                        </div>
+                        <h1 className='profil__titre'>
+                            {userNew.pseudo}, modifiez vos infos
+                        </h1>
+                    </div>
                     <div className='login__form__field'>
                         <label htmlFor='pseudo'>Pseudo</label>
                         <input type='text' name='pseudo' id='pseudo' className='' value={userNew.pseudo} onChange={rejectPseudo} minLength='2' maxLength='31' autoComplete='username' />

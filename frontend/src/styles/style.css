@@ -762,15 +762,18 @@ a {
 
 .profil {
   display: flex;
-  width: 80%;
+  width: 90%;
   justify-content: space-around;
   align-items: center;
   margin: 1rem auto;
 }
-.profil span {
-  text-align: center;
+.profil h1 {
+  font-size: 1.5rem;
 }
-.profil__photo {
+.profil__box {
+  width: 30%;
+}
+.profil .photo {
   width: 10vw;
   height: 10vw;
   border-radius: 50%;
@@ -778,15 +781,10 @@ a {
   margin: 0.5rem;
   border: solid #3e8b7e;
 }
-.profil__photo img {
+.profil .photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-.profil__photo.mini {
-  width: 4vw;
-  height: 4vw;
-  border: none;
 }
 
 .comments {
@@ -805,6 +803,18 @@ a {
   border-radius: 30px;
   margin: 0.5rem auto;
   border: solid #3e8b7e;
+}
+.comments__btn .photo__mini, .user-comment__btn .photo__mini {
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0.5rem;
+  width: 4vw;
+  height: 4vw;
+}
+.comments__btn .photo__mini img, .user-comment__btn .photo__mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .comments__card {
   width: 100%;

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import validator from 'validator';
 import { Link } from 'react-router-dom';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
-import { storeToLocal, recupLocal } from './Storage';
-import { useDispatch, useSelector } from 'react-redux';
+import { storeToLocal } from './Storage';
+import { useDispatch } from 'react-redux';
 import { createComment, modifyUser, updateAlertsParam, updateGeneralParam } from '../redux';
 
 export default function LoginForm() {
@@ -57,29 +57,38 @@ export default function LoginForm() {
             }
         };
 
+        let status = '';
+
         fetch(url, request)
             .then(rep => {
-                let userProfil = rep.json();
-                return userProfil;
+                let response = rep.json();
+                status = rep.status === 401 ? 'error' : 'logged';
+                return response;
             })
             .then(value => {
-                const pseudo = value.data.pseudo;
-                const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
-                dispatch(updateAlertsParam({message:`Bienvenue ${pseudo}`,confirmVisible:true}))
-                const { password, email, createdAt, updatedAt, ...userRep } = value.data;
-                dispatch(modifyUser({...value.data}))
-                localStorage.clear();
-                const userLogged = {
-                    id: value.data.id,
-                    pseudo: pseudo,
-                    photoProfil: photoProfil,
-                    token: value.token,
-                    isAdmin: value.data.isAdmin
+                if (status === 'logged') {
+                        const user = value.data;
+                    const pseudo = user.pseudo;
+                    const photoProfil = user.photoProfil ? user.photoProfil : 'http://localhost:4200/images/default-avatar.png';
+                    dispatch(updateAlertsParam({message:`Bienvenue ${pseudo}`,confirmVisible:true}))
+                    const { password, email, createdAt, updatedAt, ...userRep } = user;
+                    dispatch(modifyUser({...user}))
+                    localStorage.clear();
+                    const userLogged = {
+                        id: user.id,
+                        pseudo: pseudo,
+                        photoProfil: photoProfil,
+                        token: value.token,
+                        isAdmin: user.isAdmin
+                    }
+                    storeToLocal('user', userLogged);
+                    dispatch(updateGeneralParam({connected:true}))
+                    fetchMessages(value.token);
+                    return (userLogged);
+                } else if (status === 'error') {
+                    const message = value;
+                    dispatch(updateAlertsParam({message:message,alertVisible:true}));
                 }
-                storeToLocal('user', userLogged);
-                dispatch(updateGeneralParam({connected:true}))
-                fetchMessages(value.token);
-                return (userLogged);
             })
             .catch(error => {
                 dispatch(updateAlertsParam({message:'Vous n\'avez pas correctement rempli les champs',alertVisible:true}));

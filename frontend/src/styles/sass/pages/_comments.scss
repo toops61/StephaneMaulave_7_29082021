@@ -10,7 +10,17 @@
         min-height: 3rem;
         @include borderRadius;
         margin: .5rem auto;  
-        border: solid $primary-color;   
+        border: solid $primary-color;
+        .photo__mini {
+            border-radius: 50%;
+            overflow: hidden;
+            margin: .5rem;
+            width: 4vw;
+            height: 4vw;
+            img {
+                @include imageFit;
+            }
+        }
     }
     &__card {
         width: 100%;

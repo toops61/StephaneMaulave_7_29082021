@@ -9,14 +9,13 @@ exports.connectUser = (req, res) => {
 
     User.findOne({ where: { email: req.body.email } })
         .then(user => {
-            let message = 'Il y a eu une erreur lors du remplissage du formulaire';
             if (!user) {
-                return res.status(401).json({ message })
+                return res.status(401).json('l\'utilisateur n\'existe pas, inscrivez-vous svp');
             }
 
             bcrypt.compare(req.body.password, user.password).then(isPasswordValid => {
                 if (!isPasswordValid) {
-                    return res.status(401).json({ message })
+                    return res.status(401).json('erreur de mot de passe')
                 }
 
                 const token = jwt.sign(
@@ -25,7 +24,7 @@ exports.connectUser = (req, res) => {
                     { expiresIn: '4h' }
                 )
 
-                message = `L'utilisateur a été connecté avec succès`;
+                const message = `L'utilisateur a été connecté avec succès`;
                 return res.json({ message, data: user, token })
 
             })

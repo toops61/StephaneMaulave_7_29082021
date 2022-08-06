@@ -1,18 +1,22 @@
 const { User } = require('../db/sequelize');
 const { ValidationError, UniqueConstraintError } = require('sequelize');
 const bcrypt = require('bcrypt');
-//const jwt = require('jsonwebtoken')
 
 exports.updateUser = (req, res) => {
-    const utilisateur = req.body;
-    const id = req.params.id;
+    const utilisateur = JSON.parse(req.body.user);
     console.log(utilisateur);
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
+    const id = utilisateur.id;
+    const photo = req.file;
+    const filename = utilisateur.photoProfil.split('/images/')[1];
+    photo && utilisateur.photoProfil !== 'default-avatar.png' && fs.unlink(`images/${filename}`, (err) => {
+        if (err) throw err;
+    });
+    bcrypt.hash(utilisateur.password, 10, (err, hash) => {
         utilisateur.password = hash
-        User.update(utilisateur, {
-            where: { id: id }
-        })
-
+        User.update({
+                ...utilisateur,
+                photoProfil: photo ? `${req.protocol}://${req.get('host')}/images/${photo.originalname}` : utilisateur.photoProfil
+            }, {where: { id: id }})
             .then(_ => {
                 return User.findByPk(id).then(user => {
                     if (user === null) {
