@@ -1028,8 +1028,7 @@ h1, h2, h3, h4, h5 {
 
 .publication-photo {
   z-index: 99;
-  width: 20%;
-  height: 20%;
+  width: 90%;
   margin: 1rem;
   transition: transform 400ms ease-in-out;
 }
@@ -1041,14 +1040,6 @@ h1, h2, h3, h4, h5 {
 }
 .publication-photo img {
   object-fit: cover;
-}
-.publication-photo:hover {
-  transform: scale(3);
-}
-@media screen and (max-width: 768px) {
-  .publication-photo:hover {
-    transform: none;
-  }
 }
 
 .publication-video {

@@ -4,10 +4,8 @@ import logo from '../assets/Groupomania_Logos/logo-decoupe.png';
 import icon from '../assets/Groupomania_Logos/icon-decoupe.png';
 import { createComment, deleteComment, modifyComment, updateAlertsParam, updateGeneralParam } from '../redux';
 import { v4 as uuidv4 } from 'uuid';
-//import imgProfil from '../assets/photo_profil.jpg';
 import Footer from './Footer';
 //import { storeToLocal, recupLocal } from './Storage';
-
 
 
 function BuildArticles(props) {
@@ -16,6 +14,7 @@ function BuildArticles(props) {
     const user = useSelector(state => state.handleUser)
 
     //const array = messagesFetched.sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1);
+    //console.log(messagesFetched);
 
     if (messagesFetched.length > 0) {
         var arrayDom = messagesFetched.map((message,index) => {
@@ -180,9 +179,9 @@ function ArticleCard(props) {
                 </div>
             </div>
             <div className='comments__card__field'>
-                {props.attachment ? <div className='publication-photo'>
+                {article.attachment && <div className='publication-photo'>
                     <img src={article.attachment} alt='partage' />
-                </div> : null}
+                </div>}
                 {article.linkURL ?
                     <video className='publication-video' controls>
                         <source src={article.linkURL} type='video'></source>
@@ -233,7 +232,7 @@ function ArticlePopup(props) {
 
     const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : {};
 
-    const articleModify = data => {
+    const articleModify = (data,file) => {
         const url = 'http://localhost:4200/commentsPage/'+props.modifiedArticle;
         //const file = document.querySelector('#photoProfil').files[0];
         let modifiedComment = {
@@ -241,12 +240,15 @@ function ArticlePopup(props) {
             users_comments: JSON.stringify(data.users_comments),
             likes: JSON.stringify(data.likes)
         };
+
+        const formData = new FormData();
+        formData.append('comment', JSON.stringify(modifiedComment));
+        formData.append('image', file);
         
         let request = {
             method: 'PUT',
-            body: JSON.stringify(modifiedComment),
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + userStored.token
             }
         };
@@ -267,23 +269,27 @@ function ArticlePopup(props) {
     }
 
     //API fetch requete POST pour formulaire
-    const articleSubmit = data => {
+    const articleSubmit = (data,file) => {
         const url = 'http://localhost:4200/commentsPage';
 
         data.likes = JSON.stringify([]);
         data.users_comments = JSON.stringify([]);
+
+        const formData = new FormData();
+        formData.append('comment', JSON.stringify(data));
+        formData.append('image', file);
         
         let request = {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + userStored.token
             }
         };
         
         fetch(url, request)
         .then(rep => {
+            console.log(rep);
             let userArticle = rep.json();
             return userArticle;
         })
@@ -301,7 +307,10 @@ function ArticlePopup(props) {
         e.preventDefault();
         dispatch(updateGeneralParam({articleVisible:false}));
         const data = {...updatedArticle};
-        props.modifiedArticle === '' ? articleSubmit(data) : articleModify(data);
+        const imageFile = updatedArticle.file;
+        //const data = {...subscribeData};
+        delete data.file;
+        props.modifiedArticle === '' ? articleSubmit(data,imageFile) : articleModify(data,imageFile);
         props.setModifiedArticle('');
     }
     const handleChange = e => {
@@ -341,12 +350,13 @@ function ArticlePopup(props) {
                         <textarea name='article' rows='5' cols="33" value={updatedArticle.article} onChange={handleChange}></textarea>
                     </div>
                     <div className='message-pop__field__text' tabIndex='0'>
-                        <label htmlFor='linkURL'>Copier un lien</label>
-                        <input type='link' name='linkURL' id='linkURL' className='message-pop__field__link' tabIndex='0' value={updatedArticle.linkURL} onChange={handleChange} />
+                        <label htmlFor='attachment'>Copier un lien</label>
+                        <input type='link' name='attachment' id='attachment' className='message-pop__field__link' tabIndex='0' value={updatedArticle.attachment} onChange={handleChange} />
                     </div>
                     <div className='message-pop__field__text' tabIndex='0'>
-                        <label htmlFor='file'>Ajouter une pièce jointe</label>
-                        <input type='file' className='message-pop__field__image' tabIndex='0' accept='image/png, image/jpg, image/jpeg image/webp' value={updatedArticle.attachment} onChange={onChangeHandler} />
+                        <label htmlFor='photo'>Ajouter une pièce jointe</label>
+                        
+                <input type='file' onChange={onChangeHandler} accept='image/png, image/jpg, image/jpeg image/webp' />
                     </div>
                     <div id='image-field'>
                         <button type='submit' className='submit-btn'>publier</button>
@@ -461,7 +471,6 @@ export default function CommentPage() {
     const generalParams = useSelector(state => state.generalParams);
 
     const dispatch = useDispatch();
-
 
     return (
         <main>

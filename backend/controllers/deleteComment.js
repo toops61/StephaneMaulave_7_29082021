@@ -1,14 +1,16 @@
-const { Message } = require('../db/sequelize')
+const { Message } = require('../db/sequelize');
+const fs = require('fs');
 
 exports.deleteComment = (req, res) => {
     const id = req.params.id;
     Message.findOne({ where: { id: id } })
         .then(comment => {
-            /* if (comment === null) {
-                const message = 'Le message demandé n\'existe pas, essayez un autre...'
-                return res.status(404).json({ message })
-            } */
-            //console.log(comment)
+            if (comment.attachment.includes('/images/')) {
+                const filename = comment.attachment.split('/images/')[1];
+                fs.existsSync(`images/${filename}`) && fs.unlink(`images/${filename}`, (err) => {
+                    if (err) throw err;
+                });
+            }
             const commentDeleted = comment;
             return Message.destroy({
                 where: { id: comment.id }
