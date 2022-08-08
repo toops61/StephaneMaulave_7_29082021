@@ -213,9 +213,9 @@ function ArticlePopup(props) {
     const visible = useSelector(state => state.generalParams.articleVisible);
 
     const articles = [...useSelector(state => state.handleComments)];
-
+    
     const dispatch = useDispatch();
-
+    
     const article = props.modifiedArticle === '' ? 
     {
         USERS_id: user.id,
@@ -227,6 +227,8 @@ function ArticlePopup(props) {
         users_comments: [],
         likes: []
     } : articles.filter(e => e.id === props.modifiedArticle)[0];
+    
+    const attachmentDisplayed = article.attachment !== '' ? article.attachment : '';
 
     const [updatedArticle, setUpdatedArticle] = useState({...article});
 
@@ -244,6 +246,7 @@ function ArticlePopup(props) {
         const formData = new FormData();
         formData.append('comment', JSON.stringify(modifiedComment));
         formData.append('image', file);
+        formData.append('attachmentDisplayed',attachmentDisplayed);
         
         let request = {
             method: 'PUT',
@@ -289,7 +292,6 @@ function ArticlePopup(props) {
         
         fetch(url, request)
         .then(rep => {
-            console.log(rep);
             let userArticle = rep.json();
             return userArticle;
         })

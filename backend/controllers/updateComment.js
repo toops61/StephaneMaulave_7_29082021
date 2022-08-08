@@ -1,9 +1,16 @@
-const { Message } = require('../db/sequelize')
-const { ValidationError, UniqueConstraintError } = require('sequelize')
+const { Message } = require('../db/sequelize');
+const { ValidationError, UniqueConstraintError } = require('sequelize');
+const fs = require('fs');
 
 exports.updateComment = (req, res) => {
-    const id = req.params.id;
-    Message.update(req.body, {
+    const article = JSON.parse(req.body.comment);
+    const id = article.id;
+    const photo = req.file;
+    const filename = req.body.attachmentDisplayed.split('/images/')[1];
+    (filename !== '' && (photo ? filename !== photo.originalname : req.body.attachmentDisplayed !== article.attachment) && fs.existsSync(`images/${filename}`)) && fs.unlink(`images/${filename}`, (err) => {
+        if (err) throw err;
+    });
+    Message.update({...article,attachment: photo ?`${req.protocol}://${req.get('host')}/images/${photo.originalname}` : article.attachment}, {
         where: { id: id }
     })
         .then(_ => {
