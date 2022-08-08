@@ -40,9 +40,15 @@
             textarea {
                 margin: 1rem 1rem;
                 width: auto;
-                min-width: 15rem;
+                min-width: 85%;
             }
-            
+            .photo-selected {
+                height: 8rem;
+                img {
+                    @include imageFit;
+
+                }
+            }
         }
         &__image {
             display: flex;

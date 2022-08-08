@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import logo from '../assets/Groupomania_Logos/logo-decoupe.png';
 import icon from '../assets/Groupomania_Logos/icon-decoupe.png';
@@ -11,10 +11,7 @@ import Footer from './Footer';
 function BuildArticles(props) {
 
     let messagesFetched = [...useSelector(state => state.handleComments)];
-    const user = useSelector(state => state.handleUser)
-
-    //const array = messagesFetched.sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1);
-    //console.log(messagesFetched);
+    const user = useSelector(state => state.handleUser);
 
     if (messagesFetched.length > 0) {
         var arrayDom = messagesFetched.map((message,index) => {
@@ -26,6 +23,7 @@ function BuildArticles(props) {
                         setModifiedArticle={props.setModifiedArticle}
                         setModifiedComment={props.setModifiedComment}
                     />
+                    <h1>{message.createdAt}</h1>
                 </div>
             )
         });
@@ -179,6 +177,9 @@ function ArticleCard(props) {
                 </div>
             </div>
             <div className='comments__card__field'>
+                <div className="comments__card__field__article">
+                    <p tabIndex='0'>{article.article}</p>
+                </div>
                 {article.attachment && <div className='publication-photo'>
                     <img src={article.attachment} alt='partage' />
                 </div>}
@@ -186,9 +187,6 @@ function ArticleCard(props) {
                     <video className='publication-video' controls>
                         <source src={article.linkURL} type='video'></source>
                     </video> : null}
-                <div className="comments__card__field__article">
-                    <p tabIndex='0'>{article.article}</p>
-                </div>
                 <div className='comments__card__field__answer'>
                     <h4 tabIndex='0'>commentaires: </h4>
                     <div className="comments-section">
@@ -213,6 +211,9 @@ function ArticlePopup(props) {
     const visible = useSelector(state => state.generalParams.articleVisible);
 
     const articles = [...useSelector(state => state.handleComments)];
+
+    const [photoFile, setPhotoFile] = useState();
+    const [photoChoosen, setPhotoChoosen] = useState();
     
     const dispatch = useDispatch();
     
@@ -236,7 +237,7 @@ function ArticlePopup(props) {
 
     const articleModify = (data,file) => {
         const url = 'http://localhost:4200/commentsPage/'+props.modifiedArticle;
-        //const file = document.querySelector('#photoProfil').files[0];
+        
         let modifiedComment = {
             ...data,
             users_comments: JSON.stringify(data.users_comments),
@@ -326,12 +327,27 @@ function ArticlePopup(props) {
 
     const onChangeHandler = e => {
         setUpdatedArticle({ ...updatedArticle,file: e.target.files[0] })
+        if (e.target.files[0] !== null) {
+            setPhotoFile(e.target.files[0]);
+        } 
     }
 
     const cancel = e => {
         dispatch(updateGeneralParam({articleVisible:false}));
         props.setModifiedArticle('');
     }
+
+    const printFile = file => {
+        var reader = new FileReader();
+        reader.onload = function() {
+          setPhotoChoosen(reader.result);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    useEffect(() => {
+        photoFile !== undefined && printFile(photoFile);
+    }, [photoFile])
 
     return (
         <div className={visible ? 'message-pop appear' : 'message-pop'} id='user-comment'>
@@ -355,10 +371,13 @@ function ArticlePopup(props) {
                         <label htmlFor='attachment'>Copier un lien</label>
                         <input type='link' name='attachment' id='attachment' className='message-pop__field__link' tabIndex='0' value={updatedArticle.attachment} onChange={handleChange} />
                     </div>
-                    <div className='message-pop__field__text' tabIndex='0'>
-                        <label htmlFor='photo'>Ajouter une pièce jointe</label>
-                        
-                <input type='file' onChange={onChangeHandler} accept='image/png, image/jpg, image/jpeg image/webp' />
+                    <div className='message-pop__field__text photo' tabIndex='0'>
+                        <label htmlFor='photo'>Ajouter une pièce jointe</label>   
+                        <input type='file' onChange={onChangeHandler} accept='image/png, image/jpg, image/jpeg image/webp' />
+                        {updatedArticle.file !== undefined && 
+                        <div className="photo-selected">
+                            <img src={photoChoosen} alt="profil" />
+                        </div>}
                     </div>
                     <div id='image-field'>
                         <button type='submit' className='submit-btn'>publier</button>

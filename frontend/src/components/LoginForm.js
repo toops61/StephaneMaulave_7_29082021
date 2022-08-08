@@ -33,7 +33,8 @@ export default function LoginForm() {
                 return recupMessages;
             })
             .then(function (value) {
-                const comments = value;
+                const comments = value.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1);
+                console.log(comments);
                 comments.forEach(e => {
                     e.likes = e.likes !== "NULL" ? JSON.parse(e.likes) : [];
                     e.users_comments = e.users_comments !== "NULL" ? JSON.parse(e.users_comments) : [];
