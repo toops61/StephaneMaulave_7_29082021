@@ -2,6 +2,20 @@ const { User, Message } = require('../db/sequelize');
 const fs = require('fs');
 
 exports.deleteUser = (req, res) => {
+    Message.findAll({ where: { USERS_id: req.params.id } })
+            .then(articles => {
+                articles.map(article => {
+                    if (article.attachment.includes('/images/')) {
+                        const filename = article.attachment.split('/images/')[1];
+                        fs.existsSync(`images/${filename}`) && fs.unlink(`images/${filename}`, (err) => {
+                            if (err) throw err;
+                        });
+                    }
+                })
+            })
+            .catch(error => {
+                res.status(500).json({ data: error })
+            })
     User.findByPk(req.params.id)
         .then(user => {
             if (user === null) {
@@ -13,6 +27,7 @@ exports.deleteUser = (req, res) => {
                 if (err) throw err;
             });
             const userDeleted = user;
+            
             Message.destroy({
                 where: { USERS_id: user.id }
             })

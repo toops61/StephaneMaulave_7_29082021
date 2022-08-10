@@ -30,11 +30,17 @@ export default function Profil() {
     const fetchUpdatedArticle = (article) => {
         const url = 'http://localhost:4200/commentsPage/' + article.id;
         const articleToFetch = {...article,likes:JSON.stringify(article.likes),users_comments:JSON.stringify(article.users_comments)};
+
+        const attachmentDisplayed = article.attachment !== '' ? article.attachment : '';
+
+        const formData = new FormData();
+        formData.append('comment', JSON.stringify(articleToFetch));
+        formData.append('attachmentDisplayed', attachmentDisplayed);
+
         let request = {
             method: 'PUT',
-            body: JSON.stringify(articleToFetch),
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + userStored.token
             }
         };
@@ -106,33 +112,8 @@ export default function Profil() {
             })
     }
 
-    const deleteArticles = () => {
-        const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
-        const userArticles = articles.filter(e => e.USERS_id === userStored.id);
-        userArticles.map(e => {
-            const url = 'http://localhost:4200/commentsPage/' + e.id;
-
-            let request = {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + userStored.token
-                }
-            };
-            
-            fetch(url, request)
-            .then(() => {
-                console.log(e.title + ' effacé');
-                dispatch(deleteComment(e));
-            })
-            .catch(function (error) {
-                console.log('erreur !' + error);
-            })
-        })
-    }
-
     const selectArticlesToModify = () => {
-        const likesArticles = [...articles.filter(e => e.likes.includes(userStored.id) && !e.users_comments.some(el => el.userId === userStored.id))];
+        const likesArticles = [...articles.filter(e => e.USERS_id !== userStored.id && e.likes.includes(userStored.id) && !e.users_comments.some(el => el.userId === userStored.id))];
         if (likesArticles.length > 0) {
             likesArticles.map(e => {
                 const likes = [...e.likes.filter(el => el !== userStored.id)];
@@ -142,8 +123,9 @@ export default function Profil() {
                 return likesArticle;
             })
         }
+        console.log(likesArticles);
 
-        const commentsArticles = [...articles.filter(e => e.users_comments.some(el => el.userId === userStored.id))];
+        const commentsArticles = [...articles.filter(e => e.USERS_id !== userStored.id && e.users_comments.some(el => el.userId === userStored.id))];
         if (commentsArticles.length > 0) {
             commentsArticles.map(e => {
                 const likes = e.likes.includes(userStored.id) ? e.likes.filter(el => el !== userStored.id) : e.likes;
@@ -154,13 +136,12 @@ export default function Profil() {
                 return commentsArticle;
             })
         }
+        console.log(commentsArticles);
     }
     
     const deleteProfile = () => {
         const userStored = JSON.parse(localStorage.getItem('user'));
         const url = 'http://localhost:4200/user/' + user.id;
-        //let loginUser = {};
-        const profilArticles = articles.filter(e => !e.users_comments.some(el => el.userId === userStored.id));
     
         let request = {
             method: 'DELETE',
@@ -172,18 +153,16 @@ export default function Profil() {
         if (window.confirm('Voulez-vous supprimer votre profil ?')) {
             fetch(url, request)
                 .then(() => {
-                    deleteArticles();
                     selectArticlesToModify();
                     dispatch(deleteUser());
                     dispatch(updateAlertsParam({message:'Votre profil a été supprimé !',confirmVisible:true}));
-                    window.location.reload();
+                    //window.location.reload();
                 })
                 .catch(function (error) {
                     console.log('erreur !' + error);
                 })
         }
     }
-        //const userFetched = JSON.parse(localStorage.getItem('user'));;
 
     const handleChange = e => {
         const name = e.target.name;

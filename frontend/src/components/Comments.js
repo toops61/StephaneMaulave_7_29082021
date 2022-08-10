@@ -5,8 +5,6 @@ import icon from '../assets/Groupomania_Logos/icon-decoupe.png';
 import { createComment, deleteComment, modifyComment, updateAlertsParam, updateGeneralParam } from '../redux';
 import { v4 as uuidv4 } from 'uuid';
 import Footer from './Footer';
-//import { storeToLocal, recupLocal } from './Storage';
-
 
 function BuildArticles(props) {
 
@@ -23,7 +21,6 @@ function BuildArticles(props) {
                         setModifiedArticle={props.setModifiedArticle}
                         setModifiedComment={props.setModifiedComment}
                     />
-                    <h1>{message.createdAt}</h1>
                 </div>
             )
         });
@@ -71,14 +68,20 @@ function ArticleCard(props) {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
         const url = 'http://localhost:4200/commentsPage/' + article.id;
         let modifiedComment = {
+            ...article,
+            users_comments: JSON.stringify(article.users_comments),
             likes: JSON.stringify(likes)
         };
+        const attachmentDisplayed = article.attachment !== '' ? article.attachment : '';
+
+        const formData = new FormData();
+        formData.append('comment', JSON.stringify(modifiedComment));
+        formData.append('attachmentDisplayed', attachmentDisplayed);
 
         let request = {
             method: 'PUT',
-            body: JSON.stringify(modifiedComment),
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + userStored.token
             }
         };
@@ -118,14 +121,20 @@ function ArticleCard(props) {
         const url = 'http://localhost:4200/commentsPage/' + article.id;
         commentsArray = commentsArray.filter(e => e.commentId !== comment.commentId);
         let modifiedComment = {
+            ...article,
+            likes: JSON.stringify(article.likes),
             users_comments: JSON.stringify(commentsArray)
         };
+        const attachmentDisplayed = article.attachment !== '' ? article.attachment : '';
+
+        const formData = new FormData();
+        formData.append('comment', JSON.stringify(modifiedComment));
+        formData.append('attachmentDisplayed', attachmentDisplayed);
 
         let request = {
             method: 'PUT',
-            body: JSON.stringify(modifiedComment),
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + userStored.token
             }
         };
@@ -265,7 +274,6 @@ function ArticlePopup(props) {
         .then(value => {
             dispatch(updateAlertsParam({message:value.message,confirmVisible:true}));
             dispatch(modifyComment({...value.data,likes:data.likes,users_comments:data.users_comments}));
-            //localStorage.setItem('messages', JSON.stringify(messagesFetched));
         })
         .catch(error => {
             console.log('erreur ' + error);
@@ -298,8 +306,7 @@ function ArticlePopup(props) {
         })
         .then(value => {
                 dispatch(updateAlertsParam({message:value.message,confirmVisible:true}));
-                dispatch(createComment({...value.data,likes:[],users_comments:[]}))
-                //localStorage.setItem('messages', JSON.stringify(messagesFetched));
+                dispatch(createComment({...value.data,likes:[],users_comments:[]}));
             })
             .catch(error => {
                 console.log('erreur ' + error);
@@ -311,7 +318,6 @@ function ArticlePopup(props) {
         dispatch(updateGeneralParam({articleVisible:false}));
         const data = {...updatedArticle};
         const imageFile = updatedArticle.file;
-        //const data = {...subscribeData};
         delete data.file;
         props.modifiedArticle === '' ? articleSubmit(data,imageFile) : articleModify(data,imageFile);
         props.setModifiedArticle('');
@@ -436,16 +442,23 @@ function AddComment(props) {
 
     const articleModify = data => {
         const url = 'http://localhost:4200/commentsPage/'+props.modifiedArticle;
-        //const file = document.querySelector('#photoProfil').files[0];
+        
         let modifiedComment = {
+            ...article,
+            likes: JSON.stringify(article.likes),
             users_comments: JSON.stringify(data)
         };
 
+        const attachmentDisplayed = article.attachment !== '' ? article.attachment : '';
+
+        const formData = new FormData();
+        formData.append('comment', JSON.stringify(modifiedComment));
+        formData.append('attachmentDisplayed', attachmentDisplayed);
+
         let request = {
             method: 'PUT',
-            body: JSON.stringify(modifiedComment),
+            body: formData,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + userStored.token
             }
         };

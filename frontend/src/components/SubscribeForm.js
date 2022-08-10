@@ -4,9 +4,12 @@ import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochro
 import { storeToLocal } from './Storage';
 import { useDispatch } from "react-redux";
 import { createComment, modifyUser, updateAlertsParam, updateGeneralParam } from "../redux";
+import { useNavigate } from "react-router-dom";
 
 export default function SubscribeForm() {
     const dispatch = useDispatch();
+
+    const navigate = useNavigate();
 
     const [subscribeData, setSubscribeData] = useState({
         lastname: '',
@@ -49,6 +52,7 @@ export default function SubscribeForm() {
                     e.users_comments = e.users_comments !== "NULL" ? JSON.parse(e.users_comments) : [];
                     dispatch(createComment(e));
                 });
+                navigate("/commentsPage");
             })
             .catch(function (error) {
                 console.log('erreur !' + error);

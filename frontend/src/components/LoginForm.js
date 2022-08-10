@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import validator from 'validator';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logoGroupomania from '../assets/Groupomania_Logos/icon-left-font-monochrome-pink.png';
 import { storeToLocal } from './Storage';
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,8 @@ export default function LoginForm() {
         email: '',
         password: ''
     })
+
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -34,12 +36,12 @@ export default function LoginForm() {
             })
             .then(function (value) {
                 const comments = value.sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1);
-                console.log(comments);
                 comments.forEach(e => {
                     e.likes = e.likes !== "NULL" ? JSON.parse(e.likes) : [];
                     e.users_comments = e.users_comments !== "NULL" ? JSON.parse(e.users_comments) : [];
                     dispatch(createComment(e));
                 });
+                navigate("/commentsPage");
             })
             .catch(function (error) {
                 console.log('erreur ! ' + error);
@@ -153,7 +155,9 @@ export default function LoginForm() {
                     <input type='password' name='password' id='password' className='' onChange={rejectPassword} minLength='8' maxLength='128' autoComplete='current-password' required />
                 </div>
                 <div className='login__form__field'>
-                    <button type='submit' id='submit-btn' className='submit-btn'>Valider</button>
+                    <button type='submit' id='submit-btn' className='submit-btn'>
+                        Valider
+                    </button>
                     <button id='subscribe-btn' className='submit-btn' onClick={(e) => { e.preventDefault() }}><Link to='/subscribe'>S'inscrire</Link></button>
                 </div>
             </form>

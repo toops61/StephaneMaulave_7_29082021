@@ -3,6 +3,9 @@ const fs = require('fs');
 
 exports.deleteComment = (req, res) => {
     const id = req.params.id;
+    console.log('id = ' + id);
+    console.log(req.params);
+    console.log(Message);
     Message.findOne({ where: { id: id } })
         .then(comment => {
             if (comment.attachment.includes('/images/')) {
