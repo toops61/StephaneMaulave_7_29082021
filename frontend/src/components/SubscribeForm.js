@@ -74,6 +74,7 @@ export default function SubscribeForm() {
         let message = 'Vous n\'avez pas correctement rempli les champs';
         let status = '';
 
+        (file && !file.type.includes('image')) ? dispatch(updateAlertsParam({message:'vous ne pouvez charger que des images',alertVisible:true})) : 
         fetch(url, request)
             .then(rep => {
                 let userProfil = rep.json();

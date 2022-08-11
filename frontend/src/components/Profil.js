@@ -102,12 +102,11 @@ export default function Profil() {
                     const modifiedArticle = {...e,users_comments:modifiedComments};
                     dispatch(modifyComment(modifiedArticle));
                     fetchUpdatedArticle(modifiedArticle);
-                    console.log(modifiedArticle);
                     return modifiedArticle;
                 })
             }
         }
-    
+        (file && !file.type.includes('image')) ? dispatch(updateAlertsParam({message:'vous ne pouvez charger que des images',alertVisible:true})) : 
         fetch(url, request)
             .then(rep => {
                 let userProfil = rep.json();

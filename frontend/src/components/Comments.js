@@ -257,7 +257,7 @@ function ArticlePopup(props) {
         formData.append('comment', JSON.stringify(modifiedComment));
         formData.append('image', file);
         formData.append('attachmentDisplayed',attachmentDisplayed);
-        
+
         let request = {
             method: 'PUT',
             body: formData,
@@ -266,6 +266,7 @@ function ArticlePopup(props) {
             }
         };
         
+        (file && !file.type.includes('image')) ? dispatch(updateAlertsParam({message:'vous ne pouvez charger que des images',alertVisible:true})) : 
         fetch(url, request)
         .then(rep => {
             let userComment = rep.json();
@@ -299,6 +300,9 @@ function ArticlePopup(props) {
             }
         };
         
+        (file && !file.type.includes('image')) && dispatch(updateAlertsParam({message:'vous ne pouvez charger que des images',alertVisible:true}));
+
+        (file && !file.type.includes('image')) ? dispatch(updateAlertsParam({message:'vous ne pouvez charger que des images',alertVisible:true})) : 
         fetch(url, request)
         .then(rep => {
             let userArticle = rep.json();
