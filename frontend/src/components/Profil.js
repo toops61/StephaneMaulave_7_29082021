@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import { storeToLocal } from './Storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteComment, deleteUser, modifyComment, modifyUser, updateAlertsParam } from '../redux';
+import { deleteComment, resetComments, deleteUser, modifyComment, modifyUser, resetUser, updateAlertsParam, updateGeneralParam } from '../redux';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Profil() {
@@ -13,6 +14,8 @@ export default function Profil() {
     
     const user = useSelector(state => state.handleUser);
     const articles = useSelector(state => state.handleComments);
+
+    const navigate = useNavigate();
     
     const [photoFile, setPhotoFile] = useState();
     const [photoProfil, setPhotoProfil] = useState(user.photoProfil);
@@ -26,6 +29,14 @@ export default function Profil() {
         password: '',
         photoProfil: user.photoProfil
     });
+
+    const deconnection = () => {
+        dispatch(updateGeneralParam({connected:false}));
+        localStorage.clear();
+        dispatch(resetComments());
+        dispatch(resetUser());
+        navigate("/login");
+    }
 
     const fetchUpdatedArticle = (article) => {
         const url = 'http://localhost:4200/commentsPage/' + article.id;
@@ -57,6 +68,8 @@ export default function Profil() {
     const updateProfile = (data,file) => {
         const url = 'http://localhost:4200/user/' + user.id;
 
+        let newPhotoProfil = data.photoProfil;
+
         const formData = new FormData();
         formData.append('user', JSON.stringify(data));
         formData.append('image', file);
@@ -70,18 +83,22 @@ export default function Profil() {
         };
 
         const modifyUserComments = () => {
+            //modify articles from user updated
             articles.filter(e => e.USERS_id === userStored.id).map(el => {
-                const modifiedArticle = {...el,user_pseudo:userNew.pseudo};
+                const modifiedArticle = {...el,user_pseudo:userNew.pseudo,photoProfil:newPhotoProfil};
                 dispatch(modifyComment(modifiedArticle));
                 fetchUpdatedArticle(modifiedArticle);
                 return modifiedArticle
             });
+            //modify comments from user updated
             const profilArticles = [...articles.filter(e => e.users_comments.some(el => el.userId === userStored.id))];
             if (profilArticles.length > 0) {
                 profilArticles.map(e => {
+                    //console.log(userStored.photoProfil);
                     const comments = [...e.users_comments.filter(el => el.userId === userStored.id)];
                     const modifiedComments = comments.map(element => {
-                        return {...element,pseudo:userNew.pseudo,photoProfil:photoProfil}});
+                    return {...element,pseudo:userNew.pseudo,photoProfil:newPhotoProfil}});
+
                     const modifiedArticle = {...e,users_comments:modifiedComments};
                     dispatch(modifyComment(modifiedArticle));
                     fetchUpdatedArticle(modifiedArticle);
@@ -97,15 +114,14 @@ export default function Profil() {
             })
             .then(value => {
                 const pseudo = value.data.pseudo;
-                let photoProfil = user.photoProfil;
-                value.data.photoProfil && ((photoProfil = value.data.photoProfil) && (userStored.photoProfil = photoProfil));
+                value.data.photoProfil && ((newPhotoProfil = value.data.photoProfil) && (userStored.photoProfil = value.data.photoProfil));
                 if (pseudo !== userStored.pseudo) {
                     userStored.pseudo = pseudo;
                 }
                 storeToLocal('user', userStored);
                 modifyUserComments();
                 dispatch(updateAlertsParam({message:'votre profil a été mis à jour',confirmVisible:true}));
-                dispatch(modifyUser({...data,photoProfil:photoProfil}));
+                dispatch(modifyUser({...data,photoProfil:newPhotoProfil}));
             })
             .catch(error => {
                 console.log('erreur !' + error);
@@ -123,7 +139,6 @@ export default function Profil() {
                 return likesArticle;
             })
         }
-        console.log(likesArticles);
 
         const commentsArticles = [...articles.filter(e => e.USERS_id !== userStored.id && e.users_comments.some(el => el.userId === userStored.id))];
         if (commentsArticles.length > 0) {
@@ -136,7 +151,13 @@ export default function Profil() {
                 return commentsArticle;
             })
         }
-        console.log(commentsArticles);
+    }
+
+    const deleteArticles = () => {
+        const articlesToDelete = articles.filter(e => e.USERS_id === userStored.id);
+        articlesToDelete.length > 0 && articlesToDelete.forEach(el => {
+            dispatch(deleteComment(el));
+        });
     }
     
     const deleteProfile = () => {
@@ -153,10 +174,11 @@ export default function Profil() {
         if (window.confirm('Voulez-vous supprimer votre profil ?')) {
             fetch(url, request)
                 .then(() => {
+                    deleteArticles();
                     selectArticlesToModify();
                     dispatch(deleteUser());
                     dispatch(updateAlertsParam({message:'Votre profil a été supprimé !',confirmVisible:true}));
-                    //window.location.reload();
+                    deconnection();
                 })
                 .catch(function (error) {
                     console.log('erreur !' + error);

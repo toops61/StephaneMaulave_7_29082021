@@ -39,7 +39,7 @@ function ArticleCard(props) {
 
     const articles = useSelector(state => state.handleComments);
     const article = articles[props.messageId];
-    let commentsArray = [...article.users_comments]
+    let commentsArray = [...article.users_comments];
 
     function deleteArticle() {
         const userStored = localStorage.user ? JSON.parse(localStorage.getItem('user')) : null;
@@ -175,7 +175,7 @@ function ArticleCard(props) {
         <div className='comments__card'>
             <div className='comments__card__title'>
                 <div className='comments__card__title__box'>
-                    <h3 tabIndex='0'>{article.user_pseudo}</h3>
+                    <h3 tabIndex='0'>{article.USERS_id === userStored.id ? userStored.pseudo : article.user_pseudo}</h3>
                     {article.updatedAt !== article.createdAt ? <p tabIndex='0'>modifié le {article.updatedAt.split('T')[0]} à {article.updatedAt.split('T')[1].split('.')[0]}</p> : <p tabIndex='0'>créé le {article.createdAt.split('T')[0]} à {article.createdAt.split('T')[1].split('.')[0]}</p>}
                 <h4 tabIndex='0'>{article.title}</h4>
                 </div>

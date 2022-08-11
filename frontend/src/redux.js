@@ -68,6 +68,10 @@ const userSlice = createSlice({
                 file: null
             };
             return state;
+        },
+        resetUser: (state) => {
+            state = userSlice.initialState;
+            return state;
         }
     }
 })
@@ -88,6 +92,10 @@ const commentSlice = createSlice({
         deleteComment: (state, action) => {
             state = state.filter(e => e.id !== action.payload.id);
             return state;
+        },
+        resetComments: (state) => {
+            state = [];
+            return state;
         }
     }
 })
@@ -98,9 +106,11 @@ export const { updateAlertsParam } = alertWindowsSlice.actions;
 export const { createUser } = userSlice.actions;
 export const { modifyUser } = userSlice.actions;
 export const { deleteUser } = userSlice.actions;
+export const { resetUser } = userSlice.actions;
 export const { createComment } = commentSlice.actions;
 export const { modifyComment } = commentSlice.actions;
 export const { deleteComment } = commentSlice.actions;
+export const { resetComments } = commentSlice.actions;
 
 export const store = configureStore({
     reducer: {
