@@ -7,7 +7,7 @@ require('dotenv').config()
 exports.createComment = (req, res) => {
     const comment = JSON.parse(req.body.comment);
     const photo = req.file;
-    Message.create({...comment,attachment: photo ? `${req.protocol}://${req.get('host')}/images/${photo.originalname}` : comment.attachment})
+    Message.create({...comment,attachment: photo ? `${req.protocol}://${req.get('host')}/images/${photo.filename}` : comment.attachment})
         .then(comment => {
             const message = `Votre commentaire est posté`
             res.json({

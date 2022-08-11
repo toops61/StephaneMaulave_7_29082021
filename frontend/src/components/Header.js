@@ -1,13 +1,20 @@
 import brandLogo from '../assets/Groupomania_Logos/icon.png';
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { deleteUser, resetComments, updateGeneralParam } from '../redux';
 
 const Header = () => {
     const generalParams = useSelector(state => state.generalParams);
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const logOut = () => {
+        dispatch(updateGeneralParam({connected:false}));
         localStorage.clear();
-        window.location.reload();
+        dispatch(resetComments());
+        dispatch(deleteUser());
+        navigate("/login");
     }
 
     return (

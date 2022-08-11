@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import { storeToLocal } from './Storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteComment, resetComments, deleteUser, modifyComment, modifyUser, resetUser, updateAlertsParam, updateGeneralParam } from '../redux';
+import { deleteComment, resetComments, deleteUser, modifyComment, modifyUser, updateAlertsParam, updateGeneralParam } from '../redux';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -33,7 +33,7 @@ export default function Profil() {
         dispatch(updateGeneralParam({connected:false}));
         localStorage.clear();
         dispatch(resetComments());
-        dispatch(resetUser());
+        dispatch(deleteUser());
         navigate("/login");
     }
 
@@ -93,14 +93,16 @@ export default function Profil() {
             const profilArticles = [...articles.filter(e => e.users_comments.some(el => el.userId === userStored.id))];
             if (profilArticles.length > 0) {
                 profilArticles.map(e => {
-                    //console.log(userStored.photoProfil);
-                    const comments = [...e.users_comments.filter(el => el.userId === userStored.id)];
-                    const modifiedComments = comments.map(element => {
-                    return {...element,pseudo:userNew.pseudo,photoProfil:newPhotoProfil}});
+                    let modifiedComments = [];
+                    e.users_comments.map(el => {
+                        modifiedComments.push(el.userId === userStored.id ? {...el,pseudo:userNew.pseudo,photoProfil:newPhotoProfil} : {...el});
+                        return modifiedComments;
+                    })
 
                     const modifiedArticle = {...e,users_comments:modifiedComments};
                     dispatch(modifyComment(modifiedArticle));
                     fetchUpdatedArticle(modifiedArticle);
+                    console.log(modifiedArticle);
                     return modifiedArticle;
                 })
             }
@@ -145,6 +147,7 @@ export default function Profil() {
                 const likes = e.likes.includes(userStored.id) ? e.likes.filter(el => el !== userStored.id) : e.likes;
                 const comments = [...e.users_comments.filter(el => el.userId !== userStored.id)];
                 const commentsArticle = {...e,users_comments:comments,likes:likes};
+                console.log(commentsArticle);
                 dispatch(modifyComment(commentsArticle));
                 fetchUpdatedArticle(commentsArticle);
                 return commentsArticle;
@@ -247,7 +250,7 @@ export default function Profil() {
                 validArray.push(element.name);
             }
         };
-        if (validArray.length === inputsArray.length && inputsArray[6].value === inputsArray[7].value) {
+        if (validArray.length === inputsArray.length) {
             updateProfile(data,imageFile);
         };
     }
@@ -313,10 +316,6 @@ export default function Profil() {
                     <div className='login__form__field'>
                         <label htmlFor='password'>Mot de passe</label>
                         <input type='password' name='password' id='password' className='' onChange={rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' required />
-                    </div>
-                    <div className='login__form__field'>
-                        <label htmlFor='password'>Confirmez</label>
-                        <input type='password' name='passwordconf' id='passwordconf' className='' onChange={rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' required />
                     </div>
                     <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
                     <button type='button' id='delete-btn' className='submit-btn' onClick={() => deleteProfile()}>Effacer le profil</button>

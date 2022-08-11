@@ -82,7 +82,6 @@ export default function SubscribeForm() {
             })
             .then(value => {
                 if (status === 'logged') {
-                    console.log(value);
                     const pseudo = value.data.pseudo;
                     const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
                     dispatch(updateAlertsParam({message:value.message,confirmVisible:true}));

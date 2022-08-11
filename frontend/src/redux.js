@@ -68,10 +68,6 @@ const userSlice = createSlice({
                 file: null
             };
             return state;
-        },
-        resetUser: (state) => {
-            state = userSlice.initialState;
-            return state;
         }
     }
 })
@@ -106,7 +102,6 @@ export const { updateAlertsParam } = alertWindowsSlice.actions;
 export const { createUser } = userSlice.actions;
 export const { modifyUser } = userSlice.actions;
 export const { deleteUser } = userSlice.actions;
-export const { resetUser } = userSlice.actions;
 export const { createComment } = commentSlice.actions;
 export const { modifyComment } = commentSlice.actions;
 export const { deleteComment } = commentSlice.actions;
