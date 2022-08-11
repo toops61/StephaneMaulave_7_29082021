@@ -47,7 +47,6 @@ export default function SubscribeForm() {
             })
             .then(function (value) {
                 const comments = value;
-                console.log(value);
                 comments.forEach(e => {
                     e.likes = e.likes !== "NULL" ? JSON.parse(e.likes) : [];
                     e.users_comments = e.users_comments !== "NULL" ? JSON.parse(e.users_comments) : [];
@@ -78,12 +77,12 @@ export default function SubscribeForm() {
         fetch(url, request)
             .then(rep => {
                 let userProfil = rep.json();
-                console.log(rep);
                 status = (rep.status === 401 || rep.status === 400 || rep.status === 500) ? 'error' : 'logged';
                 return userProfil;
             })
             .then(value => {
                 if (status === 'logged') {
+                    console.log(value);
                     const pseudo = value.data.pseudo;
                     const photoProfil = value.data.photoProfil ? value.data.photoProfil : 'http://localhost:4200/images/default-avatar.png';
                     dispatch(updateAlertsParam({message:value.message,confirmVisible:true}));

@@ -8,14 +8,14 @@ exports.updateUser = (req, res) => {
     const id = utilisateur.id;
     const photo = req.file;
     const filename = utilisateur.photoProfil.split('/images/')[1];
-    (photo && filename !== 'default-avatar.png' && filename !== photo.originalname) && fs.unlink(`images/${filename}`, (err) => {
+    (photo && filename !== 'default-avatar.png') && fs.unlink(`images/${filename}`, (err) => {
         if (err) throw err;
     });
     bcrypt.hash(utilisateur.password, 10, (err, hash) => {
         utilisateur.password = hash
         User.update({
                 ...utilisateur,
-                photoProfil: photo ? `${req.protocol}://${req.get('host')}/images/${photo.originalname}` : utilisateur.photoProfil
+                photoProfil: photo ? `${req.protocol}://${req.get('host')}/images/${photo.filename}` : utilisateur.photoProfil
             }, {where: { id: id }})
             .then(_ => {
                 return User.findByPk(id).then(user => {

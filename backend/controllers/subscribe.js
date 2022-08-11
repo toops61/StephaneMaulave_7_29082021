@@ -12,7 +12,7 @@ exports.createUser = (req, res) => {
         utilisateur.password = hash;
         const profil = {
             ...utilisateur,
-            photoProfil: photo ? `${req.protocol}://${req.get('host')}/images/${photo.originalname}` : `http://localhost:4200/images/default-avatar.png`
+            photoProfil: photo ? `${req.protocol}://${req.get('host')}/images/${photo.filename}` : `http://localhost:4200/images/default-avatar.png`
         };
         User.create(profil)
             .then(user => {
