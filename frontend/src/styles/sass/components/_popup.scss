@@ -85,6 +85,7 @@
         width: 40vw;
         min-height: 12rem;
         margin: 16% auto;
+        padding: 0 2rem;
         text-align: center;
         @include flexColumn;
         @include tablette-version {

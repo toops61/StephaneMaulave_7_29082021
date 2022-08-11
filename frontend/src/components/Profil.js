@@ -1,4 +1,3 @@
-//import imgProfil from '../assets/photo_profil.jpg';
 import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import { storeToLocal } from './Storage';

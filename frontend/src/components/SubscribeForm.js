@@ -47,6 +47,7 @@ export default function SubscribeForm() {
             })
             .then(function (value) {
                 const comments = value;
+                console.log(value);
                 comments.forEach(e => {
                     e.likes = e.likes !== "NULL" ? JSON.parse(e.likes) : [];
                     e.users_comments = e.users_comments !== "NULL" ? JSON.parse(e.users_comments) : [];
@@ -62,7 +63,6 @@ export default function SubscribeForm() {
     //API fetch requete POST pour formulaire
     const subscribeSubmit = (data,file) => {
         const url = 'http://localhost:4200/subscribe';
-        //fd.append('photo', data.file, data.file.name);
         const formData = new FormData();
         formData.append('user', JSON.stringify(data));
         formData.append('image', file);
@@ -78,7 +78,8 @@ export default function SubscribeForm() {
         fetch(url, request)
             .then(rep => {
                 let userProfil = rep.json();
-                status = rep.status === 401 ? 'error' : 'logged';
+                console.log(rep);
+                status = (rep.status === 401 || rep.status === 400 || rep.status === 500) ? 'error' : 'logged';
                 return userProfil;
             })
             .then(value => {
@@ -100,7 +101,8 @@ export default function SubscribeForm() {
                     dispatch(updateGeneralParam({connected:true}))
                     return (userLogged);
                 } else if (status === 'error') {
-                    dispatch(updateAlertsParam({message:value,alertVisible:true}));
+                    console.log(value);
+                    dispatch(updateAlertsParam({message:value.message,alertVisible:true}));
                 }
             })
             .catch(error => {
@@ -221,7 +223,8 @@ export default function SubscribeForm() {
         };
         if (validArray.length === inputsArray.length && inputsArray[6].value === inputsArray[7].value) {
             subscribeSubmit(data,imageFile);
-            //<Link to="/commentsPage"></Link>
+        } else if (inputsArray[6].value !== inputsArray[7].value) {
+            dispatch(updateAlertsParam({message:'Le mot de passe n\'est pas correctement rempli ou confirmé',alertVisible:true}));
         }
     }
 

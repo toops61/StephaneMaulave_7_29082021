@@ -26,13 +26,15 @@ exports.createUser = (req, res) => {
                 })
             })
             .catch(error => {
+                let message = 'L\'utilisateur n\'a pas pu être créé, réésayez dans un instant...'
                 if (error instanceof ValidationError) {
-                    return res.status(400).json({ message: error.message, data: error })
+                    message = 'Vous n\'avez pas correctement rempli les champs ou le compte existe déjà.';
+                    return res.status(400).json({ message: message, data: error })
                 }
                 if (error instanceof UniqueConstraintError) {
-                    return res.status(400).json({ message: error.message, data: error })
+                    message = 'Ce compte existe déjà, veuillez réessayer'
+                    return res.status(400).json({ message: message, data: error })
                 }
-                const message = 'L\'utilisateur n\'a pas pu être créé, réésayez dans un instant...'
                 res.status(500).json({ message, data: error })
             })
     })
