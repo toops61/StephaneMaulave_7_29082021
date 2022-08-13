@@ -106,22 +106,32 @@ export default function Profil() {
                 })
             }
         }
+        let status = '';
         (file && !file.type.includes('image')) ? dispatch(updateAlertsParam({message:'vous ne pouvez charger que des images',alertVisible:true})) : 
         fetch(url, request)
             .then(rep => {
                 let userProfil = rep.json();
+                status = rep.status === 401 ? 'error' : 'logged';
                 return userProfil;
             })
             .then(value => {
-                const pseudo = value.data.pseudo;
-                value.data.photoProfil && ((newPhotoProfil = value.data.photoProfil) && (userStored.photoProfil = value.data.photoProfil));
-                if (pseudo !== userStored.pseudo) {
-                    userStored.pseudo = pseudo;
+                if (status === 'error') {
+                    dispatch(updateAlertsParam({message:value,alertVisible:true}));
+                } else {
+                    const pseudo = value.data.pseudo;
+                    value.data.photoProfil && ((newPhotoProfil = value.data.photoProfil) && (userStored.photoProfil = value.data.photoProfil));
+                    if (pseudo !== userStored.pseudo) {
+                        userStored.pseudo = pseudo;
+                    }
+                    setUserNew({
+                        ...userNew,
+                        photoProfil: value.data.photoProfil
+                    })
+                    storeToLocal('user', userStored);
+                    modifyUserComments();
+                    dispatch(updateAlertsParam({message:'votre profil a été mis à jour',confirmVisible:true}));
+                    dispatch(modifyUser({...data,photoProfil:newPhotoProfil}));
                 }
-                storeToLocal('user', userStored);
-                modifyUserComments();
-                dispatch(updateAlertsParam({message:'votre profil a été mis à jour',confirmVisible:true}));
-                dispatch(modifyUser({...data,photoProfil:newPhotoProfil}));
             })
             .catch(error => {
                 console.log('erreur !' + error);
@@ -237,6 +247,7 @@ export default function Profil() {
     const handleSubmit = e => {
         e.preventDefault();
         const data = {...userNew};
+        console.log(userNew);
         const imageFile = userNew.file;
         delete data.file;
         const inputsArray = document.querySelectorAll('form div input');
@@ -314,7 +325,11 @@ export default function Profil() {
                     </div>
                     <div className='login__form__field'>
                         <label htmlFor='password'>Mot de passe</label>
-                        <input type='password' name='password' id='password' className='' onChange={rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' required />
+                        <input type='password' name='password' id='password' className='' onChange={rejectPassword} minLength='8' maxLength='128' autoComplete='current-password' required />
+                    </div>
+                    <div className='login__form__field'>
+                        <label htmlFor='password'>nouveau mot de passe</label>
+                        <input type='password' name='newPassword' id='newPassword' className='' onChange={rejectPassword} minLength='8' maxLength='128' autoComplete='new-password' />
                     </div>
                     <button type='submit' id='submit-btn' className='submit-btn'>Modifier les infos</button>
                     <button type='button' id='delete-btn' className='submit-btn' onClick={() => deleteProfile()}>Effacer le profil</button>
