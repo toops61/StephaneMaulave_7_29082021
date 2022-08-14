@@ -247,7 +247,6 @@ export default function Profil() {
     const handleSubmit = e => {
         e.preventDefault();
         const data = {...userNew};
-        console.log(userNew);
         const imageFile = userNew.file;
         delete data.file;
         const inputsArray = document.querySelectorAll('form div input');
@@ -296,8 +295,10 @@ export default function Profil() {
                             <div className='photo'>
                                 <img src={photoProfil} alt='profil' />
                             </div>
-                            <label htmlFor='newPhotoProfil'></label>
-                            <input type='file' name='newPhotoProfil' id='newPhotoProfil' onChange={onChangeHandler} accept='image/png, image/jpg, image/jpeg image/webp' />
+                            <label className='new-photo' htmlFor='newPhotoProfil'>
+                                Select image
+                                <input type='file' name='newPhotoProfil' id='newPhotoProfil' onChange={onChangeHandler} accept='image/png, image/jpg, image/jpeg image/webp' />
+                            </label>
                         </div>
                         <h1 className='profil__titre'>
                             {userNew.pseudo}, modifiez vos infos

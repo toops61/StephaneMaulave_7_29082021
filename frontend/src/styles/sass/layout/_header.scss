@@ -1,16 +1,18 @@
 .header {
-    padding: 1rem;
+    width: 100%;
     background-color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-    max-width: 60rem;
-    margin: 0 auto;
+    h2 {
+        margin: 0 2vw;
+    }
     &__logo {
         position: relative;
         width: 6rem;
         height: 6rem;
+        margin: 1vh 0;
         img {
             @include imageFit;
             filter: drop-shadow(1px 1px 2px black);
@@ -28,6 +30,9 @@
             position: absolute;
             top: 3rem;
             left: 5rem;
+            @include tablette-version {
+                display: none;
+            }
         }
         
     }
@@ -76,6 +81,9 @@
         @include textBulle('Profil');
         position: absolute;
         right: 3rem;
+        @include tablette-version {
+            display: none;
+        }
     }
     
     

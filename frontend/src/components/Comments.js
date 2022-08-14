@@ -527,7 +527,7 @@ export default function CommentPage() {
                     <div className='photo__mini' tabIndex='0'>
                         <img src={userStored.photoProfil} alt='profil' />
                     </div>
-                    <span tabIndex='0'>{userStored.pseudo}, partagez votre story</span>
+                    <h2 tabIndex='0'>{userStored.pseudo}, partagez votre story</h2>
                 </div>
                 <BuildArticles setModifiedArticle={setModifiedArticle} setModifiedComment={setModifiedComment} />
             </div>

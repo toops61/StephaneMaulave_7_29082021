@@ -3,10 +3,7 @@
     margin-bottom: 2rem;
     &__form {
         background-color: $third-color;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
+        @include flexColumn;
         border: solid black;
         width: 60%;
         max-width: 32rem;
@@ -16,23 +13,24 @@
         @include tablette-version {
             width: 80%;
         }
-        @include mobile-version {
-            width: 100%;
-        }
         .submit-btn {
             margin: 1rem auto 0;
         }
         &__field {
             width: 80%;
             margin-top: 1rem;
-            margin-left: 2rem;
+            //margin-left: 2rem;
             display: flex;
+            //flex-wrap: wrap;
             label {
                 width: 8rem;
             }
             input {
                 display: block;
                 width: 80%;
+            }
+            &:last-child {
+                flex-wrap: wrap;
             }
         }
         .photo-selected {
@@ -54,6 +52,9 @@
     }
     &__logo {
         width: 60%;
+        @include mobile-version {
+            width: 90%;
+        }
         img {
             @include imageFit;
             filter: drop-shadow(10px 10px 4px black);
@@ -80,7 +81,12 @@
     }
     &__box {
         width: 30%;
-        
+        @include flexColumn;
+        .new-photo {
+            input {
+                display: none;
+            }
+        }
     }
     .photo {
         width: 10vw;

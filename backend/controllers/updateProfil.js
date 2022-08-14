@@ -9,11 +9,9 @@ exports.updateUser = (req, res) => {
     const photo = req.file;
     const filename = utilisateur.photoProfil.split('/images/')[1];
     
-    console.log(photo);
-    console.log(utilisateur);
     User.findOne({ where: { email: utilisateur.email } })
     .then(user => {
-            console.log(user);
+            //console.log(user);
             bcrypt.compare(utilisateur.password, user.password).then(isPasswordValid => {
                 if (!isPasswordValid) {
                     return res.status(401).json('erreur de mot de passe')

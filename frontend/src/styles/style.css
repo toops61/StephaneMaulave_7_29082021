@@ -43,9 +43,25 @@
 body {
   background-color: #3e8b7e;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 main {
@@ -504,19 +520,21 @@ h1, h2, h3, h4, h5 {
 }
 
 .header {
-  padding: 1rem;
+  width: 100%;
   background-color: white;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
-  max-width: 60rem;
-  margin: 0 auto;
+}
+.header h2 {
+  margin: 0 2vw;
 }
 .header__logo {
   position: relative;
   width: 6rem;
   height: 6rem;
+  margin: 1vh 0;
   transition: 400ms ease-in;
 }
 .header__logo img {
@@ -552,6 +570,11 @@ h1, h2, h3, h4, h5 {
   position: absolute;
   top: 3rem;
   left: 5rem;
+}
+@media screen and (max-width: 768px) {
+  .header__logo::before {
+    display: none;
+  }
 }
 .header__notification {
   display: flex;
@@ -629,6 +652,11 @@ h1, h2, h3, h4, h5 {
   z-index: 10;
   position: absolute;
   right: 3rem;
+}
+@media screen and (max-width: 768px) {
+  .user-icon::before {
+    display: none;
+  }
 }
 
 .loader {
@@ -729,8 +757,7 @@ h1, h2, h3, h4, h5 {
   background-color: #FFD7D7;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   border: solid black;
   width: 60%;
   max-width: 32rem;
@@ -743,18 +770,12 @@ h1, h2, h3, h4, h5 {
     width: 80%;
   }
 }
-@media screen and (max-width: 400px) {
-  .login__form {
-    width: 100%;
-  }
-}
 .login__form .submit-btn {
   margin: 1rem auto 0;
 }
 .login__form__field {
   width: 80%;
   margin-top: 1rem;
-  margin-left: 2rem;
   display: flex;
 }
 .login__form__field label {
@@ -763,6 +784,9 @@ h1, h2, h3, h4, h5 {
 .login__form__field input {
   display: block;
   width: 80%;
+}
+.login__form__field:last-child {
+  flex-wrap: wrap;
 }
 .login__form .photo-selected {
   margin-left: 0;
@@ -786,6 +810,11 @@ h1, h2, h3, h4, h5 {
 }
 .login__logo {
   width: 60%;
+}
+@media screen and (max-width: 400px) {
+  .login__logo {
+    width: 90%;
+  }
 }
 .login__logo img {
   width: 100%;
@@ -814,6 +843,12 @@ h1, h2, h3, h4, h5 {
 }
 .profil__box {
   width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profil__box .new-photo input {
+  display: none;
 }
 .profil .photo {
   width: 10vw;
@@ -839,6 +874,7 @@ h1, h2, h3, h4, h5 {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   background-color: #ebf6f4;
   width: 80%;
   min-height: 3rem;
@@ -846,12 +882,23 @@ h1, h2, h3, h4, h5 {
   margin: 0.5rem auto;
   border: solid #3e8b7e;
 }
+.comments__btn h2, .user-comment__btn h2 {
+  margin: 1vh 1vw;
+  font-size: 1.5rem;
+}
+@media screen and (max-width: 400px) {
+  .comments__btn h2, .user-comment__btn h2 {
+    font-size: 1rem;
+  }
+}
 .comments__btn .photo__mini, .user-comment__btn .photo__mini {
   border-radius: 50%;
   overflow: hidden;
   margin: 0.5rem;
   width: 4vw;
   height: 4vw;
+  min-width: 4rem;
+  min-height: 4rem;
 }
 .comments__btn .photo__mini img, .user-comment__btn .photo__mini img {
   width: 100%;
@@ -871,6 +918,7 @@ h1, h2, h3, h4, h5 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .comments__card__title__box {
   padding: 0.5rem 0;
@@ -910,24 +958,31 @@ h1, h2, h3, h4, h5 {
   background-color: white;
 }
 .comments__card__field__answer {
-  width: 100%;
+  width: 95%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 }
 .comments__card__field__answer .comments-section {
+  min-width: 6rem;
   position: relative;
   margin: 1rem 0;
-  width: 75%;
+  flex: 1;
   border: solid #3e8b7e;
   background-color: white;
   min-height: 2rem;
 }
+@media screen and (max-width: 400px) {
+  .comments__card__field__answer .comments-section {
+    width: 95%;
+  }
+}
 .comments__card__field__answer .comments-section .comment {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  margin: 0.5rem 1.5rem 0.5rem 0.5rem;
+  margin: 0.5rem;
   background-color: #daeeeb;
 }
 .comments__card__field__answer .comments-section .comment h4 {
@@ -947,6 +1002,7 @@ h1, h2, h3, h4, h5 {
 }
 .comments__card__field__answer .comments-section .comment p {
   margin: 0;
+  word-break: break-all;
 }
 .comments__card__field__answer .comments-section .comment .delete {
   z-index: 50;

@@ -61,9 +61,9 @@ function App() {
   return (
     <div className="App">
       <>
-        <div className='loader hidden'>
+        {/* <div className='loader hidden'>
           <Loader />
-        </div>
+        </div> */}
         {arrowAppears && <ArrowUp />}
         <Header />
         {alertParams.confirmVisible && <ConfirmPopup />}
