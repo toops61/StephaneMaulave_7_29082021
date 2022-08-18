@@ -1,8 +1,8 @@
 //fonction update du local storage et recup
 
 export function storeToLocal(where, what) {
-    localStorage.setItem(where, JSON.stringify(what));
+    return localStorage.setItem(where, JSON.stringify(what));
 }
 export function recupLocal(where) {
-    JSON.parse(localStorage.getItem(where));
+    return JSON.parse(localStorage.getItem(where));
 }

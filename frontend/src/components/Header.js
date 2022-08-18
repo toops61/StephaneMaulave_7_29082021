@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteUser, resetComments, updateGeneralParam } from '../redux';
 
-const Header = () => {
+export default function Header() {
     const generalParams = useSelector(state => state.generalParams);
 
     const dispatch = useDispatch();
@@ -48,5 +48,3 @@ const Header = () => {
         </header>
     )
 }
-
-export default Header;
