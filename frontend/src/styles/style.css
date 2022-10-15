@@ -680,13 +680,6 @@ h1, h2, h3, h4, h5 {
   justify-content: center;
   align-items: center;
 }
-.loader__anim {
-  width: 80%;
-  height: 80%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .loader__logo {
   width: 30%;
   margin: 2rem;
@@ -702,8 +695,8 @@ h1, h2, h3, h4, h5 {
   object-fit: cover;
 }
 
-.loader.hidden {
-  animation: fadeOut 3s forwards;
+.hidden {
+  animation: fadeOut 2s forwards;
 }
 
 /* Animation 1 */

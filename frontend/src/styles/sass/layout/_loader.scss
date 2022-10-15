@@ -8,11 +8,6 @@
     height: 100%;
     background-color: $sixth-color;
     @include flexCenter;
-    &__anim {
-        width: 80%;
-        height: 80%;
-        @include flexCenter;
-    }
     &__logo {
         width: 30%;
         @include tablette-version {
@@ -25,8 +20,8 @@
     }
 }
 
-.loader.hidden {
-    animation: fadeOut 3s forwards;
+.hidden {
+    animation: fadeOut 2s forwards;
 }
 
 /* Animation 1 */

@@ -55,15 +55,20 @@ function App() {
   
   }, [scroll])
   
+  const pageLoaded = () => {
+    document.querySelector('.loader').classList.add('hidden');
+    setTimeout(() => {
+      dispatch(updateGeneralParam({isLoading:false}));
+    }, 2000);
+  }
 
+  window.addEventListener('load',pageLoaded);
   //window.addEventListener('scroll', arrowToggle);
 
   return (
     <div className="App">
+      {generalParams.isLoading ? <Loader /> :
       <>
-        {/* <div className='loader hidden'>
-          <Loader />
-        </div> */}
         {arrowAppears && <ArrowUp />}
         <Header />
         {alertParams.confirmVisible && <ConfirmPopup />}
@@ -76,7 +81,7 @@ function App() {
           <Route path="/logout" element={<LoginForm />} />
           <Route path="/profil" element={!generalParams.connected ? <LoginForm /> : <Profil />} />
         </Routes>
-      </>
+      </>}
     </div>
   );
 }

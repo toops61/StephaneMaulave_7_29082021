@@ -3,7 +3,7 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 const generalParamsSlice = createSlice({
     name: "generalParams",
     initialState: {
-            isLoading: false,
+            isLoading: true,
             connected: false,
             articleVisible: false,
             commentVisible: false
